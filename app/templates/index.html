@@ -1,0 +1,41 @@
+<!--Hello {{name}}!-->
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+</head>
+
+<main role="main" class="container extra-bottom">
+  <h1 class="mt-5">Routine Tagging System Satisfaction Survey </h1>
+</main>
+
+
+<br>
+<div class="container">
+    {% if consented == None %}
+    {% include 'consent_form.html' %}
+    {% endif %}
+    {% if consented == True %}
+    <p>Thanks for consent the form. Click here to download! (TODO) </p>
+    {% endif %}
+    {% if consented == False %}
+    <p> You are done with the study. Thank you! </p>
+    <!--  TODO(maybe): Closing page in 5 seconds.  -->
+    {% endif %}
+</div>
+
+{% if consented == True %}
+<div class="'container"></div>
+<p> Ongoing </p>
+{% endif %}
+
+</html>
