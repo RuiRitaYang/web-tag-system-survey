@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  Some brief definition (for user's convenience)
+<!--  TODO -->
+</div>
+<div class="container">
+<!--    TODO: Just for example: drag and drop -->
+<!--    TODO: Not working. Referred from https://codepen.io/ovvn/pen/Nqxzjg -->
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="dropzone"></div>
+      <button class="btn btn-primary pull-right">Save</button>
+    </div>
+    <div class="col-sm-6">
+      <div id="modules">
+        <p class="drag"><a class="btn btn-default">Uninterruptible</a></p>
+        <p class="drag"><a class="btn btn-default">Time Guarantee</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

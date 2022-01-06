@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  You are done with the study. Thank you!
+  {% if finished %}
+  <p> Your Amazon gift card number is XXX. Please take a note/screenshot for it.</p>
+  <!--    TODO: add gift card number -->
+  <!--    TODO(maybe): send an automatic email for it. -->
+  {% endif %}
+  <!--    TODO(maybe): add button to close the webpage . -->
+</div>
+{% endblock %}
