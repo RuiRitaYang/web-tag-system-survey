@@ -21,3 +21,14 @@ flask run
 ```
 If FLASK_DEBUG is set as 1, backend debugging information will be shown
 in the command line.
+
+
+## How to deploy the data base locally
+**If using SQLite (built-in by python).** Follow the following steps:
+- Stop the running backend.
+- Open Python3 shell
+  - from app import db
+  - db.create_all()
+  - exit()
+- Then there will a defined .db file stored locally in the app/ folder
+- Start the website by `flask run`

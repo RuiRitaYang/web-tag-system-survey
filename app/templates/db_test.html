@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Test db</h2>
+  <form action="/db" method="POST">
+    <input type="text" placeholder="ID" name="uid">
+    <input type="submit" value="Add ID" class="btn btn-secondary">
+  </form>
+  <br/><br/>
+  {% for user in users %}
+    <h4>
+      {{ user.uid }}
+    </h4>
+  {% endfor %}
+</div>
+
+{% endblock %}
