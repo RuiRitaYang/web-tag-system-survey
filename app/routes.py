@@ -1,6 +1,7 @@
 import random
 
-from app import app, Users, db
+from app import app, db
+from app.models import Users
 from flask import render_template, request, redirect
 
 
@@ -41,8 +42,8 @@ def dbtests():
       db.session.add(new_user)
       db.session.commit()
       return redirect('/db')
-    except:
-      return "Error for storing new user info"
+    except Exception as e:
+      return "Error for storing new user info:" + str(e)
   else:
     users = Users.query.order_by(Users.date_added)
     return render_template('db_test.html', users=users)

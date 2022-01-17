@@ -9,7 +9,9 @@ This web application is built based on Python Flask.
 - Python 3
 To install necessary messages:
 ```commandline
-pip3 install flask flask_sqlalchemy pymysql pyyaml 
+pip3 install flask flask_sqlalchemy pymysql pyyaml
+pip3 install mysql-connector mysql-connector-python mysql-connector-python-rf
+pip3 install pymysql cryptography 
 ```
 
 ## How to run
@@ -23,7 +25,7 @@ If FLASK_DEBUG is set as 1, backend debugging information will be shown
 in the command line.
 
 
-## How to deploy the data base locally
+## How to deploy the database locally
 **If using SQLite (built-in by python).** Follow the following steps:
 - Stop the running backend.
 - Open Python3 shell
@@ -32,3 +34,8 @@ in the command line.
   - exit()
 - Then there will a defined .db file stored locally in the app/ folder
 - Start the website by `flask run`
+
+**If using mySQL database locally**
+- Start database server in the backend
+- Update password and uri information in the `__init__.py`
+- Follow the same steps for using SQLite.
