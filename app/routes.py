@@ -1,7 +1,7 @@
 import random
 
 from app import app, db
-from app.models import Users
+from app.models import Users, UUIDForm
 from flask import render_template, request, redirect
 
 
@@ -10,10 +10,16 @@ def before_request_func():
   pass
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-  return render_template('consent_form.html', consented=None)
-
+  uuid = None
+  form = UUIDForm()
+  if form.validate_on_submit():
+    # TODO(@ry): check to database and record to database
+    uuid = form.uuid.data
+    form.uuid.data = ''
+    return render_template('consent_form.html', consented=None)
+  return render_template('id_validation.html', uuid=uuid, form=form)
 
 @app.route('/consented', methods=['GET', 'POST'])
 def consented():

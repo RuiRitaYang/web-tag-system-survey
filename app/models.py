@@ -1,5 +1,8 @@
 from app import db
 from datetime import datetime
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 class Users(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -10,3 +13,7 @@ class Users(db.Model):
   # Create A String
   def __ref__(self):
     return 'ID %d has consented (%d) on %r'.format(self.uid, self.consented, self.date_added)
+
+class UUIDForm(FlaskForm):
+  uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
+  submit = SubmitField('Submit')

@@ -9,9 +9,9 @@ This web application is built based on Python Flask.
 - Python 3
 To install necessary messages:
 ```commandline
-pip3 install flask flask_sqlalchemy pymysql pyyaml
+pip3 install flask flask-wtf Flask-Bootstrap4 
 pip3 install mysql-connector mysql-connector-python mysql-connector-python-rf
-pip3 install pymysql cryptography 
+pip3 install flask_sqlalchemy pymysql pyyaml cryptography 
 ```
 
 ## How to run

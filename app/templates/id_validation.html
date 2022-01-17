@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  <p> Please input your uuid we send you in the email:</p>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.uuid.label(class="forem-label") }}
+    {{ form.uuid(class="form-control") }}
+    <br/>
+    {{ form.submit(class="btn btn-outline-secondary") }}
+  </form>
+
+</div>
+
+{% endblock %}
