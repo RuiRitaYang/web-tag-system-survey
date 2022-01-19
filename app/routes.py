@@ -37,6 +37,27 @@ def tag():
   # TODO: grab related routine information
   return render_template('tagging.html')
 
+@app.route('/tag-submit', methods=['GET', 'POST'])
+def tag_submit():
+  # TODO: stored in database
+  # TODO: grab related routine information
+  return render_template('scenario.html')
+
+@app.route('/scenario-submit', methods=['GET', 'POST'])
+def scenario_submit():
+  return render_template('easy_of_use.html')
+
+@app.route('/eou-submit', methods=['GET', 'POST'])
+def ease_of_use_submit():
+
+  return render_template('finish.html', finished=1)
+
+@app.route('/finish-submit', methods=['GET', 'POST'])
+def finish_submit():
+  if request.method == 'POST':
+    email = request.form.get('email')
+    interview = request.form.get('interview')
+    return render_template('finish.html', finished=2)
 
 @app.route('/db', methods=['POST', 'GET'])
 def dbtests():

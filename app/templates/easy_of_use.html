@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Use Experience</h2>
+  <p>10 questions about ease of use</p>
+
+  <br><br>
+  <form action="/eou-submit" method="POST">
+    <input type="submit" value="Next Page" style="float: right;">
+  </form>
+</div>
+
+{% endblock %}

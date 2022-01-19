@@ -11,14 +11,42 @@
 <div class="container">
 <!--    Drag and drop reference: https://codepen.io/ovvn/pen/Nqxzjg -->
   <div class="row">
-    <div class="col-sm-6">
-      <div id="dropzone"></div>
-      <button class="btn btn-primary pull-right">Save</button>
+    <div class="col">
+      <div class="row">
+        <div class="col-md-auto">
+          <b>Routine</b>: Cool Home
+        </div>
+        <div class="dropzone col" id="dropzone-rtn"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-auto">
+          <b>Command 1</b>: Open the air conditioner for 1 hour.
+        </div>
+        <div class="dropzone col" id="dropzone-cmd1"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-auto">
+          <b>Command 2</b>: Open the window for 1 hour.
+        </div>
+        <div class="dropzone col" id="dropzone-cmd2"></div>
+      </div>
+      <button class="btn btn-secondary pull-right">Previous</button>
+      <button class="btn btn-secondary pull-right">Next</button>
+      <form action="/tag-submit" method="POST">
+        <input type="submit" value="Finish" style="float: right;">
+      </form>
     </div>
-    <div class="col-sm-6">
-      <div id="modules">
-        <p class="drag"><a class="btn btn-default">Uninterruptible</a></p>
-        <p class="drag"><a class="btn btn-default">Time Guarantee</a></p>
+    <div class="col-md-auto">
+      <div class="right-panel">
+        <h4> System tags</h4>
+        <div class="modules" id="modules">
+          <p class="drag"><a class="btn btn-default">Uninterruptible</a></p>
+          <p class="drag"><a class="btn btn-default">Time Guarantee</a></p>
+        </div>
+        <h4> Self-defined tags </h4>
+        <div class="modules" id="modules-ct">
+          <p> Add new tag </p>
+        </div>
       </div>
     </div>
   </div>

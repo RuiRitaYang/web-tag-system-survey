@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+  <h2>System Outcome Satisfaction Level Rating</h2>
+  <p>In this section, we’ll provide you X scenarios, and …</p>
+
+  <br><br>
+  <h4> Scenario 1 </h4>
+  <div class="indented">
+    <p>At 11:30am, you starts Baking routine to cook food (....).
+    Now at 12:00pm, you feel hot and want to start Cooling routine (....).
+    How satisfied are you for following system outcomes?</p>
+    <br/>
+    <p>Option 1 (with figure)</p>
+    <p>Option 2 (with figure)</p>
+  </div>
+
+  <form action="/scenario-submit" method="POST">
+    <input type="submit" value="Next Page" style="float: right;">
+  </form>
+</div>
+
+{% endblock %}

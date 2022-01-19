@@ -4,10 +4,51 @@
 {% block content %}
 <div class="container">
   You are done with the study. Thank you!
-  {% if finished %}
-  <p> Your Amazon gift card number is XXX. Please take a note/screenshot for it.</p>
-  <!--    TODO: add gift card number -->
-  <!--    TODO(maybe): send an automatic email for it. -->
+  {% if finished >= 1 %}
+  <p>
+    Thanks for attending for our study!
+    We'll send you the Amazon eGift card number to your email.
+  </p>
+  {% endif %}
+  {% if finished == 1 %}
+  <form action="/finish-submit" method="POST">
+    <p> Please confirm this is your email address: XXX@XXX.com</p>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="email"
+             id="email-yes" value="y">
+      <label class="form-check-label" for="email-yes">
+          Yes
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="email"
+             id="email-no" value="n">
+      <label class="form-check-label" for="email-no">
+          No
+      </label>
+    </div>
+    <br/>
+    <p>
+      Will you be interested in attending a paid interview online for
+      more feedback?
+    </p>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="interview"
+             id="interview-yes" value="y">
+      <label class="form-check-label" for="interview-yes">
+          Yes
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="interview"
+             id="interview-no" value="n">
+      <label class="form-check-label" for="interview-no">
+          No
+      </label>
+    </div>
+    <br/>
+    <input type="submit">
+  </form>
   {% endif %}
   <!--    TODO(maybe): add button to close the webpage . -->
 </div>

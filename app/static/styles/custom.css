@@ -65,7 +65,7 @@ hr {
     width: 10%;
 }
 
-#modules {
+.modules {
   padding: 20px;
   background: #eee;
   margin-bottom: 20px;
@@ -73,10 +73,17 @@ hr {
   border-radius: 10px;
 }
 
-#dropzone {
+.right-panel {
+  padding: 20px;
+  border-color: coral
+  margin-bottom: 20px;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropzone {
   padding: 20px;
   background: #eee;
-  min-height: 100px;
   margin-bottom: 20px;
   z-index: 0;
   border-radius: 10px;
@@ -104,4 +111,8 @@ hr {
   position: absolute;
   top: 4px;
   right: 4px;
+}
+
+.indented {
+  padding-left: 30px
 }
