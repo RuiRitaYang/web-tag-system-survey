@@ -1,0 +1,26 @@
+[
+  {
+    "scn_id": 0,
+    "scn_name": "Baking then cool home",
+    "scn_description": "At 11:30am, you started baking a smelly food and called Baking routine, which .....",
+    "rtn_ids": [0, 1],
+    "system_outcomes": {
+      "best-effort": {
+        "description": "At 12pm, ClOSE the window and",
+        "photo": "img/test.png"
+      }
+    }
+  },
+  {
+    "scn_id": 1,
+    "scn_name": "Test Test Test",
+    "scn_description": "Test testtest",
+    "rtn_ids": [2, 3],
+    "system_outcomes": {
+      "best-effort": {
+        "description": "At 12pm, ClOSE the window and",
+        "photo": "img/test.png"
+      }
+    }
+  }
+]

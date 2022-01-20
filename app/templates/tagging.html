@@ -14,19 +14,19 @@
     <div class="col">
       <div class="row">
         <div class="col-md-auto">
-          <b>Routine</b>: Cool Home
+          <b>Routine {{ rid }}</b>: {{ rtn_info["rtn_name"] }}
         </div>
         <div class="dropzone col" id="dropzone-rtn"></div>
       </div>
       <div class="row">
         <div class="col-md-auto">
-          <b>Command 1</b>: Open the air conditioner for 1 hour.
+          <b>Command 1</b>: {{ rtn_info["cmd1"] }}
         </div>
         <div class="dropzone col" id="dropzone-cmd1"></div>
       </div>
       <div class="row">
         <div class="col-md-auto">
-          <b>Command 2</b>: Open the window for 1 hour.
+          <b>Command 2</b>: {{ rtn_info["cmd2"] }}
         </div>
         <div class="dropzone col" id="dropzone-cmd2"></div>
       </div>

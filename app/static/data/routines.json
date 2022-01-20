@@ -1,0 +1,30 @@
+[
+  {
+    "rtn_id": 0,
+    "rtn_name": "Baking",
+    "rtn_description": "Routine for baking smelly foods.",
+    "cmd1": "Turn ON oven for 1 hour.",
+    "cmd2": "OPEN window for 1 hour."
+  },
+  {
+    "rtn_id": 1,
+    "rtn_name": "Cooling",
+    "rtn_description": "Routine for cooling home down.",
+    "cmd1": "Turn ON air conditioner for 1 hour.",
+    "cmd2": "CLOSE window."
+  },
+  {
+    "rtn_id": 2,
+    "rtn_name": "test3",
+    "rtn_description": "test3",
+    "cmd1": "test cmd3-1",
+    "cmd2": "test cmd3-2"
+  },
+  {
+    "rtn_id": 3,
+    "rtn_name": "test4",
+    "rtn_description": "test4",
+    "cmd1": "test cmd4-1",
+    "cmd2": "test cmd4-2"
+  }
+]

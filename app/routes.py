@@ -1,8 +1,11 @@
+import json
+import os
 import random
 
 from app import app, db
 from app.models import Users, UUIDForm, RoutineTag
-from flask import render_template, request, redirect, jsonify, flash
+from flask import render_template, request, redirect, jsonify, flash, session
+from app.utils import *
 
 
 @app.before_request
@@ -22,9 +25,10 @@ def index():
       user = Users(uuid=uuid)
       db.session.add(user)
       db.session.commit()
-    flash("Welcome dear participants! " + uuid)
+    flash("Welcome dear participants! ")
+    session['uuid'] = uuid
     form.uuid.data = ''
-    return render_template('consent_form.html', consented=None)
+    return render_template('consent_form.html', uuid=uuid, consented=None)
   return render_template('id_validation.html', uuid=uuid, form=form)
 
 @app.route('/consented', methods=['GET', 'POST'])
@@ -35,13 +39,19 @@ def consented():
   else:
     return render_template('finish.html', finished=False)
 
-
 @app.route('/tag', methods=['GET', 'POST'])
 def tag():
-  scenario_ids = random.sample(range(1, 20), 2)
-  # TODO: stored in database
-  # TODO: grab related routine information
-  return render_template('tagging.html')
+  scenarios, routines = get_all_scenarios_routines()
+  # TODO: add iterating on all routines and scenarios
+  scenario_ids = random.sample(range(0, 2), 2)
+  scn_info = scenarios[scenario_ids[0]]
+  rtn_ids = scn_info['rtn_ids']
+  rtn_info = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
+  ind = 0
+
+  return render_template('tagging.html',
+                         rtn_info=rtn_info[0],
+                         rid=ind + 1)
 
 @app.route('/updateList', methods=['GET', 'POST'])
 def update_list():
@@ -52,7 +62,6 @@ def update_list():
 @app.route('/tag-submit', methods=['GET', 'POST'])
 def tag_submit():
   # TODO: stored in database
-  # TODO: grab related routine information
   return render_template('scenario.html')
 
 @app.route('/scenario-submit', methods=['GET', 'POST'])
