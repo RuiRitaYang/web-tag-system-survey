@@ -1,8 +1,8 @@
 import random
 
 from app import app, db
-from app.models import Users, UUIDForm
-from flask import render_template, request, redirect
+from app.models import Users, UUIDForm, RoutineTag
+from flask import render_template, request, redirect, jsonify, flash
 
 
 @app.before_request
@@ -17,6 +17,12 @@ def index():
   if form.validate_on_submit():
     # TODO(@ry): check to database and record to database
     uuid = form.uuid.data
+    user = Users.query.filter_by(uuid=uuid).first()
+    if user is None:
+      user = Users(uuid=uuid)
+      db.session.add(user)
+      db.session.commit()
+    flash("Welcome dear participants! " + uuid)
     form.uuid.data = ''
     return render_template('consent_form.html', consented=None)
   return render_template('id_validation.html', uuid=uuid, form=form)
@@ -36,6 +42,12 @@ def tag():
   # TODO: stored in database
   # TODO: grab related routine information
   return render_template('tagging.html')
+
+@app.route('/updateList', methods=['GET', 'POST'])
+def update_list():
+  item = request.get_json()['item']
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
 
 @app.route('/tag-submit', methods=['GET', 'POST'])
 def tag_submit():
