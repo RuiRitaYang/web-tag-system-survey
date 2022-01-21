@@ -29,7 +29,9 @@ class RoutineTag(db.Model):
 
 class CustomizedTag(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-
+  uuid = db.Column(db.Integer)
+  name = db.Column(db.String(30))
+  priority = db.Column(db.Integer, default=2)
 
   def __ref__(self):
-    return 'Updated routine %d for uid %d'.format(self.rtn_id, self.uid)
+    return 'New customized tag %s for user %d'.format(self.name, self.uuid)

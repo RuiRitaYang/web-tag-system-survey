@@ -1,11 +1,10 @@
-import json
-import os
 import random
 
 from app import app, db
 from app.models import Users, UUIDForm, RoutineTag
-from flask import render_template, request, redirect, jsonify, flash, session
 from app.utils import *
+
+from flask import render_template, request, redirect, jsonify, flash, session, url_for
 
 
 @app.before_request
@@ -62,10 +61,16 @@ def tag(rid):
     elif action == 'Next':
       rid += 1
     elif action == 'Finish':
-      return render_template('scenario.html')
+      return redirect(url_for('scenario'))
+  # rtn_tags = RoutineTag.query.get(uuid=session['uuid'], rtn_id=rid)
+  # rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',')
   return render_template('tagging.html',
                          rtn_info=rtn_info_all[rid - 1],
                          rid=rid,
+                         # rtn_sys_tag=rtn_tags.rtn_sys_tag,
+                         # rtn_cus_tags=rtn_cus_tags,
+                         # cmd1_tag=rtn_tags.cmd1_tag,
+                         # cmd2_tag=rtn_tags.cmd2_tag,
                          total_rtn=total_rtn)
 
 @app.route('/updateList', methods=['GET', 'POST'])
@@ -73,6 +78,10 @@ def update_list():
   item = request.get_json()['item']
   result = {'success': True, 'response': 'Done'}
   return jsonify(result)
+
+@app.route('/scenario', methods=['GET', 'POST'])
+def scenario():
+  return render_template('scenario.html')
 
 @app.route('/scenario-submit', methods=['GET', 'POST'])
 def scenario_submit():
