@@ -9,6 +9,7 @@ class Users(db.Model):
   uuid = db.Column(db.Integer, nullable=True)
   consented = db.Column(db.Boolean, nullable=True)
   date_added = db.Column(db.DateTime, default=datetime.utcnow())
+  date_finished = db.Column(db.DateTime, nullable=True)
 
   # Create A String
   def __ref__(self):
@@ -22,7 +23,8 @@ class RoutineTag(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   uid = db.Column(db.Integer, nullable=True)
   rtn_id = db.Column(db.Integer, nullable=True)
-  rtn_tags = db.Column(db.String(300), nullable=True)
+  rtn_sys_tag = db.Column(db.String(20), nullable=True)
+  rtn_cus_tags = db.Column(db.String(300), nullable=True)
   cmd1_tag = db.Column(db.String(20), nullable=True)
   cmd2_tag = db.Column(db.String(20), nullable=True)
 

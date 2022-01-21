@@ -30,11 +30,18 @@
         </div>
         <div class="dropzone col" id="dropzone-cmd2"></div>
       </div>
-      <button class="btn btn-secondary pull-right">Previous</button>
-      <button class="btn btn-secondary pull-right">Next</button>
-      <form action="/tag-submit" method="POST">
-        <input type="submit" value="Finish" style="float: right;">
+      <form action="/tag" method="POST">
+        {% if rid > 1 %}
+          <input type="submit" name="tag-page-action" value="Previous">
+<!--          <button class="btn btn-secondary pull-right">Previous</button>-->
+        {% endif %}
+        {% if rid < total_rtn %}
+          <input type="submit" name="tag-page-action" value="Next">
+<!--          <button class="btn btn-secondary pull-right">Next</button>-->
+        {% else %}
+          <input type="submit" name="tag-page-action" value="Finish">
       </form>
+      {% endif %}
     </div>
     <div class="col-md-auto">
       <div class="right-panel">

@@ -42,16 +42,26 @@ def consented():
 @app.route('/tag', methods=['GET', 'POST'])
 def tag():
   scenarios, routines = get_all_scenarios_routines()
-  # TODO: add iterating on all routines and scenarios
+  # TODO: fixed ids read from database
   scenario_ids = random.sample(range(0, 2), 2)
   scn_info = scenarios[scenario_ids[0]]
   rtn_ids = scn_info['rtn_ids']
-  rtn_info = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
+  rtn_info_all = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
   ind = 0
 
+  if request.method == 'POST' and 'tag-page-action' in request.form:
+    action = request.form['tag-page-action']
+    if action == 'Previous':
+      ind -= 1
+    elif action == 'Next':
+      ind += 1
+    elif action == 'Finish':
+      return render_template('scenario.html')
+
   return render_template('tagging.html',
-                         rtn_info=rtn_info[0],
-                         rid=ind + 1)
+                         rtn_info=rtn_info_all[ind],
+                         rid=ind + 1,
+                         total_rtn=2)
 
 @app.route('/updateList', methods=['GET', 'POST'])
 def update_list():
