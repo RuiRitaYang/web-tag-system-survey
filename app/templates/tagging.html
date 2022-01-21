@@ -30,16 +30,18 @@
         </div>
         <div class="dropzone col" id="dropzone-cmd2"></div>
       </div>
-      <form action="/tag" method="POST">
+      <!--   Browsing among different routines   -->
+      <form action="{{ url_for('tag', rid=rid )}}" method="POST">
         {% if rid > 1 %}
-          <input type="submit" name="tag-page-action" value="Previous">
-<!--          <button class="btn btn-secondary pull-right">Previous</button>-->
+          <input class="btn btn-outline-secondary"
+                 type="submit" name="tag-page-action" value="Previous">
         {% endif %}
         {% if rid < total_rtn %}
-          <input type="submit" name="tag-page-action" value="Next">
-<!--          <button class="btn btn-secondary pull-right">Next</button>-->
+          <input class="btn btn-outline-secondary"
+                 type="submit" name="tag-page-action" value="Next">
         {% else %}
-          <input type="submit" name="tag-page-action" value="Finish">
+          <input class="btn btn-outline-primary"
+                 type="submit" name="tag-page-action" value="Finish">
       </form>
       {% endif %}
     </div>

@@ -12,7 +12,6 @@ from app.utils import *
 def before_request_func():
   pass
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
   uuid = None
@@ -20,12 +19,14 @@ def index():
   if form.validate_on_submit():
     # TODO(@ry): check to database and record to database
     uuid = form.uuid.data
-    user = Users.query.filter_by(uuid=uuid).first()
+    user = Users.query.get(uuid)
     if user is None:
-      user = Users(uuid=uuid)
+      scenario_ids = random.sample(range(0, 2), 2)
+      str_ids = [str(v) for v in scenario_ids]
+      user = Users(uuid=uuid, scn_ids=','.join(str_ids))
       db.session.add(user)
       db.session.commit()
-    flash("Welcome dear participants! ")
+    flash("Welcome dear participants!")
     session['uuid'] = uuid
     form.uuid.data = ''
     return render_template('consent_form.html', uuid=uuid, consented=None)
@@ -39,40 +40,39 @@ def consented():
   else:
     return render_template('finish.html', finished=False)
 
-@app.route('/tag', methods=['GET', 'POST'])
-def tag():
+@app.route('/tag/<int:rid>', methods=['GET', 'POST'])
+def tag(rid):
   scenarios, routines = get_all_scenarios_routines()
-  # TODO: fixed ids read from database
-  scenario_ids = random.sample(range(0, 2), 2)
-  scn_info = scenarios[scenario_ids[0]]
-  rtn_ids = scn_info['rtn_ids']
+  # Get assigned scenario from database
+  scn_ids = Users.query.get_or_404(session['uuid']).scn_ids
+  scn_ids = [int(sid) for sid in scn_ids.split(',')]
+  rtn_ids = set()
+  for scn_id in scn_ids:
+    scn_info = scenarios[scn_id]
+    rtn_ids.update(scn_info['rtn_ids'])
   rtn_info_all = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
-  ind = 0
 
+  total_rtn = len(rtn_info_all)
+  if rid < 1 or rid > total_rtn:
+    rid = 1
   if request.method == 'POST' and 'tag-page-action' in request.form:
     action = request.form['tag-page-action']
     if action == 'Previous':
-      ind -= 1
+      rid -= 1
     elif action == 'Next':
-      ind += 1
+      rid += 1
     elif action == 'Finish':
       return render_template('scenario.html')
-
   return render_template('tagging.html',
-                         rtn_info=rtn_info_all[ind],
-                         rid=ind + 1,
-                         total_rtn=2)
+                         rtn_info=rtn_info_all[rid - 1],
+                         rid=rid,
+                         total_rtn=total_rtn)
 
 @app.route('/updateList', methods=['GET', 'POST'])
 def update_list():
   item = request.get_json()['item']
   result = {'success': True, 'response': 'Done'}
   return jsonify(result)
-
-@app.route('/tag-submit', methods=['GET', 'POST'])
-def tag_submit():
-  # TODO: stored in database
-  return render_template('scenario.html')
 
 @app.route('/scenario-submit', methods=['GET', 'POST'])
 def scenario_submit():
