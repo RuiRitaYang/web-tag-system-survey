@@ -3,6 +3,7 @@ import random
 from app import app, db
 from app.models import Users, UUIDForm, RoutineTag
 from app.utils import *
+from app.database import db_commit
 
 from flask import render_template, request, redirect, jsonify, flash, session, url_for
 
@@ -62,22 +63,88 @@ def tag(rid):
       rid += 1
     elif action == 'Finish':
       return redirect(url_for('scenario'))
-  # rtn_tags = RoutineTag.query.get(uuid=session['uuid'], rtn_id=rid)
-  # rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',')
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  if rtn_tags is None:
+    rtn_tags = RoutineTag(uuid=session['uuid'], rtn_id=rid)
+    db.session().add(rtn_tags)
+    db.session().commit()
+  rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
   return render_template('tagging.html',
                          rtn_info=rtn_info_all[rid - 1],
                          rid=rid,
-                         # rtn_sys_tag=rtn_tags.rtn_sys_tag,
-                         # rtn_cus_tags=rtn_cus_tags,
-                         # cmd1_tag=rtn_tags.cmd1_tag,
-                         # cmd2_tag=rtn_tags.cmd2_tag,
+                         rtn_sys_tag=rtn_tags.rtn_sys_tag,
+                         rtn_cus_tags=rtn_cus_tags,
+                         cmd1_tag=rtn_tags.cmd1_tag,
+                         cmd2_tag=rtn_tags.cmd2_tag,
                          total_rtn=total_rtn)
 
-@app.route('/updateList', methods=['GET', 'POST'])
-def update_list():
-  item = request.get_json()['item']
+@app.route('/update-sys-tag', methods=['GET', 'POST'])
+def update_sys_tag():
+  data = request.get_json()
+  item, rid = data['item'], data['rid']
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  if item in ['Uninterruptible', 'Pausable']:
+    rtn_tags.rtn_sys_tag = item
+    rtn_tags.cmd1_tag = item
+    rtn_tags.cmd2_tag = item
+  else:
+    if rtn_tags.rtn_cus_tags:
+      if item not in rtn_tags.rtn_cus_tags.split(','):
+        rtn_tags.rtn_cus_tags += ',' + item
+    else:
+      rtn_tags.rtn_cus_tags = item
+
+  db_commit()
   result = {'success': True, 'response': 'Done'}
   return jsonify(result)
+
+@app.route('/update-cmd1-tag', methods=['GET', 'POST'])
+def update_cmd1_tag():
+  data = request.get_json()
+  item, rid = data['item'], data['rid']
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  if item in ['Uninterruptible', 'Pausable']:
+    rtn_tags.cmd1_tag = item
+  db_commit(success_msg="Update CMD1 system tag successfully",
+            fail_msg="[ERROR] CMD1 sys tag update failed")
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
+
+@app.route('/update-cmd2-tag', methods=['GET', 'POST'])
+def update_cmd2_tag():
+  data = request.get_json()
+  item, rid = data['item'], data['rid']
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  if item in ['Uninterruptible', 'Pausable']:
+    rtn_tags.cmd2_tag = item
+  db_commit(success_msg="Update CMD2 system tag successfully",
+            fail_msg="[ERROR] CMD2 sys tag update failed")
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
+
+@app.route('/remove-rtn-sys-tag/<int:rid>', methods=['GET', 'POST'])
+def remove_rtn_sys_tag(rid):
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  rtn_tags.rtn_sys_tag = ''
+  db_commit(success_msg="RTN {0} system tag removed".format(rid),
+            fail_msg="[ERROR] RTN sys tag remove failed")
+  return redirect(url_for('tag', rid=rid))
+
+@app.route('/remove-cmd1-tag/<int:rid>', methods=['GET', 'POST'])
+def remove_cmd1_tag(rid):
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  rtn_tags.cmd1_tag = ''
+  db_commit(success_msg="RTN {0} CMD1 tag removed".format(rid),
+            fail_msg="[ERROR] RTN {0} CMD1 tag remove failed".format(rid))
+  return redirect(url_for('tag', rid=rid))
+
+@app.route('/remove-cmd2-tag/<int:rid>', methods=['GET', 'POST'])
+def remove_cmd2_tag(rid):
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  rtn_tags.cmd2_tag = ''
+  db_commit(success_msg="RTN {0} CMD2 tag removed".format(rid),
+            fail_msg="[ERROR] RTN {0} CMD2 tag remove failed".format(rid))
+  return redirect(url_for('tag', rid=rid))
 
 @app.route('/scenario', methods=['GET', 'POST'])
 def scenario():

@@ -12,23 +12,61 @@
 <!--    Drag and drop reference: https://codepen.io/ovvn/pen/Nqxzjg -->
   <div class="row">
     <div class="col">
+      <!-- ---------------------------  -->
+      <!--   Tagging at routine level   -->
+      <!-- ---------------------------  -->
       <div class="row">
         <div class="col-md-auto">
           <b>Routine {{ rid }}</b>: {{ rtn_info["rtn_name"] }}
         </div>
-        <div class="dropzone col" id="dropzone-rtn"></div>
+        <div class="dropzone col" id="dropzone-rtn" data-rid="{{ rid }}">
+          {% if rtn_sys_tag %}
+            {{ rtn_sys_tag }}
+            <button type="button" class="btn btn-default btn-xs remove"
+                    onclick="window.location.href='{{ url_for('remove_rtn_sys_tag', rid=rid) }}';">
+              X
+              <!-- <span class="glyphicon glyphicon-trash"></span> -->
+            </button>
+          {% endif %}
+
+          {% for cus_tag in rtn_cus_tags %}
+            {{ cus_tag }}
+          {% endfor %}
+        </div>
       </div>
+      <!-- ----------------------------- -->
+      <!-- System tag for Command 1 only -->
+      <!-- ----------------------------- -->
       <div class="row">
         <div class="col-md-auto">
           <b>Command 1</b>: {{ rtn_info["cmd1"] }}
         </div>
-        <div class="dropzone col" id="dropzone-cmd1"></div>
+        <div class="dropzone col" id="dropzone-cmd1">
+          {% if cmd1_tag %}
+            {{ cmd1_tag }}
+            <button type="button" class="btn btn-default btn-xs remove"
+                    onclick="window.location.href='{{ url_for('remove_cmd1_tag', rid=rid) }}';">
+              X
+            </button>
+          {% endif %}
+        </div>
       </div>
+      <!-- ----------------------------- -->
+      <!-- System tag for Command 2 only -->
+      <!-- ----------------------------- -->
       <div class="row">
         <div class="col-md-auto">
           <b>Command 2</b>: {{ rtn_info["cmd2"] }}
         </div>
-        <div class="dropzone col" id="dropzone-cmd2"></div>
+        <div class="dropzone col" id="dropzone-cmd2">
+          {% if cmd2_tag %}
+            {{ cmd2_tag }}
+            <button type="button" class="btn btn-default btn-xs remove"
+                    onclick="window.location.href='{{ url_for('remove_cmd2_tag', rid=rid) }}';">
+              X
+            </button>
+          {% endif %}
+        </div>
       </div>
       <!--   Browsing among different routines   -->
       <form action="{{ url_for('tag', rid=rid )}}" method="POST">
@@ -50,7 +88,7 @@
         <h4> System tags</h4>
         <div class="modules" id="modules">
           <p class="drag"><a class="btn btn-default">Uninterruptible</a></p>
-          <p class="drag"><a class="btn btn-default">Time Guarantee</a></p>
+          <p class="drag"><a class="btn btn-default">Pausable</a></p>
         </div>
         <h4> Self-defined tags </h4>
         <div class="modules" id="modules-ct">

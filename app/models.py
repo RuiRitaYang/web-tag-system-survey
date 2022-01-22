@@ -11,7 +11,6 @@ class Users(db.Model):
   date_added = db.Column(db.DateTime, default=datetime.utcnow())
   date_finished = db.Column(db.DateTime, nullable=True)
 
-  # Create A String
   def __ref__(self):
     return 'ID %d has consented (%d) on %r'.format(self.uuid, self.consented, self.date_added)
 
@@ -27,11 +26,19 @@ class RoutineTag(db.Model):
   cmd1_tag = db.Column(db.String(20), nullable=True)
   cmd2_tag = db.Column(db.String(20), nullable=True)
 
+  def __ref__(self):
+    return "Tagging record for user {0} routine {1} with cus_tags {2}".format(
+      self.uuid, self.rtn_id, self.rtn_cus_tags
+    )
+
+  def __str__(self):
+    return self.__ref__()
+
 class CustomizedTag(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   uuid = db.Column(db.Integer)
   name = db.Column(db.String(30))
-  priority = db.Column(db.Integer, default=2)
+  priority = db.Column(db.Integer, default=5)
 
   def __ref__(self):
     return 'New customized tag %s for user %d'.format(self.name, self.uuid)
