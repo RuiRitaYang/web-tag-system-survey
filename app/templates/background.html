@@ -3,8 +3,32 @@
 
 {% block content %}
 <div class="container">
-  <h2>Background Introduction</h2>
-  <p>Routine is ....</p>
+  <h3>Concept Introduction</h3>
+  <p>In smart homes, a <strong>command</strong> is a single task that a smart
+    device will execute. For example, "Turn on the light" is a command for a
+    smart light.
+  </p>
+  <p>
+    In smart homes, a <strong>routine</strong> is defined as a set/sequence
+    of commands. As stated in the previous section, a command is a single
+    task that a smart device will execute.
+  </p>
+  <br/>
+  <h3>Purpose of The Survey</h3>
+  <p>
+    In our tagging system, you will have the opportunity to "<strong>tag</strong>"
+    routines and/or commands, meaning you can assign a word or phrase to them to
+    convey what the purpose of the routine is, what is important about the routine to
+    you, or how you plan on differentiating other routines from it. For example,
+    you can mark a routine as "energy saving" if it turns off the air conditioner
+    in your house, or as "safety" if it locks your door.
+  </p>
+  <p>
+    In our tagging system, you will have the opportunity to "tag" routines, meaning you can assign a word or phrase to them to convey what the purpose of the routine is, what is important about the routine to you, or how you plan on differentiating other routines from it. For example, you can mark a routine as "energy saving" if it turns off the air conditioner in your house, or as "safety" if it locks your door.
+  </p>
+  <p>
+    In this evaluation, you will be presented with four different scenarios, with multiple routines. You can tag each routine, and once you are satisfied you will be presented with an outcome of your tagging. You will then be asked to rate your satisfaction with the outcome.
+  </p>
 
   <br><br>
   <form action="{{ url_for('tag', rid=0) }}" method="POST">
