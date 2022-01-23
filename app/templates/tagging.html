@@ -92,12 +92,27 @@
         </div>
         <h4> Self-defined tags </h4>
         <div class="modules" id="modules-ct">
-          <p> Add new tag </p>
+          <form>
+            <label for="tagname">Tag name:</label><br>
+            <input type="text" id="tagname" name="tagname"><br>
+            <label for="priority">Priority (if needed):</label><br>
+            <input type="text" id="priority" name="priority">
+            <br><br>
+            <button onclick="addNewTag(document.getElementById('tagname').value, document.getElementById('priority').value)">Add new Tag</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
   <br>
 </div>
+
+<script>
+  function addNewTag(name, priority){
+    console.log(name)
+    console.log(priority)
+  }
+</script>
+
 
 {% endblock %}

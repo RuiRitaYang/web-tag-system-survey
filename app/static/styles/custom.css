@@ -75,7 +75,7 @@ hr {
 
 .right-panel {
   padding: 20px;
-  border-color: coral
+  border-color: coral;
   margin-bottom: 20px;
   z-index: 1;
   border-radius: 10px;
@@ -102,7 +102,7 @@ hr {
   margin-bottom: 10px;
   background-color: rgb(255, 255, 255);
   padding: 5px 10px;
-  border-radisu: 3px;
+  border-radius: 3px;
   border: 1px solid rgb(204, 204, 204);
   position: relative;
 }
@@ -115,4 +115,14 @@ hr {
 
 .indented {
   padding-left: 30px
+}
+
+.create_tag_form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+
 }
