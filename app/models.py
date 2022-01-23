@@ -36,9 +36,8 @@ class RoutineTag(db.Model):
     return self.__ref__()
 
 class CustomizedTag(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  uuid = db.Column(db.Integer)
-  name = db.Column(db.String(30))
+  uuid = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(30), primary_key=True)
   priority = db.Column(db.Integer, default=5)
 
   def __ref__(self):

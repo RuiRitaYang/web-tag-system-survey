@@ -1,5 +1,5 @@
 from app import db
-from app.models import Users
+from app.models import Users, RoutineTag, CustomizedTag
 from app.utils import *
 import random
 
@@ -36,3 +36,22 @@ def get_rtn_ids_by_uuid(uuid):
     return [int(rid) for rid in db_rtn_ids.split(',')]
   else:  # Generate rtn list based on scn ids
     return update_rtn_ids_record(user)
+
+def get_tags_by_rtn_id(uuid, rtn_id):
+  tags = RoutineTag.query.get_or_404((uuid, rtn_id))
+  rtn_sys_tag = tags.rtn_sys_tag
+  cmd1_tag = tags.cmd1_tag  # CMD1-specific tag
+  cmd2_tag = tags.cmd2_tag  # CMD2-specific tag
+  rtn_cus_tags = tags.rtn_cus_tags
+  if rtn_cus_tags:
+    rtn_cus_tags = rtn_cus_tags.split(',')
+  final_priority = 0
+  # Get the highest priority of customized tags.
+  if rtn_cus_tags:
+    for tag_name in rtn_cus_tags:
+      cus_tag = CustomizedTag.query.get_or_404((uuid, tag_name))
+      priority = cus_tag.priority
+      if priority > final_priority:
+        final_priority = priority
+  return [rtn_sys_tag, cmd1_tag, cmd2_tag, final_priority]
+

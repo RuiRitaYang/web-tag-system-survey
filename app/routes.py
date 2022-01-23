@@ -1,9 +1,10 @@
 import random
 
 from app import app, db
-from app.models import Users, UUIDForm, RoutineTag
-from app.utils import *
 from app.database import db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
+from app.models import Users, UUIDForm, RoutineTag
+from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
+from app.utils import *
 
 from flask import render_template, request, redirect, jsonify, flash, session, url_for
 
@@ -105,6 +106,11 @@ def update_cmd1_tag():
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if item in ['Uninterruptible', 'Pausable']:
     rtn_tags.cmd1_tag = item
+    # Update routine level system tag accordingly.
+    if rtn_tags.cmd1_tag == rtn_tags.cmd2_tag:
+      rtn_tags.rtn_sys_tag = rtn_tags.cmd1_tag
+    else:
+      rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="Update CMD1 system tag successfully",
             fail_msg="[ERROR] CMD1 sys tag update failed")
   result = {'success': True, 'response': 'Done'}
@@ -117,6 +123,10 @@ def update_cmd2_tag():
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if item in ['Uninterruptible', 'Pausable']:
     rtn_tags.cmd2_tag = item
+    if rtn_tags.cmd1_tag == rtn_tags.cmd2_tag:
+      rtn_tags.rtn_sys_tag = rtn_tags.cmd2_tag
+    else:
+      rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="Update CMD2 system tag successfully",
             fail_msg="[ERROR] CMD2 sys tag update failed")
   result = {'success': True, 'response': 'Done'}
@@ -163,10 +173,15 @@ def scenario(idx):
 
   sid = scn_ids[idx - 1]
   scn_info = get_scenario_by_id(sid)
+  sys_outcome = [get_tag_outcome_by_scn_info(scn_info, session['uuid'])]
+  ex_outcome = get_outcome_info_by_stt(scn_info, 'EX')
+  if sys_outcome[0]['outcome_id'] != ex_outcome['outcome_id']:
+    sys_outcome.append(ex_outcome)
 
   return render_template('scenario.html',
                          idx=idx,
                          sid=sid,
+                         outcome=sys_outcome,
                          total_scn=total_scn)
 
 @app.route('/ease-of-use', methods=['GET', 'POST'])
@@ -183,19 +198,3 @@ def finish_submit():
     email = request.form.get('email')
     interview = request.form.get('interview')
     return render_template('finish.html', finished=2)
-
-@app.route('/db', methods=['POST', 'GET'])
-def dbtests():
-  if request.method == 'POST':
-    uid = request.form['uid']
-    new_user = Users(uid=uid)
-    # Push to database
-    try:
-      db.session.add(new_user)
-      db.session.commit()
-      return redirect('/db')
-    except Exception as e:
-      return "Error for storing new user info:" + str(e)
-  else:
-    users = Users.query.order_by(Users.date_added)
-    return render_template('db_test.html', users=users)

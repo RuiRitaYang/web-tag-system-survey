@@ -13,14 +13,17 @@
   </p>
 
   <br><br>
-  <h4> Scenario 1 </h4>
+  <h4> Scenario {{ idx }} </h4>
   <div class="indented">
     <p>At 11:30am, you starts Baking routine to cook food (....).
     Now at 12:00pm, you feel hot and want to start Cooling routine (....).
     How satisfied are you for following system outcomes?</p>
     <br/>
-    <p>Option 1 (with figure)</p>
-    <p>Option 2 (with figure)</p>
+    {% for oc in outcome %}
+      <p> {{ oc['description'] }} </p>
+      <p> Photo link: {{ oc['photo'] }}</p>
+      <br/><br/>
+    {% endfor %}
   </div>
 
   <!--   Browsing among different routines   -->
@@ -38,9 +41,6 @@
     {% endif %}
   </form>
 
-  <form action="/scenario-submit" method="POST">
-    <input type="submit" value="Next Page" style="float: right;">
-  </form>
 </div>
 
 {% endblock %}
