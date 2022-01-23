@@ -17,13 +17,14 @@
       <!-- ---------------------------  -->
       <div class="row">
         <div class="col-md-auto">
-          <b>Routine {{ rid }}</b>: {{ rtn_info["rtn_name"] }}
+          <b>Routine {{ idx }}</b>: {{ rtn_info["rtn_name"] }}
         </div>
         <div class="dropzone col" id="dropzone-rtn" data-rid="{{ rid }}">
           {% if rtn_sys_tag %}
             {{ rtn_sys_tag }}
             <button type="button" class="btn btn-default btn-xs remove"
-                    onclick="window.location.href='{{ url_for('remove_rtn_sys_tag', rid=rid) }}';">
+                    onclick="window.location.href=
+                    '{{ url_for('remove_rtn_sys_tag', rid=rid, idx=idx) }}';">
               X
               <!-- <span class="glyphicon glyphicon-trash"></span> -->
             </button>
@@ -45,7 +46,8 @@
           {% if cmd1_tag %}
             {{ cmd1_tag }}
             <button type="button" class="btn btn-default btn-xs remove"
-                    onclick="window.location.href='{{ url_for('remove_cmd1_tag', rid=rid) }}';">
+                    onclick="window.location.href=
+                    '{{ url_for('remove_cmd1_tag', rid=rid, idx=idx) }}';">
               X
             </button>
           {% endif %}
@@ -62,26 +64,27 @@
           {% if cmd2_tag %}
             {{ cmd2_tag }}
             <button type="button" class="btn btn-default btn-xs remove"
-                    onclick="window.location.href='{{ url_for('remove_cmd2_tag', rid=rid) }}';">
+                    onclick="window.location.href=
+                    '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
               X
             </button>
           {% endif %}
         </div>
       </div>
       <!--   Browsing among different routines   -->
-      <form action="{{ url_for('tag', rid=rid )}}" method="POST">
-        {% if rid > 1 %}
+      <form action="{{ url_for('tag', idx=idx )}}" method="POST">
+        {% if idx > 1 %}
           <input class="btn btn-outline-secondary"
                  type="submit" name="tag-page-action" value="Previous">
         {% endif %}
-        {% if rid < total_rtn %}
+        {% if idx < total_rtn %}
           <input class="btn btn-outline-secondary"
                  type="submit" name="tag-page-action" value="Next">
         {% else %}
           <input class="btn btn-outline-primary"
                  type="submit" name="tag-page-action" value="Finish">
+        {% endif %}
       </form>
-      {% endif %}
     </div>
     <div class="col-md-auto">
       <div class="right-panel">

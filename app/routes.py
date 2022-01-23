@@ -3,7 +3,7 @@ import random
 from app import app, db
 from app.models import Users, UUIDForm, RoutineTag
 from app.utils import *
-from app.database import db_commit
+from app.database import db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
 
 from flask import render_template, request, redirect, jsonify, flash, session, url_for
 
@@ -21,9 +21,11 @@ def index():
     uuid = form.uuid.data
     user = Users.query.get(uuid)
     if user is None:
-      scenario_ids = random.sample(range(0, 2), 2)
-      str_ids = [str(v) for v in scenario_ids]
-      user = Users(uuid=uuid, scn_ids=','.join(str_ids))
+      scn_ids = random.sample(range(1, 5), 2)
+      rtn_ids = get_rtn_ids_by_scn_ids(scn_ids)
+      user = Users(uuid=uuid,
+                   scn_ids=','.join([str(v) for v in scn_ids]),
+                   rtn_ids=','.join([str(v) for v in rtn_ids]))
       db.session.add(user)
       db.session.commit()
     flash("Welcome dear participants!")
@@ -40,29 +42,26 @@ def consented():
   else:
     return render_template('finish.html', finished=False)
 
-@app.route('/tag/<int:rid>', methods=['GET', 'POST'])
-def tag(rid):
-  scenarios, routines = get_all_scenarios_routines()
-  # Get assigned scenario from database
-  scn_ids = Users.query.get_or_404(session['uuid']).scn_ids
-  scn_ids = [int(sid) for sid in scn_ids.split(',')]
-  rtn_ids = set()
-  for scn_id in scn_ids:
-    scn_info = scenarios[scn_id]
-    rtn_ids.update(scn_info['rtn_ids'])
-  rtn_info_all = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
-
-  total_rtn = len(rtn_info_all)
-  if rid < 1 or rid > total_rtn:
-    rid = 1
+@app.route('/tag/<int:idx>', methods=['GET', 'POST'])
+def tag(idx):
+  rtn_ids = get_rtn_ids_by_uuid(session['uuid'])
+  total_rtn = len(rtn_ids)
+  print("Current idx: " + str(idx) + " Total rtn: ", total_rtn)
+  if idx < 1 or idx > total_rtn:
+    return redirect(url_for('tag', idx=1))
   if request.method == 'POST' and 'tag-page-action' in request.form:
     action = request.form['tag-page-action']
     if action == 'Previous':
-      rid -= 1
+      return redirect(url_for('tag', idx=idx-1))
     elif action == 'Next':
-      rid += 1
+      return redirect(url_for('tag', idx=idx+1))
     elif action == 'Finish':
-      return redirect(url_for('scenario'))
+      return redirect(url_for('scenario', idx=0))
+
+  # Start to show the page.
+  scenarios, routines = get_all_scenarios_routines()
+  rtn_info_all = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
+  rid = rtn_ids[idx - 1]
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if rtn_tags is None:
     rtn_tags = RoutineTag(uuid=session['uuid'], rtn_id=rid)
@@ -70,7 +69,8 @@ def tag(rid):
     db.session().commit()
   rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
   return render_template('tagging.html',
-                         rtn_info=rtn_info_all[rid - 1],
+                         rtn_info=rtn_info_all[idx - 1],
+                         idx=idx,
                          rid=rid,
                          rtn_sys_tag=rtn_tags.rtn_sys_tag,
                          rtn_cus_tags=rtn_cus_tags,
@@ -122,41 +122,59 @@ def update_cmd2_tag():
   result = {'success': True, 'response': 'Done'}
   return jsonify(result)
 
-@app.route('/remove-rtn-sys-tag/<int:rid>', methods=['GET', 'POST'])
-def remove_rtn_sys_tag(rid):
+@app.route('/remove-rtn-sys-tag/<int:rid>/<int:idx>', methods=['GET', 'POST'])
+def remove_rtn_sys_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="RTN {0} system tag removed".format(rid),
             fail_msg="[ERROR] RTN sys tag remove failed")
-  return redirect(url_for('tag', rid=rid))
+  return redirect(url_for('tag', idx=idx))
 
-@app.route('/remove-cmd1-tag/<int:rid>', methods=['GET', 'POST'])
-def remove_cmd1_tag(rid):
+@app.route('/remove-cmd1-tag/<int:rid>/<int:idx>', methods=['GET', 'POST'])
+def remove_cmd1_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.cmd1_tag = ''
-  db_commit(success_msg="RTN {0} CMD1 tag removed".format(rid),
+  db_commit(success_msg="RTN {0} (rid {1}) CMD1 tag removed".format(idx, rid),
             fail_msg="[ERROR] RTN {0} CMD1 tag remove failed".format(rid))
-  return redirect(url_for('tag', rid=rid))
+  return redirect(url_for('tag', idx=idx))
 
-@app.route('/remove-cmd2-tag/<int:rid>', methods=['GET', 'POST'])
-def remove_cmd2_tag(rid):
+@app.route('/remove-cmd2-tag/<int:rid>/<int:idx>', methods=['GET', 'POST'])
+def remove_cmd2_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.cmd2_tag = ''
-  db_commit(success_msg="RTN {0} CMD2 tag removed".format(rid),
+  db_commit(success_msg="RTN {0} (rid {1}) CMD2 tag removed".format(idx, rid),
             fail_msg="[ERROR] RTN {0} CMD2 tag remove failed".format(rid))
-  return redirect(url_for('tag', rid=rid))
+  return redirect(url_for('tag', idx=idx))
 
-@app.route('/scenario', methods=['GET', 'POST'])
-def scenario():
-  return render_template('scenario.html')
+@app.route('/scenario/<int:idx>', methods=['GET', 'POST'])
+def scenario(idx):
+  scn_ids = get_scn_ids_by_uuid(session['uuid'])
+  total_scn = len(scn_ids)
+  if idx < 1 or idx > total_scn:
+    return redirect(url_for('scenario', idx=1))
+  if request.method == 'POST' and 'scn-page-action' in request.form:
+    action = request.form['scn-page-action']
+    if action == 'Previous':
+      return redirect(url_for('scenario', idx=idx-1))
+    elif action == 'Next':
+      return redirect(url_for('scenario', idx=idx+1))
+    elif action == 'Finish':
+      return redirect(url_for('ease_of_use'))
 
-@app.route('/scenario-submit', methods=['GET', 'POST'])
-def scenario_submit():
+  sid = scn_ids[idx - 1]
+  scn_info = get_scenario_by_id(sid)
+
+  return render_template('scenario.html',
+                         idx=idx,
+                         sid=sid,
+                         total_scn=total_scn)
+
+@app.route('/ease-of-use', methods=['GET', 'POST'])
+def ease_of_use():
   return render_template('easy_of_use.html')
 
 @app.route('/eou-submit', methods=['GET', 'POST'])
 def ease_of_use_submit():
-
   return render_template('finish.html', finished=1)
 
 @app.route('/finish-submit', methods=['GET', 'POST'])
