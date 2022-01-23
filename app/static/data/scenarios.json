@@ -1,9 +1,9 @@
 [
   {
-    "scn_id": 0,
+    "scn_id": 1,
     "scn_name": "Baking then cool home",
     "scn_description": "At 11:30am, you started baking a smelly food and called Baking routine, which .....",
-    "rtn_ids": [0, 1],
+    "rtn_ids": [1, 2],
     "system_outcomes": {
       "best-effort": {
         "description": "At 12pm, ClOSE the window and",
@@ -12,13 +12,37 @@
     }
   },
   {
-    "scn_id": 1,
-    "scn_name": "Test Test Test",
-    "scn_description": "Test testtest",
-    "rtn_ids": [2, 3],
+    "scn_id": 2,
+    "scn_name": "Test Test 2",
+    "scn_description": "Test testtest2",
+    "rtn_ids": [3, 4],
     "system_outcomes": {
       "best-effort": {
-        "description": "At 12pm, ClOSE the window and",
+        "description": "At 12pm, ClOSE the window and 22222",
+        "photo": "img/test.png"
+      }
+    }
+  },
+  {
+    "scn_id": 3,
+    "scn_name": "Test Test 3",
+    "scn_description": "Test testtest3",
+    "rtn_ids": [5, 6],
+    "system_outcomes": {
+      "best-effort": {
+        "description": "At 12pm, ClOSE the window and 333333",
+        "photo": "img/test.png"
+      }
+    }
+  },
+  {
+    "scn_id": 4,
+    "scn_name": "Test Test 4",
+    "scn_description": "Test testtest4",
+    "rtn_ids": [7, 8],
+    "system_outcomes": {
+      "best-effort": {
+        "description": "At 12pm, ClOSE the window and 444444",
         "photo": "img/test.png"
       }
     }

@@ -7,6 +7,7 @@ from wtforms.validators import DataRequired
 class Users(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
   scn_ids = db.Column(db.String(30), nullable=True)
+  rtn_ids = db.Column(db.String(90), nullable=True)
   consented = db.Column(db.Boolean, nullable=True)
   date_added = db.Column(db.DateTime, default=datetime.utcnow())
   date_finished = db.Column(db.DateTime, nullable=True)
