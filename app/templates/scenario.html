@@ -15,9 +15,9 @@
   <br><br>
   <h4> Scenario {{ idx }} </h4>
   <div class="indented">
-    <p>At 11:30am, you starts Baking routine to cook food (....).
-    Now at 12:00pm, you feel hot and want to start Cooling routine (....).
-    How satisfied are you for following system outcomes?</p>
+    <p> {{ scn_description }} </p>
+    <br/>
+    <p> How satisfied are you for following system outcomes?</p>
     <br/>
     {% for oc in outcome %}
       <p> {{ oc['description'] }} </p>

@@ -2,7 +2,7 @@ import random
 
 from app import app, db
 from app.database import db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
-from app.models import Users, UUIDForm, RoutineTag
+from app.models import Users, RoutineTag, UUIDForm, EaseOfUseForm
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
 
@@ -181,12 +181,16 @@ def scenario(idx):
   return render_template('scenario.html',
                          idx=idx,
                          sid=sid,
+                         scn_description=scn_info['scn_description'],
                          outcome=sys_outcome,
                          total_scn=total_scn)
 
 @app.route('/ease-of-use', methods=['GET', 'POST'])
 def ease_of_use():
-  return render_template('easy_of_use.html')
+  form = EaseOfUseForm()
+  if form.validate_on_submit():
+    return render_template('finish.html', finished=1)
+  return render_template('easy_of_use.html', form=form)
 
 @app.route('/eou-submit', methods=['GET', 'POST'])
 def ease_of_use_submit():

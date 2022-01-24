@@ -1,7 +1,7 @@
 from app import db
 from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired
 
 class Users(db.Model):
@@ -14,10 +14,6 @@ class Users(db.Model):
 
   def __ref__(self):
     return 'ID %d has consented (%d) on %r'.format(self.uuid, self.consented, self.date_added)
-
-class UUIDForm(FlaskForm):
-  uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
-  submit = SubmitField('Submit')
 
 class RoutineTag(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
@@ -42,3 +38,18 @@ class CustomizedTag(db.Model):
 
   def __ref__(self):
     return 'New customized tag %s for user %d'.format(self.name, self.uuid)
+
+class UUIDForm(FlaskForm):
+  uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
+  submit = SubmitField('Submit')
+
+class EaseOfUseForm(FlaskForm):
+  choices = [(1, 'Satisfied'),
+             (2, 'Somewhat Satisfied'),
+             (3, 'Neutral'),
+             (4, 'Somewhat Unsatisfied'),
+             (5, 'Unsatisfied')]
+  q1 = RadioField('Q1 Description', choices=choices)
+  q2 = RadioField('Q2 Description', choices=choices)
+  submit = SubmitField('Submit')
+
