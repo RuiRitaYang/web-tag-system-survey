@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired
 
+
 class Users(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
   scn_ids = db.Column(db.String(30), nullable=True)
@@ -14,6 +15,7 @@ class Users(db.Model):
 
   def __ref__(self):
     return 'ID %d has consented (%d) on %r'.format(self.uuid, self.consented, self.date_added)
+
 
 class RoutineTag(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
@@ -31,6 +33,7 @@ class RoutineTag(db.Model):
   def __str__(self):
     return self.__ref__()
 
+
 class CustomizedTag(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(30), primary_key=True)
@@ -39,17 +42,34 @@ class CustomizedTag(db.Model):
   def __ref__(self):
     return 'New customized tag %s for user %d'.format(self.name, self.uuid)
 
+
+class EaseOfUseRecord(db.Model):
+  uuid = db.Column(db.Integer, primary_key=True)
+  qid = db.Column(db.Integer, primary_key=True)
+  score = db.Column(db.Integer)
+
+
 class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
   submit = SubmitField('Submit')
 
+
 class EaseOfUseForm(FlaskForm):
-  choices = [(1, 'Satisfied'),
-             (2, 'Somewhat Satisfied'),
-             (3, 'Neutral'),
-             (4, 'Somewhat Unsatisfied'),
-             (5, 'Unsatisfied')]
-  q1 = RadioField('Q1 Description', choices=choices)
-  q2 = RadioField('Q2 Description', choices=choices)
+  options = [(1, 'Strongly disagree'),
+             (2, 'Somewhat disagree'),
+             (3, 'Neither agree nor disagree'),
+             (4, 'Somewhat agree'),
+             (5, 'Strongly agree')]
+
+  q0 = RadioField('q0', choices=options)
+  q1 = RadioField('q1', choices=options)
+  q2 = RadioField('q2', choices=options)
+  q3 = RadioField('q3', choices=options)
+  q4 = RadioField('q4', choices=options)
+  q5 = RadioField('q5', choices=options)
+  q6 = RadioField('q6', choices=options)
+  q7 = RadioField('q7', choices=options)
+  q8 = RadioField('q8', choices=options)
+
   submit = SubmitField('Submit')
 

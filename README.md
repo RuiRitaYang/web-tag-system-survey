@@ -12,17 +12,27 @@ To install necessary messages:
 pip3 install flask flask-wtf Flask-Bootstrap4 
 pip3 install mysql-connector mysql-connector-python mysql-connector-python-rf
 pip3 install flask_sqlalchemy pymysql pyyaml cryptography 
+pip3 install pandas
 ```
 
 ## How to run
 Under the root folder
 ```commandline
-export FLASK_APP = app
-export FLASK_DEBUG = 1  # this is only for debugging
-flask run
+export FLASK_APP=app
+export FLASK_DEBUG=1  # this is only for debugging
 ```
 If FLASK_DEBUG is set as 1, backend debugging information will be shown
 in the command line.
+
+If you are using macOS or windows, run
+```commandline
+flask run
+```
+to start the local web application.
+If using Ubuntu, run
+```commandline
+python3 -m flask run
+```
 
 
 ## How to deploy the database locally

@@ -2,7 +2,7 @@ import random
 
 from app import app, db
 from app.database import db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
-from app.models import Users, RoutineTag, UUIDForm, EaseOfUseForm
+from app.models import Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
 
@@ -187,10 +187,39 @@ def scenario(idx):
 
 @app.route('/ease-of-use', methods=['GET', 'POST'])
 def ease_of_use():
+  descriptions = [
+    'I think that I would like to use this system frequently.',
+    'I found the system unnecessarily complex.',
+    'I thought the system was easy to use.',
+    'I think that I would need the support of a technical person to be able to use this system.',
+    'I found the various functions in this system were well integrated.',
+    'I thought there was too much inconsistency in this system.',
+    'I would imagine that most people would learn to use this system very quickly.',
+    'I found the system very cumbersome to use.',
+    'I felt very confident using the system.'
+  ]
+  num_q = len(descriptions)
   form = EaseOfUseForm()
-  if form.validate_on_submit():
-    return render_template('finish.html', finished=1)
-  return render_template('easy_of_use.html', form=form)
+  uuid = session['uuid']
+  q0 = EaseOfUseRecord.query((uuid, 0))
+  if not q0:
+    q0 = EaseOfUseRecord(uuid, 0, score=form.q0.data)
+    db.session.add(q0)
+  else:
+    q0.score = form.q0.data
+  db_commit(success_msg="Update q0 record successfully",
+            fail_msg="[ERROR] ease_of_use record udpate failed.")
+  # print('responses' + responses)
+  # if form.validate_on_submit():
+  #   responses = exec('[form.q + str(i) + .data for i in range(num_q)]')
+  #   print('responses' + responses)
+  #   # eou = EaseOfUseRecord.query.get((session['uuid'], ))
+  #   # if rtn_tags is None:
+  #   [exec('form.q' + str(i) + '.data = ""') for i in range(num_q)]
+  #   return render_template('finish.html', finished=1)
+  return render_template('easy_of_use.html',
+                         form=form,
+                         descriptions=descriptions)
 
 @app.route('/eou-submit', methods=['GET', 'POST'])
 def ease_of_use_submit():
