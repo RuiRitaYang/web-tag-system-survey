@@ -1,5 +1,5 @@
 from app import db
-from app.models import Users, RoutineTag, CustomizedTag
+from app.models import EaseOfUseRecord, Users, RoutineTag, CustomizedTag
 from app.utils import *
 import random
 
@@ -55,3 +55,18 @@ def get_tags_by_rtn_id(uuid, rtn_id):
         final_priority = priority
   return [rtn_sys_tag, cmd1_tag, cmd2_tag, final_priority]
 
+def commit_eou_record(uuid, responses):
+  for qid in responses:
+    modified = True
+    resp = EaseOfUseRecord.query.get((uuid, qid))
+    if not resp:
+      resp = EaseOfUseRecord(uuid=uuid, qid=qid, score=responses[qid])
+      db.session.add(resp)
+    else:
+      if resp.score == int(responses[qid]):
+        modified = False
+      else:
+        resp.score = responses[qid]
+    if modified:
+      db_commit(success_msg='Update q{0} record successfully'.format(qid),
+                fail_msg='[ERROR] ease_of_use record udpate failed.')

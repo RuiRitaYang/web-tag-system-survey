@@ -46,7 +46,7 @@ class CustomizedTag(db.Model):
 class EaseOfUseRecord(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
   qid = db.Column(db.Integer, primary_key=True)
-  score = db.Column(db.Integer)
+  score = db.Column(db.Integer, nullable=True)
 
 
 class UUIDForm(FlaskForm):
@@ -72,4 +72,3 @@ class EaseOfUseForm(FlaskForm):
   q8 = RadioField('q8', choices=options)
 
   submit = SubmitField('Submit')
-

@@ -1,7 +1,7 @@
 import random
 
 from app import app, db
-from app.database import db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
+from app.database import commit_eou_record, db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
 from app.models import Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
@@ -200,23 +200,16 @@ def ease_of_use():
   ]
   num_q = len(descriptions)
   form = EaseOfUseForm()
-  uuid = session['uuid']
-  q0 = EaseOfUseRecord.query((uuid, 0))
-  if not q0:
-    q0 = EaseOfUseRecord(uuid, 0, score=form.q0.data)
-    db.session.add(q0)
-  else:
-    q0.score = form.q0.data
-  db_commit(success_msg="Update q0 record successfully",
-            fail_msg="[ERROR] ease_of_use record udpate failed.")
-  # print('responses' + responses)
-  # if form.validate_on_submit():
-  #   responses = exec('[form.q + str(i) + .data for i in range(num_q)]')
-  #   print('responses' + responses)
-  #   # eou = EaseOfUseRecord.query.get((session['uuid'], ))
-  #   # if rtn_tags is None:
-  #   [exec('form.q' + str(i) + '.data = ""') for i in range(num_q)]
-  #   return render_template('finish.html', finished=1)
+
+  if form.validate_on_submit():
+    # Fetch ease-of-use responses
+    responses = {}
+    for i in range(num_q):
+      exec('responses[{0}] = form.q{0}.data'.format(i))
+    # commit to database
+    commit_eou_record(session['uuid'], responses)
+    return render_template('finish.html', finished=1)
+
   return render_template('easy_of_use.html',
                          form=form,
                          descriptions=descriptions)
