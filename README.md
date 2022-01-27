@@ -12,7 +12,7 @@ To install necessary messages:
 pip3 install flask flask-wtf Flask-Bootstrap4 
 pip3 install mysql-connector mysql-connector-python mysql-connector-python-rf
 pip3 install flask_sqlalchemy pymysql pyyaml cryptography 
-pip3 install pandas
+pip3 install pandas email_validator
 ```
 
 ## How to run
