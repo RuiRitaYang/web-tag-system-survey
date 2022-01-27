@@ -1,9 +1,11 @@
 import random
+from unicodedata import name
+import uuid
 
 from app import app, db
 from app.database import commit_eou_record, db_commit, get_email_and_itv, get_scn_ids_by_uuid, \
   get_rtn_ids_by_uuid, update_email, update_email_itv, update_itv
-from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
+from app.models import CustomizedTag, FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
 
@@ -69,12 +71,26 @@ def tag(idx):
     rtn_tags = RoutineTag(uuid=session['uuid'], rtn_id=rid)
     db.session().add(rtn_tags)
     db.session().commit()
+  # Custom tag saving --> make the new custom tags draggable content
+  if 'tagname' in request.args and 'priority' in request.args:
+    #take tagname and priority, save it to the database, and then add it to the general routine custom tags, customized_tag_all (to render template)
+    #in tagging.html, for loop over this customized_tag_all and create draggables for each of these tags. 
+    print('Tagname: ',request.args.get('tagname'))
+    print('priority: ',request.args.get('priority'))
+  all_cus_tag = CustomizedTag(uuid=session['uuid'], name = str(request.args.get('tagname'))) if 'tagname' in request.args and 'priority' in request.args else []
+  all_cus_tag_list = []
+  if 'tagname' in request.args and 'priority' in request.args:
+    if CustomizedTag.query.get((session['uuid'], str(request.args.get('tagname')))) is None:
+      db.session().add(all_cus_tag)
+      db.session().commit()
+    all_cus_tag_list = CustomizedTag.query.all()
   rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
   return render_template('tagging.html',
                          rtn_info=rtn_info_all[idx - 1],
                          idx=idx,
                          rid=rid,
                          rtn_sys_tag=rtn_tags.rtn_sys_tag,
+                         all_cus_tag=all_cus_tag_list,
                          rtn_cus_tags=rtn_cus_tags,
                          cmd1_tag=rtn_tags.cmd1_tag,
                          cmd2_tag=rtn_tags.cmd2_tag,

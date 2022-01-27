@@ -96,9 +96,19 @@
         <h4> Self-defined tags </h4>
         <div class="modules" id="modules-ct">
           <form>
+            <div class="modules" id="modules">
+              {% for all_cus_t in all_cus_tag%}
+                <p class="drag"><a class="btn btn-default">{{ all_cus_t.name }}</a></p>
+              {% endfor %}
+<!--     
+              {% for cus_tag in rtn_cus_tags %}
+                {{ cus_tag }}
+              {% endfor %} --> 
+            </div>
+            <br>
             <label for="tagname">Tag name:</label><br>
             <input type="text" id="tagname" name="tagname"><br>
-            <label for="priority">Priority (if needed):</label><br>
+            <label for="priority">Priority (Optional):</label><br>
             <input type="text" id="priority" name="priority">
             <br><br>
             <button onclick="addNewTag(document.getElementById('tagname').value, document.getElementById('priority').value)">Add new Tag</button>
