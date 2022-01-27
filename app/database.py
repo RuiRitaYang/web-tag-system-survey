@@ -70,3 +70,25 @@ def commit_eou_record(uuid, responses):
     if modified:
       db_commit(success_msg='Update q{0} record successfully'.format(qid),
                 fail_msg='[ERROR] ease_of_use record udpate failed.')
+
+def get_email(uuid):
+  user = Users.query.get(uuid)
+  if not user:
+    print('[ERROR] Invalid uuid that is acquiring email.')
+    return ''
+  return user.email
+
+def get_email_and_itv(uuid):
+  user = Users.query.get(uuid)
+  if not user:
+    print('[ERROR] Invalid uuid that is acquiring email.')
+    return ''
+  return user.email, user.interview
+
+def update_email(uuid, email):
+  user = Users.query.get(uuid)
+  if not user:
+    print('[ERROR] Invalid uuid that is acquiring email.')
+  user.email = email
+  db_commit(success_msg='Update uuid {} email {} correctly'.format(uuid, email),
+            fail_msg='[ERROR] failed to update email')

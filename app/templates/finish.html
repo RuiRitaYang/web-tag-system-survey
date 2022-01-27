@@ -4,52 +4,53 @@
 {% block content %}
 <div class="container">
   You are done with the study. Thank you!
-  {% if finished >= 1 %}
+  {% if finished == 3 %}
   <p>
-    Thanks for attending for our study!
-    We'll send you the Amazon eGift card number to your email.
+    We'll send you the Amazon eGift card number to your email
+    <strong>{{ email }}</strong>.
   </p>
   {% endif %}
-  {% if finished == 1 %}
-  <form action="/finish-submit" method="POST">
-    <p> Please confirm this is your email address: XXX@XXX.com</p>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="email"
-             id="email-yes" value="y">
-      <label class="form-check-label" for="email-yes">
-          Yes
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="email"
-             id="email-no" value="n">
-      <label class="form-check-label" for="email-no">
-          No
-      </label>
-    </div>
-    <br/>
+  {% if finished < 3 and finished > 0 %}
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <p> Thanks for attending the study! </p>
     <p>
       Will you be interested in attending a paid interview online for
-      more feedback?
+      more feedback? <br/>
+      It will be around 20 minutes with $10 Amazon gift card as compensation.
     </p>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="interview"
-             id="interview-yes" value="y">
-      <label class="form-check-label" for="interview-yes">
-          Yes
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="interview"
-             id="interview-no" value="n">
-      <label class="form-check-label" for="interview-no">
-          No
-      </label>
-    </div>
+    <table>
+      {% for subfield in form.interview %}
+      <tr>
+        <td>{{ subfield }} &nbsp&nbsp </td>
+        <td>{{ subfield.label }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
     <br/>
-    <input type="submit">
+    {% if email is not none and finished == 1 %}
+    <p>
+      Please confirm <strong>{{ email }}</strong> is your email address
+      to receive eGift card number.
+    </p>
+      <table>
+        {% for subfield in form.email_confirm %}
+        <tr>
+            <td>{{ subfield }} &nbsp&nbsp</td>
+            <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      If no, please specify: {{ form.email }}
+    {% endif %}
+    {% if email is none or finished == 2 %}
+      <p> What's your email? </p>
+      {{ form.email }}
+    {% endif %}
+    <br/><br/>
+    {{ form.submit(class="btn btn-outline-primary") }}
   </form>
   {% endif %}
-  <!--    TODO(maybe): add button to close the webpage . -->
 </div>
 {% endblock %}

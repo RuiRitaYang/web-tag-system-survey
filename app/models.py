@@ -1,8 +1,9 @@
 from app import db
 from datetime import datetime
+import email_validator
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, RadioField
-from wtforms.validators import DataRequired
+from wtforms import EmailField, StringField, SubmitField, RadioField
+from wtforms.validators import DataRequired, Email, Optional
 
 
 class Users(db.Model):
@@ -10,6 +11,8 @@ class Users(db.Model):
   scn_ids = db.Column(db.String(30), nullable=True)
   rtn_ids = db.Column(db.String(90), nullable=True)
   consented = db.Column(db.Boolean, nullable=True)
+  email = db.Column(db.String(50), nullable=True)
+  interview = db.Column(db.Boolean(), nullable=True)
   date_added = db.Column(db.DateTime, default=datetime.utcnow())
   date_finished = db.Column(db.DateTime, nullable=True)
 
@@ -70,5 +73,19 @@ class EaseOfUseForm(FlaskForm):
   q6 = RadioField('q6', choices=options)
   q7 = RadioField('q7', choices=options)
   q8 = RadioField('q8', choices=options)
+  submit = SubmitField('Submit')
 
+
+class FinishForm(FlaskForm):
+  email_confirm = RadioField(
+    'conf_email',
+    choices=[(1, 'Yes'), (0, 'No')],
+    validators=[Optional()]
+  )
+  email = EmailField(
+    'email',
+    validators=[Optional(), Email(granular_message=True)])
+  interview = RadioField('interview',
+                         choices=[(1, 'Yes'), (0, 'No')],
+                         validators=[DataRequired()])
   submit = SubmitField('Submit')

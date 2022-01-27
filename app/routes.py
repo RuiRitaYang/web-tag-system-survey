@@ -1,8 +1,9 @@
 import random
 
 from app import app, db
-from app.database import commit_eou_record, db_commit, get_scn_ids_by_uuid, get_rtn_ids_by_uuid
-from app.models import Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
+from app.database import commit_eou_record, db_commit, get_email_and_itv, get_scn_ids_by_uuid, \
+  get_rtn_ids_by_uuid, update_email
+from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
 
@@ -208,19 +209,30 @@ def ease_of_use():
       exec('responses[{0}] = form.q{0}.data'.format(i))
     # commit to database
     commit_eou_record(session['uuid'], responses)
-    return render_template('finish.html', finished=1)
+    return redirect(url_for('finish', status=1))
 
   return render_template('easy_of_use.html',
                          form=form,
                          descriptions=descriptions)
 
-@app.route('/eou-submit', methods=['GET', 'POST'])
-def ease_of_use_submit():
-  return render_template('finish.html', finished=1)
+@app.route('/finish/<int:status>', methods=['GET', 'POST'])
+def finish(status):
+  form = FinishForm()
+  email, itv = get_email_and_itv(session['uuid']) if status >= 1 else [None, None]
 
-@app.route('/finish-submit', methods=['GET', 'POST'])
-def finish_submit():
-  if request.method == 'POST':
-    email = request.form.get('email')
-    interview = request.form.get('interview')
-    return render_template('finish.html', finished=2)
+  if form.validate_on_submit():
+    e_confirm = form.email_confirm.data if email is not None else 0
+    if int(e_confirm):
+      print('confirmed!')
+      return render_template('finish.html', finished=3, email=email)
+    if not int(e_confirm) and form.email.data:
+      print('not confirmed! but with new email: ', form.email.data)
+      email = form.email.data
+      form.email.data = ''
+      update_email(session['uuid'], email)
+      return render_template('finish.html', finished=3, email=email)
+    if not int(e_confirm) and not form.email.data:
+      return render_template('finish.html', finished=2)
+  print('Not valid yet')
+  return render_template('finish.html', finished=status,
+                         email=email, form=form)
