@@ -82,7 +82,9 @@ hr {
 }
 
 .dropzone {
-  padding: 20px;
+  padding: 5px;
+  padding-top: 6px;
+  padding-left: 20px;
   background: #eee;
   margin-bottom: 20px;
   z-index: 0;
@@ -109,8 +111,11 @@ hr {
 
 .drop-item .remove {
   position: absolute;
-  top: 4px;
   right: 4px;
+}
+
+.drag {
+  margin-bottom: 0px;
 }
 
 .indented {
@@ -124,5 +129,9 @@ hr {
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
+}
 
+.tag-remove{
+    padding: 0px;
+    margin-right: 20px;
 }

@@ -34,3 +34,8 @@ def get_rtn_ids_by_scn_ids(scn_ids):
   for scn_info in scn_info_all:
     rtn_ids.update(scn_info['rtn_ids'])
   return list(rtn_ids)
+
+def remove_cus_tag_in_string(all_tags:str, d_tag):
+  all_tags = all_tags.split(',')
+  all_tags.remove(d_tag)
+  return ','.join(all_tags)

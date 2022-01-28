@@ -2,7 +2,7 @@ from app import db
 from datetime import datetime
 import email_validator
 from flask_wtf import FlaskForm
-from wtforms import EmailField, StringField, SubmitField, RadioField
+from wtforms import EmailField, IntegerField, StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired, Email, Optional
 
 

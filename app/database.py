@@ -117,3 +117,34 @@ def update_email_itv(uuid, email, itv):
     fail_msg='[ERROR] failed to update email and interview interest.'
   )
 
+def update_customized_tag(uuid, tag_name, priority=5):
+  cus_tag = CustomizedTag.query.get((uuid, tag_name))
+  print('try to udpate ============')
+  modified = True
+  if not cus_tag:
+    cus_tag = CustomizedTag(uuid=uuid, name=tag_name, priority=priority)
+    db.session().add(cus_tag)
+  elif cus_tag.priority == priority:
+    modified = False
+  else:
+    cus_tag.priority = priority
+
+  if modified:
+    db_commit(
+      success_msg='Update user {} customized tag {} with ' +
+                  'priority {}'.format(uuid, tag_name, priority),
+      fail_msg='[ERROR] failed to update customized tag info!'
+    )
+
+def delete_customized_tag(uuid, tag_name):
+  cus_tag = CustomizedTag.query.get_or_404((uuid, tag_name))
+  db.session.delete(cus_tag)
+  db_commit(
+    success_msg='Deleted user {} customized tag {}'.format(
+      uuid, tag_name),
+    fail_msg='[ERROR] failed to delete customized tag'
+  )
+
+def get_all_customized_tag(uuid):
+  all_tags = CustomizedTag.query.filter_by(uuid=uuid).all()
+  return all_tags

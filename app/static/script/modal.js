@@ -28,13 +28,6 @@ $(document).ready(function() {
             }
         });
       }
-    }).sortable({
-      items: '.drop-item',
-      sort: function() {
-        // gets added unintentionally by droppable interacting with sortable
-        // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-        $(this).removeClass( "active" );
-      }
     });
 
     $('#dropzone-cmd1').droppable({
@@ -60,13 +53,6 @@ $(document).ready(function() {
                 console.log('Error');
             }
         });
-      }
-    }).sortable({
-      items: '.drop-item',
-      sort: function() {
-        // gets added unintentionally by droppable interacting with sortable
-        // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-        $(this).removeClass( "active" );
       }
     });
 
@@ -94,12 +80,70 @@ $(document).ready(function() {
             }
         });
       }
-    }).sortable({
-      items: '.drop-item',
-      sort: function() {
-        // gets added unintentionally by droppable interacting with sortable
-        // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-        $(this).removeClass( "active" );
+    });
+
+    // For customized tags
+    $('#task-modal').on('show.bs.modal', function (event) {
+      const button = $(event.relatedTarget) // Button that triggered the modal
+      const taskID = button.data('source') // Extract info from data-* attributes
+      const priority = button.data('priority') // Extract info from data-* attributes
+
+      const modal = $(this)
+      if (taskID === 'New Tag') {
+          modal.find('.modal-title').text('Add New Tag')
+          $('#task-form-display').removeAttr('taskID')
+      } else {
+          modal.find('.modal-title').text('Edit Task ' + taskID)
+          modal.find('.data-tag-name').val(taskID);
+          $('#task-form-display').attr('taskID', taskID)
       }
+
+      if (priority) {
+          modal.find('.tag-priority').val(priority);
+      } else {
+          modal.find('.tag-priority').val('');
+      }
+    });
+
+
+    $('#submit-task').click(function () {
+        const tID = $('#task-form-display').attr('taskID');
+        var rid = $("#dropzone-rtn").data("rid")
+        $.ajax({
+            type: 'POST',
+            url: tID ? '/edit-tag' : '/create-tag',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                'tag_name': $('#task-modal').find('.data-tag-name').val(),
+                'priority': $('#task-modal').find('.tag-priority').val(),
+                'rid': rid
+            }),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
+    });
+
+    $('.cus-tag-remove').click(function () {
+        const remove = $(this)
+        $.ajax({
+            type: 'POST',
+            url: '/delete-tag',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                'tag_name': remove.data('source')
+            }),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
     });
 });

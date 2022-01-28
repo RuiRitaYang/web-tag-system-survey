@@ -3,8 +3,9 @@ from unicodedata import name
 import uuid
 
 from app import app, db
-from app.database import commit_eou_record, db_commit, get_email_and_itv, get_scn_ids_by_uuid, \
-  get_rtn_ids_by_uuid, update_email, update_email_itv, update_itv
+from app.database import commit_eou_record, db_commit, delete_customized_tag, get_all_customized_tag, get_email_and_itv, \
+  get_scn_ids_by_uuid, \
+  get_rtn_ids_by_uuid, update_customized_tag, update_email, update_email_itv, update_itv
 from app.models import CustomizedTag, FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
@@ -71,19 +72,8 @@ def tag(idx):
     rtn_tags = RoutineTag(uuid=session['uuid'], rtn_id=rid)
     db.session().add(rtn_tags)
     db.session().commit()
-  # Custom tag saving --> make the new custom tags draggable content
-  if 'tagname' in request.args and 'priority' in request.args:
-    #take tagname and priority, save it to the database, and then add it to the general routine custom tags, customized_tag_all (to render template)
-    #in tagging.html, for loop over this customized_tag_all and create draggables for each of these tags. 
-    print('Tagname: ',request.args.get('tagname'))
-    print('priority: ',request.args.get('priority'))
-  all_cus_tag = CustomizedTag(uuid=session['uuid'], name = str(request.args.get('tagname'))) if 'tagname' in request.args and 'priority' in request.args else []
-  all_cus_tag_list = []
-  if 'tagname' in request.args and 'priority' in request.args:
-    if CustomizedTag.query.get((session['uuid'], str(request.args.get('tagname')))) is None:
-      db.session().add(all_cus_tag)
-      db.session().commit()
-    all_cus_tag_list = CustomizedTag.query.all()
+
+  all_cus_tag_list = get_all_customized_tag(session['uuid'])
   rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
   return render_template('tagging.html',
                          rtn_info=rtn_info_all[idx - 1],
@@ -95,6 +85,31 @@ def tag(idx):
                          cmd1_tag=rtn_tags.cmd1_tag,
                          cmd2_tag=rtn_tags.cmd2_tag,
                          total_rtn=total_rtn)
+
+@app.route('/create-tag', methods=['GET', 'POST'])
+def create_cus_tag():
+  data = request.get_json()
+  tag_name, priority = data['tag_name'], data['priority']
+  update_customized_tag(session['uuid'], tag_name, priority)
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
+
+@app.route('/edit-tag', methods=['GET', 'POST'])
+def edit_cus_tag():
+  data = request.get_json()
+  tag_name, priority = data['tag_name'], data['priority']
+  update_customized_tag(session['uuid'], tag_name, priority)
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
+
+@app.route('/delete-tag', methods=['GET', 'POST'])
+def delete_cus_tag():
+  data = request.get_json()
+  tag_name = data['tag_name']
+  delete_customized_tag(session['uuid'], tag_name)
+  result = {'success': True, 'response': 'Done'}
+  return jsonify(result)
+
 
 @app.route('/update-sys-tag', methods=['GET', 'POST'])
 def update_sys_tag():
@@ -128,6 +143,8 @@ def update_cmd1_tag():
       rtn_tags.rtn_sys_tag = rtn_tags.cmd1_tag
     else:
       rtn_tags.rtn_sys_tag = ''
+  else:
+    flash("Customized tag can only be put for routine!")
   db_commit(success_msg="Update CMD1 system tag successfully",
             fail_msg="[ERROR] CMD1 sys tag update failed")
   result = {'success': True, 'response': 'Done'}
@@ -144,6 +161,9 @@ def update_cmd2_tag():
       rtn_tags.rtn_sys_tag = rtn_tags.cmd2_tag
     else:
       rtn_tags.rtn_sys_tag = ''
+  else:
+    flash("Customized tag can only be put for routine!")
+
   db_commit(success_msg="Update CMD2 system tag successfully",
             fail_msg="[ERROR] CMD2 sys tag update failed")
   result = {'success': True, 'response': 'Done'}
@@ -155,6 +175,16 @@ def remove_rtn_sys_tag(rid, idx):
   rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="RTN {0} system tag removed".format(rid),
             fail_msg="[ERROR] RTN sys tag remove failed")
+  return redirect(url_for('tag', idx=idx))
+
+@app.route('/remove-cus-tag/<int:rid>/<int:idx>/<string:tag_name>',
+           methods=['GET', 'POST'])
+def remove_cus_tag(rid, idx, tag_name):
+  rtn_tags = RoutineTag.query.get((session['uuid'], rid))
+  rtn_tags.rtn_cus_tags = remove_cus_tag_in_string(
+    rtn_tags.rtn_cus_tags, tag_name)
+  db_commit(success_msg="RTN {0} cus tag {1} removed".format(rid, tag),
+            fail_msg="[ERROR] RTN customized tag remove failed")
   return redirect(url_for('tag', idx=idx))
 
 @app.route('/remove-cmd1-tag/<int:rid>/<int:idx>', methods=['GET', 'POST'])
