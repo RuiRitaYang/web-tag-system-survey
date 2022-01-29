@@ -61,3 +61,7 @@ def remove_cus_tag_in_string(all_tags:str, d_tag):
   all_tags = all_tags.split(',')
   all_tags.remove(d_tag)
   return ','.join(all_tags)
+
+def get_image_full_path(filename, folder='img'):
+  site_root = os.path.realpath(os.path.dirname(__file__))
+  return os.path.join(site_root, "static", folder, filename)

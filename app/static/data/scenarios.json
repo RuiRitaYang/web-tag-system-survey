@@ -8,9 +8,27 @@
     "system_outcomes": [
       {
         "outcome_id": 1,
-        "strategy": ["TC", "DL", "EX"],
-        "description": "At 12pm, ClOSE the window and",
-        "photo": "img/test.png"
+        "strategy": ["TC", "EX", "OW"],
+        "description": "The door is UNLOCKED at 2am and remains UNLOCKED way all night. The foyer light is turned ON at 2am.\n",
+        "photo": "Q77.png"
+      },
+      {
+        "outcome_id": 2,
+        "strategy": ["DL"],
+        "description": "The door stays LOCKED at 2am and is UNLOCKED at 6am. The foyer light turns ON at 6am.\n",
+        "photo": "Q78.png"
+      },
+      {
+        "outcome_id": 3,
+        "strategy": ["PZ", "RZ"],
+        "description": "The door is UNLOCKED at 2am and remains UNLOCKED way all night. The foyer light is turned ON at 2am.\n",
+        "photo": "Q79.png"
+      },
+      {
+        "outcome_id": 4,
+        "strategy": ["IN"],
+        "description": "The door stays LOCKED at 2am. The foyer light is turned ON at 2am. The door is UNLOCKED at 6am. \n",
+        "photo": "Q81.png"
       }
     ]
   },

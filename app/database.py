@@ -39,9 +39,9 @@ def get_rtn_ids_by_uuid(uuid):
 
 def get_tags_by_rtn_id(uuid, rtn_id):
   tags = RoutineTag.query.get_or_404((uuid, rtn_id))
-  rtn_sys_tag = tags.rtn_sys_tag
-  cmd1_tag = tags.cmd1_tag  # CMD1-specific tag
-  cmd2_tag = tags.cmd2_tag  # CMD2-specific tag
+  rtn_sys_tag = tags.rtn_sys_tag or ''
+  cmd1_tag = tags.cmd1_tag or ''  # CMD1-specific tag
+  cmd2_tag = tags.cmd2_tag or ''  # CMD2-specific tag
   rtn_cus_tags = tags.rtn_cus_tags
   if rtn_cus_tags:
     rtn_cus_tags = rtn_cus_tags.split(',')

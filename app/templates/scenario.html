@@ -22,6 +22,7 @@
     {% for oc in outcome %}
       <p> {{ oc['description'] }} </p>
       <p> Photo link: {{ oc['photo'] }}</p>
+      <img src="{{ oc['photo'] }}" alt="Image">
       <br/><br/>
     {% endfor %}
   </div>
