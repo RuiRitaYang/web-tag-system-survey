@@ -1,8 +1,9 @@
 [
   {
     "scn_id": 1,
-    "scn_name": "Baking then cool home",
-    "scn_description": "At 11:30am, you started baking a smelly food and called Baking routine, which .....",
+    "internal_id": "5",
+    "scn_name": "Late night back home",
+    "scn_description": "Every night after 10 pm, your \"night safety\" routine runs. This routine locks the door until the next morning at 6 am. The door is unlocked at 6am.\n\nHowever, at 2 am, you're back from a night out with your friends, and you start the \"back home\" routine. This routine unlocks the door and turns on the foyer light. \n\nNow at 2 am when you start the \"back home\" routine",
     "rtn_ids": [1, 2],
     "system_outcomes": [
       {

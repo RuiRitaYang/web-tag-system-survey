@@ -49,7 +49,9 @@ def consented():
 
 @app.route('/tag/<int:idx>', methods=['GET', 'POST'])
 def tag(idx):
+  # Get all long routines for the specific user.
   rtn_ids = get_rtn_ids_by_uuid(session['uuid'])
+  rtn_ids, rtn_info = get_long_rtn_info(rtn_ids)
   total_rtn = len(rtn_ids)
   print("Current idx: " + str(idx) + " Total rtn: ", total_rtn)
   if idx < 1 or idx > total_rtn:
@@ -64,8 +66,6 @@ def tag(idx):
       return redirect(url_for('scenario', idx=0))
 
   # Start to show the page.
-  scenarios, routines = get_all_scenarios_routines()
-  rtn_info_all = [rtn for rtn in routines if rtn["rtn_id"] in rtn_ids]
   rid = rtn_ids[idx - 1]
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if rtn_tags is None:
@@ -76,7 +76,7 @@ def tag(idx):
   all_cus_tag_list = get_all_customized_tag(session['uuid'])
   rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
   return render_template('tagging.html',
-                         rtn_info=rtn_info_all[idx - 1],
+                         rtn_info=rtn_info[rid],
                          idx=idx,
                          rid=rid,
                          rtn_sys_tag=rtn_tags.rtn_sys_tag,

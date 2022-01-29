@@ -9,6 +9,28 @@ def get_all_scenarios_routines():
   routines = json.load(open(rtn_url))
   return scenarios, routines
 
+def get_all_routines():
+  site_root = os.path.realpath(os.path.dirname(__file__))
+  rtn_url = os.path.join(site_root, "static/data", "routines.json")
+  routines = json.load(open(rtn_url))
+  return routines
+
+def get_routine_metadata():
+  site_root = os.path.realpath(os.path.dirname(__file__))
+  rtn_url = os.path.join(site_root, "static/data", "routine_metadata.json")
+  return json.load(open(rtn_url))
+
+# Return the routine information for all long routines in rtn_ids
+def get_long_rtn_info(rtn_ids):
+  routines = get_all_routines()
+  long_rtn_ids = get_routine_metadata()['long_rtn_ids']
+  long_ids = [rid for rid in rtn_ids if rid in long_rtn_ids]
+  long_rtns = {}
+  for rtn in routines:
+    if rtn['rtn_id'] in long_ids:
+      long_rtns[rtn['rtn_id']] = rtn
+  return long_ids, long_rtns
+
 def get_scenario_by_id(sid):
   site_root = os.path.realpath(os.path.dirname(__file__))
   scn_url = os.path.join(site_root, "static/data", "scenarios.json")

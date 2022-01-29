@@ -1,17 +1,19 @@
 [
   {
     "rtn_id": 1,
-    "rtn_name": "Baking",
-    "rtn_description": "Routine for baking smelly foods.",
-    "cmd1": "Turn ON oven for 1 hour.",
-    "cmd2": "OPEN window for 1 hour."
+    "rtn_name": "Night Safety",
+    "type": "long",
+    "rtn_description": "routine that intends to lock the door for the whole night.",
+    "cmd1": "LOCK the door for 8 hours.",
+    "cmd2": ""
   },
   {
     "rtn_id": 2,
-    "rtn_name": "Cooling",
-    "rtn_description": "Routine for cooling home down.",
-    "cmd1": "Turn ON air conditioner for 1 hour.",
-    "cmd2": "CLOSE window."
+    "rtn_name": "Back Home",
+    "type": "short",
+    "rtn_description": "routine that welcomes people home.",
+    "cmd1": "UNLOCK the door.",
+    "cmd2": "Turn ON foyer light."
   },
   {
     "rtn_id": 3,

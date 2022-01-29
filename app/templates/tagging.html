@@ -58,43 +58,47 @@
       <!-- ----------------------------- -->
       <!-- System tag for Command 1 only -->
       <!-- ----------------------------- -->
-      <div class="row">
-        <div class="col-md-auto">
-          <b>Command 1</b>: {{ rtn_info["cmd1"] }}
+      {% if rtn_info["cmd1"] %}
+        <div class="row">
+          <div class="col-md-auto">
+            <b>Command 1</b>: {{ rtn_info["cmd1"] }}
+          </div>
+          <div class="dropzone col" id="dropzone-cmd1">
+            {% if cmd1_tag %}
+              {{ cmd1_tag }}
+              <button type="button" class="btn btn-default btn-xs remove tag-remove"
+                      onclick="window.location.href=
+                      '{{ url_for('remove_cmd1_tag', rid=rid, idx=idx) }}';">
+                X
+              </button>
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </div>
         </div>
-        <div class="dropzone col" id="dropzone-cmd1">
-          {% if cmd1_tag %}
-            {{ cmd1_tag }}
-            <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                    onclick="window.location.href=
-                    '{{ url_for('remove_cmd1_tag', rid=rid, idx=idx) }}';">
-              X
-            </button>
-          {% else %}
-            &nbsp;
-          {% endif %}
-        </div>
-      </div>
+      {% endif %}
       <!-- ----------------------------- -->
       <!-- System tag for Command 2 only -->
       <!-- ----------------------------- -->
-      <div class="row">
-        <div class="col-md-auto">
-          <b>Command 2</b>: {{ rtn_info["cmd2"] }}
+      {% if rtn_info["cmd2"] %}
+        <div class="row">
+          <div class="col-md-auto">
+            <b>Command 2</b>: {{ rtn_info["cmd2"] }}
+          </div>
+          <div class="dropzone col" id="dropzone-cmd2">
+            {% if cmd2_tag %}
+              {{ cmd2_tag }}
+              <button type="button" class="btn btn-default btn-xs remove tag-remove"
+                      onclick="window.location.href=
+                      '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
+                X
+              </button>
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </div>
         </div>
-        <div class="dropzone col" id="dropzone-cmd2">
-          {% if cmd2_tag %}
-            {{ cmd2_tag }}
-            <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                    onclick="window.location.href=
-                    '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
-              X
-            </button>
-          {% else %}
-            &nbsp;
-          {% endif %}
-        </div>
-      </div>
+      {% endif %}
       <!--   Browsing among different routines   -->
       <form action="{{ url_for('tag', idx=idx )}}" method="POST">
         {% if idx > 1 %}
