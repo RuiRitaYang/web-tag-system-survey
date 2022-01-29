@@ -14,21 +14,49 @@
 
   <br><br>
   <h4> Scenario {{ idx }} </h4>
-  <div class="indented">
-    <p> {{ scn_description }} </p>
-    <br/>
-    <p> How satisfied are you for following system outcomes?</p>
-    <br/>
-    {% for oc in outcome %}
-      <p> {{ oc['description'] }} </p>
-      <img src="{{ url_for('static', filename=oc['photo']) }}"
+  <form action="{{ url_for('scenario', idx=idx )}}" method="POST">
+    <div class="indented">
+      <p> {{ scn_description }} </p>
+      <br/>
+      <p> How satisfied are you for following system outcomes?</p>
+      <br/>
+      <!--------------------->
+      <!--  First outcome  -->
+      <!--------------------->
+      <p> {{ outcome[0]['description'] }} </p>
+      <img src="{{ url_for('static', filename=outcome[0]['photo']) }}"
         width="750px"/>
+      <table>
+        {% for subfield in oc_form.oc1 %}
+        <tr>
+          <td>{{ subfield }} &nbsp&nbsp</td>
+          <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
       <br/><br/>
-    {% endfor %}
-  </div>
+      <!---------------------->
+      <!--  Second outcome  -->
+      <!---------------------->
+      {% if outcome|length > 1 %}
+        <p> {{ outcome[1]['description'] }} </p>
+        <img src="{{ url_for('static', filename=outcome[1]['photo']) }}"
+          width="750px"/>
+        <table>
+          {% for subfield in oc_form.oc2 %}
+          <tr>
+            <td>{{ subfield }} &nbsp&nbsp</td>
+            <td>{{ subfield.label }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        <br/><br/>
+      {% endif %}
+
+    </div>
 
   <!--   Browsing among different routines   -->
-  <form action="{{ url_for('scenario', idx=idx )}}" method="POST">
     {% if idx > 1 %}
       <input class="btn btn-outline-secondary"
              type="submit" name="scn-page-action" value="Previous">

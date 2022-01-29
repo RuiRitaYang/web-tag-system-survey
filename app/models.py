@@ -89,3 +89,28 @@ class FinishForm(FlaskForm):
                          choices=[(1, 'Yes'), (0, 'No')],
                          validators=[DataRequired()])
   submit = SubmitField('Submit')
+
+class OutcomeForm(FlaskForm):
+  oc1 = RadioField(
+    'satisfaction',
+    choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
+             (3, 'Neutral'), (4, 'Slightly Satisfied'),
+             (5, 'Satisfied')],
+    validators=[DataRequired()]
+  )
+  oc2 = RadioField(
+    'satisfaction',
+    choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
+             (3, 'Neutral'), (4, 'Slightly Satisfied'),
+             (5, 'Satisfied')],
+    validators=[DataRequired()]
+  )
+
+# class OutcomeForm(FlaskForm):
+#   satisfaction = RadioField(
+#     'satisfaction',
+#     choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
+#              (3, 'Neutral'), (4, 'Slightly Satisfied'),
+#              (5, 'Satisfied')],
+#     validator=[DataRequired()]
+#   )

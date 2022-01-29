@@ -6,7 +6,8 @@ from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, get_all_customized_tag, get_email_and_itv, \
   get_scn_ids_by_uuid, \
   get_rtn_ids_by_uuid, update_customized_tag, update_email, update_email_itv, update_itv
-from app.models import CustomizedTag, FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, EaseOfUseRecord
+from app.models import CustomizedTag, FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, \
+  EaseOfUseRecord, OutcomeForm
 from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
 from app.utils import *
 
@@ -211,6 +212,7 @@ def scenario(idx):
     return redirect(url_for('scenario', idx=1))
   if request.method == 'POST' and 'scn-page-action' in request.form:
     action = request.form['scn-page-action']
+
     if action == 'Previous':
       return redirect(url_for('scenario', idx=idx-1))
     elif action == 'Next':
@@ -224,13 +226,15 @@ def scenario(idx):
   ex_outcome = get_outcome_info_by_stt(scn_info, 'EX')
   if sys_outcome[0]['outcome_id'] != ex_outcome['outcome_id']:
     sys_outcome.append(ex_outcome)
+  oc_form = OutcomeForm()
 
   return render_template('scenario.html',
                          idx=idx,
                          sid=sid,
                          scn_description=scn_info['scn_description'],
                          outcome=sys_outcome,
-                         total_scn=total_scn)
+                         total_scn=total_scn,
+                         oc_form=oc_form)
 
 @app.route('/ease-of-use', methods=['GET', 'POST'])
 def ease_of_use():
