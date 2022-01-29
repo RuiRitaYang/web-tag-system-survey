@@ -39,7 +39,7 @@ def get_outcome_info_by_stt(scn_info, stt):
   for oc in scn_info['system_outcomes']:
     if stt in oc['strategy']:
       # Set complete address of image
-      oc['photo'] = get_image_full_path(oc['photo'])
+      # oc['photo'] = get_image_full_path(oc['photo'])
       return oc
   return {'outcome_id': 100,
           'strategy': ['TESTING'],

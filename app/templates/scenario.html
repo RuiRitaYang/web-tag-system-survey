@@ -21,8 +21,8 @@
     <br/>
     {% for oc in outcome %}
       <p> {{ oc['description'] }} </p>
-      <p> Photo link: {{ oc['photo'] }}</p>
-      <img src="{{ oc['photo'] }}" alt="Image">
+      <img src="{{ url_for('static', filename=oc['photo']) }}"
+        width="750px"/>
       <br/><br/>
     {% endfor %}
   </div>
