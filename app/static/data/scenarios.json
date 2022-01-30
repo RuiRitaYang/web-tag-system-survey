@@ -81,27 +81,27 @@
         "outcome_id": 1,
         "strategy": ["TC", "EX", "OW", "PZ"],
         "description": "At 10 AM, the smart speaker plays the news, and remains UNMUTED after.\n",
-        "photo": "img/test.png"
+        "photo": "img/3_TC.png"
       }, {
         "outcome_id": 2,
         "strategy": ["DL"],
         "description": "At 10am, the speaker stays MUTED. At 10:50 AM, the smart speaker UNMUTES and plays the news until 10:55am.\n",
-        "photo": "img/test.png"
+        "photo": "img/3_DL.png"
       }, {
         "outcome_id": 3,
         "strategy": ["CC", "IN"],
         "description": "At 10am, the smart speaker stays MUTED.\n",
-        "photo": "img/test.png"
+        "photo": "img/3_RV.png"
       }, {
         "outcome_id": 4,
         "strategy": ["RV"],
         "description": "At 10am, the smart speaker is UNMUTED and plays the news and the lights are turned OFF. At 10:05 am, the lights are turned ON, and the speakers are MUTED until 10:55 AM.\n",
-        "photo": "img/test.png"
+        "photo": "img/3_RV.png"
       }, {
         "outcome_id": 5,
         "strategy": ["RZ", "PZ"],
         "description": "At 10 am, the smart speakers are UNMUTED, and the speaker plays the news. At 10:05 am, the speakers are MUTED until 10:50 AM.",
-        "photo": "img/test.png"
+        "photo": "img/3_RZ.png"
       }
     ]
   },
@@ -115,27 +115,27 @@
         "outcome_id": 1,
         "strategy": ["TC", "PZ", "OW"],
         "description": "At 8am, the garage door stays OPEN and the trash can moves OUT. The garage door is CLOSED at 8:05 am.\n",
-        "photo": "img/test.png"
+        "photo": "img/4_TC.png"
       }, {
         "outcome_id": 2,
         "strategy": ["DL"],
         "description": "The garage door is CLOSED at 8:02 am. Then, the garage door is OPENED, the trash can moves OUT, and the garage door is CLOSED at 8:07 am.\n",
-        "photo": "img/test.png"
+        "photo": "img/4_DL.png"
       }, {
         "outcome_id": 3,
         "strategy": ["CC"],
         "description": "The garage door is CLOSED at 8:02 am. The trash can will NOT move out.\n",
-        "photo": "img/test.png"
+        "photo": "img/4_CC.png"
       }, {
         "outcome_id": 4,
         "strategy": ["RV"],
         "description": "The garage door is CLOSED, and then OPENED at 8:00am. The trash can moves OUT. Garage door is CLOSED and then OPENED at 8:05am. The garage door is CLOSED at 8:15am.\n",
-        "photo": "img/test.png"
+        "photo": "img/4_RV.png"
       }, {
         "outcome_id": 1,
         "strategy": ["EX", "IN"],
         "description": "The garage door stays OPEN, and the trash can starts moving OUT. The garage door is CLOSED at 8:02am and the trash can is locked in garage.",
-        "photo": "img/test.png"
+        "photo": "img/4_EX.png"
       }
     ]
   }
