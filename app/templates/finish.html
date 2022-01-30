@@ -6,18 +6,18 @@
   You are done with the study. Thank you!
   {% if finished == 3 %}
   <p>
-    We'll send you the Amazon eGift card number to your email
+    We will send you the Amazon eGift card number to your email
     <strong>{{ email }}</strong>.
   </p>
   {% endif %}
   {% if finished < 3 and finished > 0 %}
   <form method="POST">
     {{ form.hidden_tag() }}
-    <p> Thanks for attending the study! </p>
+    <p> Thanks for participating in the study! </p>
     <p>
-      Will you be interested in attending a paid interview online for
+      would you be interested in attending a paid interview online for
       more feedback? <br/>
-      It will be around 20 minutes with $10 Amazon gift card as compensation.
+      It will take around 20 minutes, and you will earn $10 Amazon gift card as compensation.
     </p>
     <table>
       {% for subfield in form.interview %}
