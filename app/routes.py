@@ -3,12 +3,13 @@ from unicodedata import name
 import uuid
 
 from app import app, db
-from app.database import commit_eou_record, db_commit, delete_customized_tag, get_all_customized_tag, get_email_and_itv, \
+from app.database import commit_eou_record, db_commit, delete_customized_tag, \
+  get_all_customized_tag, get_email_and_itv, \
   get_scn_ids_by_uuid, \
-  get_rtn_ids_by_uuid, update_customized_tag, update_email, update_email_itv, update_itv
-from app.models import CustomizedTag, FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm, \
-  EaseOfUseRecord, OutcomeForm
-from app.system import get_outcome_info_by_stt, get_tag_outcome_by_scn_info
+  get_rtn_ids_by_uuid, update_customized_tag, update_email_itv, update_itv, \
+  record_multi_scn_stt_scores
+from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm
+from app.system import get_user_scn_outcome
 from app.utils import *
 
 from flask import render_template, request, redirect, jsonify, flash, session, url_for
@@ -210,9 +211,26 @@ def scenario(idx):
   total_scn = len(scn_ids)
   if idx < 1 or idx > total_scn:
     return redirect(url_for('scenario', idx=1))
-  if request.method == 'POST' and 'scn-page-action' in request.form:
-    action = request.form['scn-page-action']
 
+  # Read user record if they've filled for this scenario
+  # no matter whether it has been pushed to database.
+  sid = scn_ids[idx - 1]
+  scn_info = get_scenario_by_id(sid)
+  outcomes, scores, strategies = get_user_scn_outcome(
+    session['uuid'], sid, scn_info)
+
+  fst_oc_form = FstOutcomeForm()
+  snd_oc_form = SndOutcomeForm() if len(scores) > 1 else None
+  if request.method == 'POST' and 'scn-page-action' in request.form:
+    # Record user choice
+    scores = [fst_oc_form.oc1.data]
+    if snd_oc_form:
+      scores.append(snd_oc_form.oc2.data)
+    record_multi_scn_stt_scores(
+      session['uuid'], sid, strategies, scores)
+
+    # Navigate among scenarios
+    action = request.form['scn-page-action']
     if action == 'Previous':
       return redirect(url_for('scenario', idx=idx-1))
     elif action == 'Next':
@@ -220,21 +238,15 @@ def scenario(idx):
     elif action == 'Finish':
       return redirect(url_for('ease_of_use'))
 
-  sid = scn_ids[idx - 1]
-  scn_info = get_scenario_by_id(sid)
-  sys_outcome = [get_tag_outcome_by_scn_info(scn_info, session['uuid'])]
-  ex_outcome = get_outcome_info_by_stt(scn_info, 'EX')
-  if sys_outcome[0]['outcome_id'] != ex_outcome['outcome_id']:
-    sys_outcome.append(ex_outcome)
-  oc_form = OutcomeForm()
-
+  fst_oc_form, snd_oc_form = get_outcome_forms(scores)
   return render_template('scenario.html',
                          idx=idx,
                          sid=sid,
                          scn_description=scn_info['scn_description'],
-                         outcome=sys_outcome,
+                         outcome=outcomes,
                          total_scn=total_scn,
-                         oc_form=oc_form)
+                         fst_oc_form=fst_oc_form,
+                         snd_oc_form=snd_oc_form)
 
 @app.route('/ease-of-use', methods=['GET', 'POST'])
 def ease_of_use():

@@ -20,6 +20,7 @@
       <br/>
       <p> How satisfied are you for following system outcomes?</p>
       <br/>
+      <!---- TODO: show the radio field value that is read in from db -->
       <!--------------------->
       <!--  First outcome  -->
       <!--------------------->
@@ -27,7 +28,7 @@
       <img src="{{ url_for('static', filename=outcome[0]['photo']) }}"
         width="750px"/>
       <table>
-        {% for subfield in oc_form.oc1 %}
+        {% for subfield in fst_oc_form.oc1 %}
         <tr>
           <td>{{ subfield }} &nbsp&nbsp</td>
           <td>{{ subfield.label }}</td>
@@ -44,7 +45,7 @@
         <img src="{{ url_for('static', filename=outcome[1]['photo']) }}"
           width="750px"/>
         <table>
-          {% for subfield in oc_form.oc2 %}
+          {% for subfield in snd_oc_form.oc2 %}
           <tr>
             <td>{{ subfield }} &nbsp&nbsp</td>
             <td>{{ subfield.label }}</td>

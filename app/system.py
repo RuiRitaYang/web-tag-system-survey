@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from app.utils import *
-from app.database import get_tags_by_rtn_id
+from app.database import get_tags_by_rtn_id, get_scn_stt_score_from_db
 
 
 def get_rtn_level_stt_table():
@@ -51,4 +51,18 @@ def get_tag_outcome_by_scn_info(scn_info, uuid):
   rtn_ids = scn_info["rtn_ids"]
   stt = get_strategy(*get_tags_by_rtn_id(uuid, rtn_ids[0]),
                      *get_tags_by_rtn_id(uuid, rtn_ids[1]))
-  return get_outcome_info_by_stt(scn_info, stt)
+  return get_outcome_info_by_stt(scn_info, stt), stt
+
+def get_user_scn_outcome(uuid, scn_id: int, scn_info):
+  # TODO: add randomization for outcome
+  outcome, stt = get_tag_outcome_by_scn_info(scn_info, uuid)
+  outcomes = [outcome]
+  scores = [get_scn_stt_score_from_db(uuid, scn_id, stt)]
+  strategies = [stt]
+  ex_outcome = get_outcome_info_by_stt(scn_info, 'EX')
+
+  if outcomes[0]['outcome_id'] != ex_outcome['outcome_id']:
+    outcomes.append(ex_outcome)
+    scores.append(get_scn_stt_score_from_db(uuid, scn_id, 'EX'))
+    strategies.append('EX')
+  return outcomes, scores, strategies

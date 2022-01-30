@@ -1,6 +1,9 @@
 import json
 import os
 
+from app.models import FstOutcomeForm, SndOutcomeForm
+
+
 def get_all_scenarios_routines():
   site_root = os.path.realpath(os.path.dirname(__file__))
   scn_url = os.path.join(site_root, "static/data", "scenarios.json")
@@ -65,3 +68,15 @@ def remove_cus_tag_in_string(all_tags:str, d_tag):
 def get_image_full_path(filename, folder='img'):
   site_root = os.path.realpath(os.path.dirname(__file__))
   return os.path.join(site_root, "static", folder, filename)
+
+def get_outcome_forms(scores):
+  fst_oc_form = FstOutcomeForm()
+  if scores[0]:
+    fst_oc_form.oc1.data = scores[0]
+
+  snd_oc_form = None
+  if len(scores) > 1:
+    snd_oc_form = SndOutcomeForm()
+    if scores[1]:
+      snd_oc_form.oc2.data = scores[1]
+  return fst_oc_form, snd_oc_form

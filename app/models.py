@@ -51,6 +51,11 @@ class EaseOfUseRecord(db.Model):
   qid = db.Column(db.Integer, primary_key=True)
   score = db.Column(db.Integer, nullable=True)
 
+class ScenarioOutcomeRecord(db.Model):
+  uuid = db.Column(db.Integer, primary_key=True)
+  sid = db.Column(db.Integer, primary_key=True)
+  strategy = db.Column(db.String(10), primary_key=True)
+  score = db.Column(db.Integer, nullable=True)
 
 class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
@@ -90,27 +95,20 @@ class FinishForm(FlaskForm):
                          validators=[DataRequired()])
   submit = SubmitField('Submit')
 
-class OutcomeForm(FlaskForm):
+class FstOutcomeForm(FlaskForm):
   oc1 = RadioField(
     'satisfaction',
     choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
              (3, 'Neutral'), (4, 'Slightly Satisfied'),
              (5, 'Satisfied')],
-    validators=[DataRequired()]
+    validators=[DataRequired()], coerce=int
   )
+
+class SndOutcomeForm(FlaskForm):
   oc2 = RadioField(
     'satisfaction',
     choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
              (3, 'Neutral'), (4, 'Slightly Satisfied'),
              (5, 'Satisfied')],
-    validators=[DataRequired()]
+    validators=[DataRequired()], coerce=int
   )
-
-# class OutcomeForm(FlaskForm):
-#   satisfaction = RadioField(
-#     'satisfaction',
-#     choices=[(1, 'Unsatisfied'), (2, 'Slightly Unsatisfied'),
-#              (3, 'Neutral'), (4, 'Slightly Satisfied'),
-#              (5, 'Satisfied')],
-#     validator=[DataRequired()]
-#   )

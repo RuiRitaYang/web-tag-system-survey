@@ -1,5 +1,5 @@
 from app import db
-from app.models import EaseOfUseRecord, Users, RoutineTag, CustomizedTag
+from app.models import EaseOfUseRecord, Users, RoutineTag, CustomizedTag, ScenarioOutcomeRecord
 from app.utils import *
 import random
 
@@ -38,7 +38,9 @@ def get_rtn_ids_by_uuid(uuid):
     return update_rtn_ids_record(user)
 
 def get_tags_by_rtn_id(uuid, rtn_id):
-  tags = RoutineTag.query.get_or_404((uuid, rtn_id))
+  tags = RoutineTag.query.get((uuid, rtn_id))
+  if not tags:
+    return ['', '', '', 5]
   rtn_sys_tag = tags.rtn_sys_tag or ''
   cmd1_tag = tags.cmd1_tag or ''  # CMD1-specific tag
   cmd2_tag = tags.cmd2_tag or ''  # CMD2-specific tag
@@ -148,3 +150,34 @@ def delete_customized_tag(uuid, tag_name):
 def get_all_customized_tag(uuid):
   all_tags = CustomizedTag.query.filter_by(uuid=uuid).all()
   return all_tags
+
+############################
+## Scenario Outcome Utils ##
+############################
+def get_scn_stt_score_from_db(uuid, scn_id, stt):
+  sat_score = ScenarioOutcomeRecord.query.get((
+    uuid, scn_id, stt))
+  return sat_score.score if sat_score else None
+
+def record_multi_scn_stt_scores(
+    uuid, scn_id, all_stt: list, scores: list):
+  for i, stt in enumerate(all_stt):
+    record_scn_stt_satisfaction(uuid, scn_id, stt, scores[i])
+
+def record_scn_stt_satisfaction(uuid, scn_id, stt, score):
+  modified = True
+  sat_score = ScenarioOutcomeRecord.query.get((
+    uuid, scn_id, stt))
+  if not sat_score:
+    sat_score = ScenarioOutcomeRecord(
+      uuid=uuid, sid=scn_id, strategy=stt, score=score)
+    db.session.add(sat_score)
+  elif sat_score.score == score:
+    modified = False
+  else:
+    sat_score.score = score
+
+  if modified:
+    db_commit(success_msg='Update USER {0} scn {1} stt {2} score ' +
+                          'to {3}'.format(uuid, scn_id, stt, score),
+              fail_msg='[ERROR] Fail when updating scenario outcome score.')
