@@ -17,44 +17,44 @@
   },
   {
     "rtn_id": 3,
-    "rtn_name": "test3",
-    "rtn_description": "test3",
-    "cmd1": "test cmd3-1",
-    "cmd2": "test cmd3-2"
+    "rtn_name": "Bedside Reading",
+    "rtn_description": "routine for reading book in bed at night.",
+    "cmd1": "Turn OFF roof light.",
+    "cmd2": "Turn ON bedside light for 1 hour,"
   },
   {
     "rtn_id": 4,
-    "rtn_name": "test4",
-    "rtn_description": "test4",
-    "cmd1": "test cmd4-1",
-    "cmd2": "test cmd4-2"
+    "rtn_name": "Bedtime",
+    "rtn_description": "routine for going to bed,",
+    "cmd1": "Turn OFF all the lights except for the night light",
+    "cmd2": "PLAY deep-sleep-helping music on the speaker for 20 minutes"
   },
   {
     "rtn_id": 5,
-    "rtn_name": "test5",
-    "rtn_description": "test5",
-    "cmd1": "test cmd5-1",
-    "cmd2": "test cmd5-2"
+    "rtn_name": "Meeting Time",
+    "rtn_description": "routine to set up environment for an 1-hour meeting.",
+    "cmd1": "Turn ON lights for 1 hour.",
+    "cmd2": "MUTE the speaker for 1 hour."
   },
   {
     "rtn_id": 6,
-    "rtn_name": "test6",
-    "rtn_description": "test6",
-    "cmd1": "test cmd6-1",
-    "cmd2": "test cmd6-2"
+    "rtn_name": "Morning News",
+    "rtn_description": "routine to play some morning news daily at 10am",
+    "cmd1": "PLAY news for 5 minutes on the speaker.",
+    "cmd2": ""
   },
   {
     "rtn_id": 7,
-    "rtn_name": "test7",
-    "rtn_description": "test7",
-    "cmd1": "test cmd7-1",
-    "cmd2": "test cmd7-2"
+    "rtn_name": "Automated Garage Door",
+    "rtn_description": "routine that opens the garage door for car arrival/departure.",
+    "cmd1": "OPEN garage door; wait 10 mins; CLOSE garage door.",
+    "cmd2": ""
   },
   {
     "rtn_id": 8,
-    "rtn_name": "test8",
-    "rtn_description": "test8",
-    "cmd1": "test cmd8-1",
-    "cmd2": "test cmd8-2"
+    "rtn_name": "Trash Out",
+    "rtn_description": "routine that automatically moves trash can out for garbage collection every week",
+    "cmd1": "OPEN garage door and wait 5 mins and CLOSE garage door.",
+    "cmd2": "Move trash can OUTSIDE."
   }
 ]

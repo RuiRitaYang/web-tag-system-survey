@@ -34,42 +34,107 @@
   },
   {
     "scn_id": 2,
-    "scn_name": "Test Test 2",
-    "scn_description": "Test testtest2",
+    "scn_name": "Reading before bedtime",
+    "scn_description": "Today at 11 pm, you start your \"bedside reading\" routine. This routine turns off the roof light and turns on the bedside light for 1 hour, until 12 am.\n\nHowever, at 11:30 pm, your nightly \"bedtime\" routine starts. This routine turns off all the lights except for the night light in your room and starts playing deep-sleep-helping music on the speaker for 20 minutes, until 11:50 pm. \n\nNow at 11:30 pm, imagine your satisfaction for each outcome.",
     "rtn_ids": [3, 4],
     "system_outcomes": [
       {
         "outcome_id": 1,
-        "strategy": ["TC", "DL", "EX"],
-        "description": "At 12pm, ClOSE the window and",
+        "strategy": ["TC", "PZ", "OW", "EX"],
+        "description": "At 11:30 pm, the bedside light is turned OFF and the speaker starts PLAYING sleep music until 11:50pm.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 2,
+        "strategy": ["DL"],
+        "description": "At 11:30pm, the bedside light stays ON and the speaker stays MUTED. At 12:00am, the bedside light is turned OFF. The speaker does NOT play music.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 3,
+        "strategy": ["CC"],
+        "description": "At 11:30 pm, the bedside light is turned OFF, and the roof light is turned ON and then OFF. The speaker starts PLAYING sleep music until 11:50 pm. At 11:50 pm, the bedside light is turned ON until 12:20 am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 4,
+        "strategy": ["RV"],
+        "description": "At 11:30pm, the bedside light is turned OFF and the speaker starts PLAYING sleep music until 11:50 pm. Then, the bedside light is turned ON at 11:50pm, until 12am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 5,
+        "strategy": ["RZ"],
+        "description": "At 11:30pm, the bedside light stays ON and the speaker starts PLAYING sleep music until 11:50pm. At 12:00am, the bedside light is turned OFF.\n",
+        "photo": "img/test.png"
+      },  {
+        "outcome_id": 6,
+        "strategy": ["IN"],
+        "description": "At 11:30pm, the bedside light stays ON and the speaker starts PLAYING sleep music until 11:50pm. At 12:00am, the bedside light is turned OFF.\n",
         "photo": "img/test.png"
       }
     ]
   },
   {
     "scn_id": 3,
-    "scn_name": "Test Test 3",
-    "scn_description": "Test testtest3",
+    "scn_name": "Meeting then News time",
+    "scn_description": "At 9:50 am you have a meeting, so you start the \"meeting\" routine which lasts for 1 hour, which turns on the lights in your room and mutes the speakers until 10:50 am.\n\nHowever, every morning at 10 am your smart speaker plays the news for 5 minutes, until 10:05 am.\n\nNow at 10 am, imagine your satisfaction for each outcome.",
     "rtn_ids": [5, 6],
     "system_outcomes": [
       {
         "outcome_id": 1,
-        "strategy": ["TC", "DL", "EX"],
-        "description": "At 12pm, ClOSE the window and",
+        "strategy": ["TC", "EX", "OW", "PZ"],
+        "description": "At 10 AM, the smart speaker plays the news, and remains UNMUTED after.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 2,
+        "strategy": ["DL"],
+        "description": "At 10am, the speaker stays MUTED. At 10:50 AM, the smart speaker UNMUTES and plays the news until 10:55am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 3,
+        "strategy": ["CC", "IN"],
+        "description": "At 10am, the smart speaker stays MUTED.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 4,
+        "strategy": ["RV"],
+        "description": "At 10am, the smart speaker is UNMUTED and plays the news and the lights are turned OFF. At 10:05 am, the lights are turned ON, and the speakers are MUTED until 10:55 AM.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 5,
+        "strategy": ["RZ", "PZ"],
+        "description": "At 10 am, the smart speakers are UNMUTED, and the speaker plays the news. At 10:05 am, the speakers are MUTED until 10:50 AM.",
         "photo": "img/test.png"
       }
     ]
   },
   {
     "scn_id": 4,
-    "scn_name": "Test Test 4",
-    "scn_description": "Test testtest4",
+    "scn_name": "Trash can out when driving back home",
+    "scn_description": "On Tuesday at 7:52am, you drive your car out of the garage to get to work which triggers your \"automated garage door\" routine. This routine closes the garage door 10 minutes after you leave, at 8:02 am.\n \nHowever, every Tuesday morning at 8 am, your \"trash out\" routine starts. This routine opens the garage door, moves out the trash can from inside the garage to the curb, and closes the garage door after 5 minutes at 8:05 am.\n \nNow at 8 am, when the \"trash out\" routine is about to trigger, imagine your satisfaction for each outcome.",
     "rtn_ids": [7, 8],
     "system_outcomes": [
       {
         "outcome_id": 1,
-        "strategy": ["TC", "DL", "EX"],
-        "description": "At 12pm, ClOSE the window and",
+        "strategy": ["TC", "PZ", "OW"],
+        "description": "At 8am, the garage door stays OPEN and the trash can moves OUT. The garage door is CLOSED at 8:05 am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 2,
+        "strategy": ["DL"],
+        "description": "The garage door is CLOSED at 8:02 am. Then, the garage door is OPENED, the trash can moves OUT, and the garage door is CLOSED at 8:07 am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 3,
+        "strategy": ["CC"],
+        "description": "The garage door is CLOSED at 8:02 am. The trash can will NOT move out.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 4,
+        "strategy": ["RV"],
+        "description": "The garage door is CLOSED, and then OPENED at 8:00am. The trash can moves OUT. Garage door is CLOSED and then OPENED at 8:05am. The garage door is CLOSED at 8:15am.\n",
+        "photo": "img/test.png"
+      }, {
+        "outcome_id": 1,
+        "strategy": ["EX", "IN"],
+        "description": "The garage door stays OPEN, and the trash can starts moving OUT. The garage door is CLOSED at 8:02am and the trash can is locked in garage.",
         "photo": "img/test.png"
       }
     ]
