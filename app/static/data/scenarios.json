@@ -113,7 +113,7 @@
     "system_outcomes": [
       {
         "outcome_id": 1,
-        "strategy": ["TC", "PZ", "OW"],
+        "strategy": ["TC", "PZ", "RZ", "OW"],
         "description": "At 8am, the garage door stays OPEN and the trash can moves OUT. The garage door is CLOSED at 8:05 am.\n",
         "photo": "img/4_TC.png"
       }, {
@@ -132,7 +132,7 @@
         "description": "The garage door is CLOSED, and then OPENED at 8:00am. The trash can moves OUT. Garage door is CLOSED and then OPENED at 8:05am. The garage door is CLOSED at 8:15am.\n",
         "photo": "img/4_RV.png"
       }, {
-        "outcome_id": 1,
+        "outcome_id": 5,
         "strategy": ["EX", "IN"],
         "description": "The garage door stays OPEN, and the trash can starts moving OUT. The garage door is CLOSED at 8:02am and the trash can is locked in garage.",
         "photo": "img/4_EX.png"
