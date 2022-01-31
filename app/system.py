@@ -41,7 +41,6 @@ def get_cmd_level_stt(rtn_sys_tag1, cmd1_tag1, cmd2_tag1,
                       rtn_sys_tag2, cmd1_tag2, cmd2_tag2,
                       rtn_higher_pri, scn_id):
   df = get_cmd_level_stt_table()
-  print(df.columns.to_list())
   stt = df[(df['sid'] == scn_id) &
            (df['r1_sys'] == rtn_sys_tag1) &
            (df['r2_sys'] == rtn_sys_tag2) &
@@ -53,8 +52,12 @@ def get_cmd_level_stt(rtn_sys_tag1, cmd1_tag1, cmd2_tag1,
   print('Getting raw strategy list: ' + str(stt.to_list()))
   if stt.empty:
     df_default = get_default_stt_table()
-    stt = df_default[df_default['sid'] == scn_id]
+    stt = df_default[df_default['sid'] == scn_id]['strategy']
     print("  Empty strategy, so using the default one.")
+    print("  Scn ", scn_id, " flags: ",
+          " rtn1: sys-", rtn_sys_tag1, ' cmd1-', cmd1_tag1, ' cmd2-', cmd2_tag1,
+          " rtn2: sys-", rtn_sys_tag2, ' cmd1-', cmd1_tag2, ' cmd2-', cmd2_tag2,
+          ' cur-priority-', rtn_higher_pri)
   stt = stt.to_list()[0]
   return stt
 
@@ -64,7 +67,10 @@ def get_strategy(rtn_sys_tag1, cmd1_tag1, cmd2_tag1, cus_pri1,
   # System tags are routine-level
   any_tag = (rtn_sys_tag1 or cmd1_tag1 or cmd2_tag1 or cus_pri1 or
              rtn_sys_tag2 or cmd1_tag2 or cmd2_tag2 or cus_pri2)
-  if (rtn_sys_tag1 and rtn_sys_tag2) or not any_tag:
+  if ((rtn_sys_tag1 and rtn_sys_tag2) or
+      (rtn_sys_tag1 and not cmd1_tag2 and not cmd2_tag2) or
+      (rtn_sys_tag2 and not cmd1_tag1 and not cmd2_tag1) or
+      (not any_tag)):
     stt = get_rtn_level_stt(
       rtn_sys_tag1,
       rtn_sys_tag2,
