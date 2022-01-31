@@ -46,7 +46,7 @@
       }, {
         "outcome_id": 2,
         "strategy": ["DL"],
-        "description": "At 11:30 pm, the bedside light is turned OFF, and the roof light is turned ON and then OFF. The speaker starts PLAYING sleep music until 11:50 pm. At 11:50 pm, the bedside light is turned ON until 12:20 am.\n",
+        "description": "At 11:30pm, the bedside light stays ON and the speaker stays MUTED. At 12:00am, the bedside light is turned OFF and the speaker starts PLAYING sleep music until 12:20am.\n",
         "photo": "img/2_DL.png"
       }, {
         "outcome_id": 3,
@@ -91,7 +91,7 @@
         "outcome_id": 3,
         "strategy": ["CC", "IN"],
         "description": "At 10am, the smart speaker stays MUTED.\n",
-        "photo": "img/3_RV.png"
+        "photo": "img/3_CC.png"
       }, {
         "outcome_id": 4,
         "strategy": ["RV"],
