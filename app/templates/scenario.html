@@ -5,7 +5,7 @@
 <div class="container" xmlns="http://www.w3.org/1999/html">
   <h2>System Outcome Satisfaction Level Rating</h2>
   <p>
-    In this section, we’ll provide you four different scenarios,
+    In this section, we will provide you four different scenarios,
     each with their own set of outcomes. Each scenario contains
     two routines that have conflicting commands on the same device
     over some period of time. Please rate your satisfaction with each
@@ -16,7 +16,9 @@
   <h4> Scenario {{ idx }} </h4>
   <form action="{{ url_for('scenario', idx=idx )}}" method="POST">
     <div class="indented">
-      <p> {{ scn_description }} </p>
+      {% for sub_description in scn_description %}
+      <p> {{ sub_description }} </p>
+      {% endfor %}
       <br/>
       <p> How satisfied are you for following system outcomes?</p>
       <br/>
