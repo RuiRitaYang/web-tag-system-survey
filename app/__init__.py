@@ -4,6 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 # Add Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+
+# Posgres DB
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruiyang:123654@localhost/survey_test'
+
 # MySQL DB
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:11111111@localhost/test_users'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
