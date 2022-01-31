@@ -46,22 +46,22 @@
       }, {
         "outcome_id": 2,
         "strategy": ["DL"],
-        "description": "At 11:30pm, the bedside light stays ON and the speaker stays MUTED. At 12:00am, the bedside light is turned OFF. The speaker does NOT play music.\n",
+        "description": "At 11:30 pm, the bedside light is turned OFF, and the roof light is turned ON and then OFF. The speaker starts PLAYING sleep music until 11:50 pm. At 11:50 pm, the bedside light is turned ON until 12:20 am.\n",
         "photo": "img/test.png"
       }, {
         "outcome_id": 3,
         "strategy": ["CC"],
-        "description": "At 11:30 pm, the bedside light is turned OFF, and the roof light is turned ON and then OFF. The speaker starts PLAYING sleep music until 11:50 pm. At 11:50 pm, the bedside light is turned ON until 12:20 am.\n",
+        "description": "At 11:30pm, the bedside light stays ON and the speaker stays MUTED. At 12:00am, the bedside light is turned OFF. The speaker does NOT play music.\n",
         "photo": "img/test.png"
       }, {
         "outcome_id": 4,
         "strategy": ["RV"],
-        "description": "At 11:30pm, the bedside light is turned OFF and the speaker starts PLAYING sleep music until 11:50 pm. Then, the bedside light is turned ON at 11:50pm, until 12am.\n",
+        "description": "At 11:30 pm, the bedside light is turned OFF, and the roof light is turned ON and then OFF. The speaker starts PLAYING sleep music until 11:50 pm. At 11:50 pm, the bedside light is turned ON until 12:20 am.\n",
         "photo": "img/test.png"
       }, {
         "outcome_id": 5,
         "strategy": ["RZ"],
-        "description": "At 11:30pm, the bedside light stays ON and the speaker starts PLAYING sleep music until 11:50pm. At 12:00am, the bedside light is turned OFF.\n",
+        "description": "At 11:30pm, the bedside light is turned OFF and the speaker starts PLAYING sleep music until 11:50 pm. Then, the bedside light is turned ON at 11:50pm, until 12am.\n",
         "photo": "img/test.png"
       },  {
         "outcome_id": 6,
