@@ -3,7 +3,7 @@
     "scn_id": 1,
     "internal_id": "5",
     "scn_name": "Late night back home",
-    "scn_description": ["Every night after 10 pm, your \"night safety\" routine runs. This routine locks the door until the next morning at 6 am.", "The door is unlocked at 6am.\n\nHowever, at 2 am, you're back from a night out with your friends, and you start the \"back home\" routine.", "This routine unlocks the door and turns on the foyer light. \n\nNow at 2 am when you start the \"back home\" routine"],
+    "scn_description": ["Every night after 10 pm, your \"night safety\" routine runs. This routine locks the door until the next morning at 6 am.", "The door is unlocked at 6am.\n\nHowever, at 2 am, you're back from a night out with your friends, and you start the \"back home\" routine.", "This routine unlocks the door and turns on the foyer light. \n\nNow at 2 am when you start the \"back home\" routine, imagine your satisfaction for each outcome."],
     "rtn_ids": [1, 2],
     "system_outcomes": [
       {
@@ -35,7 +35,7 @@
   {
     "scn_id": 2,
     "scn_name": "Reading before bedtime",
-    "scn_description": ["Today at 11 pm, you start your \"bedside reading\" routine. This routine turns off the roof light and turns on the bedside light for 1 hour, until 12 am.\n", "\nHowever, at 11:30 pm, your nightly \"bedtime\" routine starts. This routine turns off all the lights except for the night light in your room and starts playing deep-sleep-helping music on the speaker for 20 minutes, until 11:50 pm.\n", "\nNow at 11:30 pm, imagine your satisfaction for each outcome."],
+    "scn_description": ["Today at 11 pm, you start your \"bedside reading\" routine. This routine turns off the roof light and turns on the bedside light for 1 hour, until 12 am.\n", "\nHowever, at 11:30 pm, your nightly \"bedtime\" routine starts. This routine turns off all the lights except for the night light in your room and starts playing deep-sleep-helping music on the speaker for 20 minutes, until 11:50 pm.\n", "Now at 11:30 pm, imagine your satisfaction for each outcome."],
     "rtn_ids": [3, 4],
     "system_outcomes": [
       {
@@ -74,7 +74,7 @@
   {
     "scn_id": 3,
     "scn_name": "Meeting then News time",
-    "scn_description": ["At 9:50 am you have a meeting, so you start the \"meeting\" routine which lasts for 1 hour, which turns on the lights in your room and mutes the speakers until 10:50 am.\n", "\nHowever, every morning at 10 am your smart speaker plays the news for 5 minutes, until 10:05 am.\n", "\nNow at 10 am, imagine your satisfaction for each outcome."],
+    "scn_description": ["At 9:50 am you have a meeting, so you start the \"meeting\" routine which lasts for 1 hour, which turns on the lights in your room and mutes the speakers until 10:50 am.\n", "\nHowever, every morning at 10 am your smart speaker plays the news for 5 minutes, until 10:05 am.\n", "Now at 10 am, imagine your satisfaction for each outcome."],
     "rtn_ids": [5, 6],
     "system_outcomes": [
       {

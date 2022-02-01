@@ -20,7 +20,6 @@
       <p> {{ sub_description }} </p>
       {% endfor %}
       <br/>
-      <p> How satisfied are you for following system outcomes?</p>
       <br/>
       <!---- TODO: show the radio field value that is read in from db -->
       <!--------------------->
@@ -29,6 +28,7 @@
       <p> {{ outcome[0]['description'] }} </p>
       <img src="{{ url_for('static', filename=outcome[0]['photo']) }}"
         width="750px"/>
+      <p> How satisfied are you with the above outcome? </p>
       <table>
         {% for subfield in fst_oc_form.oc1 %}
         <tr>

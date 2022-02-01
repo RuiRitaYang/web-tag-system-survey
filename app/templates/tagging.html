@@ -42,8 +42,9 @@
       <!--   Tagging at routine level   -->
       <!-- ---------------------------  -->
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md-5">
           <b>Routine {{ idx }}</b>: {{ rtn_info["rtn_name"] }}
+          <p><small><i>This is a {{ rtn_info["rtn_description"] }}</i></small></p>
         </div>
         <div class="dropzone col" id="dropzone-rtn" data-rid="{{ rid }}">
           {% if not rtn_sys_tag and not rtn_cus_tags %}

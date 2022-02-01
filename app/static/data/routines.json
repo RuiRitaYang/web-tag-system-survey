@@ -25,7 +25,7 @@
   {
     "rtn_id": 4,
     "rtn_name": "Bedtime",
-    "rtn_description": "routine for going to bed,",
+    "rtn_description": "routine for going to bed.",
     "cmd1": "Turn OFF all the lights except for the night light",
     "cmd2": "PLAY deep-sleep-helping music on the speaker for 20 minutes"
   },
@@ -39,7 +39,7 @@
   {
     "rtn_id": 6,
     "rtn_name": "Morning News",
-    "rtn_description": "routine to play some morning news daily at 10am",
+    "rtn_description": "routine to play some morning news daily at 10am.",
     "cmd1": "PLAY news for 5 minutes on the speaker.",
     "cmd2": ""
   },
@@ -53,7 +53,7 @@
   {
     "rtn_id": 8,
     "rtn_name": "Trash Out",
-    "rtn_description": "routine that automatically moves trash can out for garbage collection every week",
+    "rtn_description": "routine that weekly moves smart trash can out for garbage collection.",
     "cmd1": "OPEN garage door and wait 5 mins and CLOSE garage door.",
     "cmd2": "Move trash can OUTSIDE."
   }
