@@ -80,3 +80,17 @@ def get_outcome_forms(scores):
     if scores[1]:
       snd_oc_form.oc2.data = scores[1]
   return fst_oc_form, snd_oc_form
+
+def internal_sys_name(name):
+  matches = {'No Interruption': 'Uninterruptible', 'OK to Pause': 'Pausable'}
+  if name not in matches:
+    return name
+  return matches[name]
+
+def tag_display_name(name):
+  matches = {'Uninterruptible': 'No Interruption',
+             'Pausable': 'OK to Pause'}
+  if name not in matches:
+    return name
+  return matches[name]
+

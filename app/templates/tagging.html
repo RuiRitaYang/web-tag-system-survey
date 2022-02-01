@@ -21,8 +21,7 @@
      </p>
 <!--  TODO -->
 </div>
-<br><br><br>
-
+<br/>
 {% for message in get_flashed_messages() %}
   <div class="container">
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -36,190 +35,223 @@
 
 <div class="container">
 <!--    Drag and drop reference: https://codepen.io/ovvn/pen/Nqxzjg -->
-  <div class="row">
-    <div class="col">
-      <!-- ---------------------------  -->
-      <!--   Tagging at routine level   -->
-      <!-- ---------------------------  -->
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Tagging System Interface</h5>
+    </div>
+    <div class="card-body">
       <div class="row">
+        <div class="col">
+          <!-- ---------------------------  -->
+          <!--   Tagging at routine level   -->
+          <!-- ---------------------------  -->
+          <div class="row">
+            <div class="col-md-5 col-xs-4">
+              <b>Routine {{ idx }}</b>: {{ rtn_info["rtn_name"] }}
+              <p><small><i>This is a {{ rtn_info["rtn_description"] }}</i></small></p>
+            </div>
+            <div class="dropzone col col-xs-4" id="dropzone-rtn" data-rid="{{ rid }}">
+              {% if not rtn_sys_tag and not rtn_cus_tags %}
+                &nbsp;
+              {% endif %}
+              {% if rtn_sys_tag %}
+              <span class="btn btn-light">
+                {{ rtn_sys_tag }}
+                <button type="button" class="btn btn-default btn-xs remove tag-item"
+                        onclick="window.location.href=
+                        '{{ url_for('remove_rtn_sys_tag', rid=rid, idx=idx) }}';">
+                   <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                </button>
+              </span>
+              {% endif %}
+
+              {% for cus_tag in rtn_cus_tags %}
+              <span class="btn btn-light">
+                {{ cus_tag }}
+                <button type="button" class="btn btn-default btn-xs remove tag-item"
+                        onclick="window.location.href=
+                        '{{ url_for('remove_cus_tag', rid=rid, idx=idx, tag_name=cus_tag) }}';">
+                  <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                </button>
+              {% endfor %}
+              </span>
+            </div>
+          </div>
+          <!-- ----------------------------- -->
+          <!-- System tag for Command 1 only -->
+          <!-- ----------------------------- -->
+          {% if rtn_info["cmd1"] %}
+            <div class="row">
+              <div class="col-md-auto">
+                <b>Command 1</b>: {{ rtn_info["cmd1"] }}
+              </div>
+              <div class="dropzone col" id="dropzone-cmd1">
+                {% if cmd1_tag %}
+                <span class="btn btn-light">
+                  {{ cmd1_tag }}
+                  <button type="button" class="btn btn-default btn-xs remove tag-item"
+                          onclick="window.location.href=
+                          '{{ url_for('remove_cmd1_tag', rid=rid, idx=idx) }}';">
+                    <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                  </button>
+                </span>
+                {% else %}
+                  &nbsp;
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+          <!-- ----------------------------- -->
+          <!-- System tag for Command 2 only -->
+          <!-- ----------------------------- -->
+          {% if rtn_info["cmd2"] %}
+            <div class="row">
+              <div class="col-md-auto">
+                <b>Command 2</b>: {{ rtn_info["cmd2"] }}
+              </div>
+              <div class="dropzone col" id="dropzone-cmd2">
+                {% if cmd2_tag %}
+                  <span class="btn btn-light"> {{ cmd2_tag }}
+                    <button type="button" class="btn btn-default btn-xs remove tag-item"
+                            onclick="window.location.href=
+                            '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
+                      <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                {% else %}
+                  &nbsp;
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+          <!--   Browsing among different routines   -->
+          <form action="{{ url_for('tag', idx=idx )}}" method="POST">
+            {% if idx > 1 %}
+              <input class="btn btn-outline-secondary"
+                     type="submit" name="tag-page-action" value="Previous">
+            {% endif %}
+            {% if idx < total_rtn %}
+              <input class="btn btn-outline-secondary delay-loading"
+                     type="submit" name="tag-page-action" value="Next">
+            {% else %}
+              <input class="btn btn-outline-primary delay-loading"
+                     type="submit" name="tag-page-action" value="Finish">
+            {% endif %}
+          </form>
+        </div>
+
         <div class="col-md-5">
-          <b>Routine {{ idx }}</b>: {{ rtn_info["rtn_name"] }}
-          <p><small><i>This is a {{ rtn_info["rtn_description"] }}</i></small></p>
-        </div>
-        <div class="dropzone col" id="dropzone-rtn" data-rid="{{ rid }}">
-          {% if not rtn_sys_tag and not rtn_cus_tags %}
-            &nbsp;
-          {% endif %}
-          {% if rtn_sys_tag %}
-            {{ rtn_sys_tag }}
-            <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                    onclick="window.location.href=
-                    '{{ url_for('remove_rtn_sys_tag', rid=rid, idx=idx) }}';">
-               <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-            </button>
-          {% endif %}
-
-          {% for cus_tag in rtn_cus_tags %}
-            {{ cus_tag }}
-            <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                    onclick="window.location.href=
-                    '{{ url_for('remove_cus_tag', rid=rid, idx=idx, tag_name=cus_tag) }}';">
-              <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-            </button>
-          {% endfor %}
-        </div>
-      </div>
-      <!-- ----------------------------- -->
-      <!-- System tag for Command 1 only -->
-      <!-- ----------------------------- -->
-      {% if rtn_info["cmd1"] %}
-        <div class="row">
-          <div class="col-md-auto">
-            <b>Command 1</b>: {{ rtn_info["cmd1"] }}
-          </div>
-          <div class="dropzone col" id="dropzone-cmd1">
-            {% if cmd1_tag %}
-              {{ cmd1_tag }}
-              <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                      onclick="window.location.href=
-                      '{{ url_for('remove_cmd1_tag', rid=rid, idx=idx) }}';">
-                <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-              </button>
-            {% else %}
-              &nbsp;
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-      <!-- ----------------------------- -->
-      <!-- System tag for Command 2 only -->
-      <!-- ----------------------------- -->
-      {% if rtn_info["cmd2"] %}
-        <div class="row">
-          <div class="col-md-auto">
-            <b>Command 2</b>: {{ rtn_info["cmd2"] }}
-          </div>
-          <div class="dropzone col" id="dropzone-cmd2">
-            {% if cmd2_tag %}
-              {{ cmd2_tag }}
-              <button type="button" class="btn btn-default btn-xs remove tag-remove"
-                      onclick="window.location.href=
-                      '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
-                <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-              </button>
-            {% else %}
-              &nbsp;
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-      <!--   Browsing among different routines   -->
-      <form action="{{ url_for('tag', idx=idx )}}" method="POST">
-        {% if idx > 1 %}
-          <input class="btn btn-outline-secondary"
-                 type="submit" name="tag-page-action" value="Previous">
-        {% endif %}
-        {% if idx < total_rtn %}
-          <input class="btn btn-outline-secondary delay-loading"
-                 type="submit" name="tag-page-action" value="Next">
-        {% else %}
-          <input class="btn btn-outline-primary delay-loading"
-                 type="submit" name="tag-page-action" value="Finish">
-        {% endif %}
-      </form>
-    </div>
-    <div class="col-md-auto">
-      <div class="right-panel">
-        <h4> System tags</h4>
-        <div class="modules" id="modules">
-          <p class="drag"><a class="btn btn-default">Uninterruptible</a></p>
-          <p class="drag"><a class="btn btn-default">Pausable</a></p>
-        </div>
-        <h4> Self-defined tags </h4>
-        <div class="container">
-
-          <!-- Button trigger modal -->
-          <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-          <div class="modal-dialog modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="Label">Add a task</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- Pop-up Session Input Area -->
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="task-form-display">Tag</span>
-                <input type="text" class="form-control data-tag-name"
-                       placeholder="Tag name" aria-label="task-name"
-                       aria-describedby="basic-addon1">
+        <div class="right-panel">
+          <!-- ---------------- -->
+          <!-- Self-defined tag panel -->
+          <!-- ---------------- -->
+          <div class="container">
+            <!-- Button trigger modal -->
+            <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+            <div class="modal-dialog modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="Label">Add a tag</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="task-form-priority">Priority</span>
-                <input type="text" class="form-control tag-priority"
-                       placeholder="priority (1-10), default 5" aria-label="task-name"
-                       aria-describedby="basic-addon1">
+              <!-- Pop-up Session Input Area -->
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="task-form-display">Tag</span>
+                  <input type="text" class="form-control data-tag-name"
+                         placeholder="Tag name" aria-label="task-name"
+                         aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="task-form-priority">Priority</span>
+                  <input type="text" class="form-control tag-priority"
+                         placeholder="priority (1-10), default 5" aria-label="task-name"
+                         aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                  </button>
+                  <button id="submit-task" type="button" class="btn btn-primary">
+                    Save changes
+                  </button>
+              </div>
+            </div> <!-- End of modal-dialog modal-content -->
+            </div>
+          </div>
+          <!--  Add tag button  -->
+          <div class="card" style="margin-bottom:10px">
+            <div class="card-body">
+              <h5 class="card-title">Self-defined tags</h5>
+              <button type="button" class="btn btn-outline-info btn-sm"
+                      data-bs-toggle="modal" data-bs-target="#task-modal"
+                      data-source="New Tag">
+                Add New Tag
+              </button>
+
+              <div class="container table-responsive">
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th class="task">Tag Name</th>
+                      <th class="status">Priority</th>
+                      <th class="update">Edit</th>
+                      <th class="update">Del.</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  {% for tag in all_cus_tag %}
+                      <tr>
+                      <td>
+                        <a class="btn btn-outline-secondary"
+                           style="text-align:left; line-height:1.2">
+                          <span class="drag drag-handle">{{ tag.name }}</span>
+                        </a>
+                      </td>
+                      <td style="text-align:center">{{ tag.priority }}</td>
+                      <td>
+                        <button type="button" class="btn btn-outline-info btn-sm"
+                                data-bs-toggle="modal" data-bs-target="#task-modal"
+                                data-source="{{ tag.name }}" data-priority="{{ tag.priority }}">
+                          <i class="fa fa-pen fa-1" aria-hidden="true"></i>
+                        </button>
+                      </td>
+
+                      <td>
+                        <button class="btn btn-outline-secondary btn-sm remove cus-tag-remove"
+                                data-source="{{ tag.name }}" type="button">
+                          <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                        </button>
+                      </td>
+                      </tr>
+                  {% endfor %}
+
+                  </tbody>
+              </table>
               </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  Close
-                </button>
-                <button id="submit-task" type="button" class="btn btn-primary">
-                  Save changes
-                </button>
+          </div> <!-- End of Self-define tag area -->
+
+
+          <!-- ---------------- -->
+          <!-- System tag panel -->
+          <!-- ---------------- -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">System tags</h5>
+                <a class="btn btn-outline-secondary">
+                  <span class="drag drag-handle">No Interruption</span>
+                </a>
+                <a class="btn btn-outline-secondary">
+                  <span class="drag drag-handle">OK to Pause</span>
+                </a>
             </div>
-          </div> <!-- End of modal-dialog modal-content -->
           </div>
         </div>
-        <!--  Add tag button  -->
-        <button type="button" class="btn btn-outline-info btn-sm"
-                data-bs-toggle="modal" data-bs-target="#task-modal"
-                data-source="New Tag">
-          Add New Tag
-        </button>
-
-        <div class="container table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th class="task">Tag Name</th>
-                <th class="status">Priority</th>
-                <th class="update">Edit</th>
-                <th class="update">Remove</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            {% for tag in all_cus_tag %}
-                <tr>
-                    <td>
-                      <p class="drag"><a class="btn btn-default">{{ tag.name }}</a></p>
-                    </td>
-                    <td>{{ tag.priority }}</td>
-                    <td>
-                      <button type="button" class="btn btn-outline-info btn-sm"
-                              data-bs-toggle="modal" data-bs-target="#task-modal"
-                              data-source="{{ tag.name }}" data-priority="{{ tag.priority }}">
-                        <i class="fa fa-pen fa-1" aria-hidden="true"></i>
-                      </button>
-                    </td>
-
-                    <td>
-                      <button class="btn btn-outline-secondary btn-sm remove cus-tag-remove"
-                              data-source="{{ tag.name }}" type="button">
-                        <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-                      </button>
-                    </td>
-                </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
+      </div></div>  <!-- end of container for right panel -->
+    </div>  <!-- end of card body -->
+  </div> <!-- end of card -->
 </div>
 
 {% endblock %}

@@ -77,15 +77,18 @@ def tag(idx):
 
   all_cus_tag_list = get_all_customized_tag(session['uuid'])
   rtn_cus_tags = rtn_tags.rtn_cus_tags.split(',') if rtn_tags.rtn_cus_tags else []
+  rtn_sys_tag = tag_display_name(rtn_tags.rtn_sys_tag)
+  cmd1_tag = tag_display_name(rtn_tags.cmd1_tag)
+  cmd2_tag = tag_display_name(rtn_tags.cmd2_tag)
   return render_template('tagging.html',
                          rtn_info=rtn_info[rid],
                          idx=idx,
                          rid=rid,
-                         rtn_sys_tag=rtn_tags.rtn_sys_tag,
+                         rtn_sys_tag=rtn_sys_tag,
                          all_cus_tag=all_cus_tag_list,
                          rtn_cus_tags=rtn_cus_tags,
-                         cmd1_tag=rtn_tags.cmd1_tag,
-                         cmd2_tag=rtn_tags.cmd2_tag,
+                         cmd1_tag=cmd1_tag,
+                         cmd2_tag=cmd2_tag,
                          total_rtn=total_rtn)
 
 @app.route('/create-tag', methods=['GET', 'POST'])
@@ -117,6 +120,7 @@ def delete_cus_tag():
 def update_sys_tag():
   data = request.get_json()
   item, rid = data['item'], data['rid']
+  item = internal_sys_name(item)
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if item in ['Uninterruptible', 'Pausable']:
     rtn_tags.rtn_sys_tag = item
@@ -137,6 +141,7 @@ def update_sys_tag():
 def update_cmd1_tag():
   data = request.get_json()
   item, rid = data['item'], data['rid']
+  item = internal_sys_name(item)
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if item in ['Uninterruptible', 'Pausable']:
     rtn_tags.cmd1_tag = item
@@ -146,7 +151,7 @@ def update_cmd1_tag():
     else:
       rtn_tags.rtn_sys_tag = ''
   else:
-    flash("Customized tag can only be put for routine!")
+    flash("Self-defined tag can only be put for routine!")
   db_commit(success_msg="Update CMD1 system tag successfully",
             fail_msg="[ERROR] CMD1 sys tag update failed")
   result = {'success': True, 'response': 'Done'}
@@ -156,6 +161,7 @@ def update_cmd1_tag():
 def update_cmd2_tag():
   data = request.get_json()
   item, rid = data['item'], data['rid']
+  item = internal_sys_name(item)
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if item in ['Uninterruptible', 'Pausable']:
     rtn_tags.cmd2_tag = item
