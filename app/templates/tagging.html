@@ -2,7 +2,7 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
   Some brief definition (for user's convenience)
   <h3>Interface Overview</h3>
   <p>The interface you see below is what you will be using in this study. On the left hand side of the interface, you see 
@@ -55,7 +55,7 @@
                 &nbsp;
               {% endif %}
               {% if rtn_sys_tag %}
-              <span class="btn btn-light">
+              <span class="btn btn-light tag-item-container">
                 {{ rtn_sys_tag }}
                 <button type="button" class="btn btn-default btn-xs remove tag-item"
                         onclick="window.location.href=
@@ -66,7 +66,7 @@
               {% endif %}
 
               {% for cus_tag in rtn_cus_tags %}
-              <span class="btn btn-light">
+              <span class="btn btn-light tag-item-container">
                 {{ cus_tag }}
                 <button type="button" class="btn btn-default btn-xs remove tag-item"
                         onclick="window.location.href=
@@ -87,7 +87,7 @@
               </div>
               <div class="dropzone col" id="dropzone-cmd1">
                 {% if cmd1_tag %}
-                <span class="btn btn-light">
+                <span class="btn btn-light tag-item-container">
                   {{ cmd1_tag }}
                   <button type="button" class="btn btn-default btn-xs remove tag-item"
                           onclick="window.location.href=
@@ -111,7 +111,8 @@
               </div>
               <div class="dropzone col" id="dropzone-cmd2">
                 {% if cmd2_tag %}
-                  <span class="btn btn-light"> {{ cmd2_tag }}
+                <span class="btn btn-light tag-item-container">
+                    {{ cmd2_tag }}
                     <button type="button" class="btn btn-default btn-xs remove tag-item"
                             onclick="window.location.href=
                             '{{ url_for('remove_cmd2_tag', rid=rid, idx=idx) }}';">
@@ -131,17 +132,41 @@
                      type="submit" name="tag-page-action" value="Previous">
             {% endif %}
             {% if idx < total_rtn %}
-              <input class="btn btn-outline-secondary delay-loading"
-                     type="submit" name="tag-page-action" value="Next">
+              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag %}
+                <input class="btn btn-outline-secondary"
+                       type="submit" name="tag-page-action" value="Next">
+              {% else %}
+                <input class="btn btn-outline-secondary delay-loading"
+                       type="submit" name="tag-page-action" value="Next">
+              {% endif %}
             {% else %}
-              <input class="btn btn-outline-primary delay-loading"
-                     type="submit" name="tag-page-action" value="Finish">
+              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag %}
+                <input class="btn btn-outline-primary"
+                       type="submit" name="tag-page-action" value="Finish">
+              {% else %}
+                <input class="btn btn-outline-primary delay-loading"
+                       type="submit" name="tag-page-action" value="Finish">
+              {% endif %}
             {% endif %}
           </form>
         </div>
 
         <div class="col-md-5">
         <div class="right-panel">
+          <!-- ---------------- -->
+          <!-- System tag panel -->
+          <!-- ---------------- -->
+          <div class="card" style="margin-bottom:5px">
+            <div class="card-body">
+              <h5 class="card-title">System tags</h5>
+                <a class="btn btn-outline-secondary">
+                  <span class="drag drag-handle">No Interruption</span>
+                </a>
+                <a class="btn btn-outline-secondary">
+                  <span class="drag drag-handle">OK to Pause</span>
+                </a>
+            </div>
+          </div>
           <!-- ---------------- -->
           <!-- Self-defined tag panel -->
           <!-- ---------------- -->
@@ -150,17 +175,19 @@
             <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
             <div class="modal-dialog modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="Label">Add a tag</h5>
+                  <h5 class="modal-title" id="Label">Add a Tag</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <!-- Pop-up Session Input Area -->
               <div class="modal-body">
+                <small><i>Please add a tag to show what you value for a routine.</i></small>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="task-form-display">Tag</span>
                   <input type="text" class="form-control data-tag-name"
                          placeholder="Tag name" aria-label="task-name"
                          aria-describedby="basic-addon1">
                 </div>
+                <small><i>Put a higher priority number (1-10) for tags you value more.</i></small>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="task-form-priority">Priority</span>
                   <input type="text" class="form-control tag-priority"
@@ -182,14 +209,15 @@
           <!--  Add tag button  -->
           <div class="card" style="margin-bottom:10px">
             <div class="card-body">
-              <h5 class="card-title">Self-defined tags</h5>
-              <button type="button" class="btn btn-outline-info btn-sm"
+              <h5 class="card-title">
+                <span>Self-Defined Routine Tags</span>
+                <button type="button" class="btn btn-outline-info btn-sm float-right"
                       data-bs-toggle="modal" data-bs-target="#task-modal"
                       data-source="New Tag">
                 Add New Tag
-              </button>
-
-              <div class="container table-responsive">
+                </button>
+              </h5>
+              <div class="container table-responsive" style="margin-top:20px">
               <table class="table">
                 <thead>
                 <tr>
@@ -231,21 +259,6 @@
               <small><i>Note: put higher priority for the tags you value more.</i></small>
             </div> <!-- End of Self-define tag card body for table -->
           </div> <!-- End of Self-define tag whole area -->
-
-          <!-- ---------------- -->
-          <!-- System tag panel -->
-          <!-- ---------------- -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">System tags</h5>
-                <a class="btn btn-outline-secondary">
-                  <span class="drag drag-handle">No Interruption</span>
-                </a>
-                <a class="btn btn-outline-secondary">
-                  <span class="drag drag-handle">OK to Pause</span>
-                </a>
-            </div>
-          </div>
         </div>
       </div></div>  <!-- end of container for right panel -->
     </div>  <!-- end of card body -->

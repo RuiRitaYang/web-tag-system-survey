@@ -128,6 +128,14 @@ hr {
   padding: 0px;
 }
 
+.tag-item-container{
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-right: 8px
+}
+
 .indented {
   padding-left: 30px
 }
