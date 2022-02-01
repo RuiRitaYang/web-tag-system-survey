@@ -146,4 +146,7 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Delay loading for next page
+    $('.delay-loading').delay(2000).fadeIn(400);
 });
