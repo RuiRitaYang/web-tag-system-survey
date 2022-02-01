@@ -46,7 +46,7 @@
           <!--   Tagging at routine level   -->
           <!-- ---------------------------  -->
           <div class="row">
-            <div class="col-md-5 col-xs-4">
+            <div class="col-md-6 col-xs-4">
               <b>Routine {{ idx }}</b>: {{ rtn_info["rtn_name"] }}
               <p><small><i>This is a {{ rtn_info["rtn_description"] }}</i></small></p>
             </div>
@@ -191,48 +191,46 @@
 
               <div class="container table-responsive">
               <table class="table">
-                  <thead>
+                <thead>
+                <tr>
+                    <th class="task">Tag Name</th>
+                    <th class="status">Priority</th>
+                    <th class="update">Edit</th>
+                    <th class="update">Del.</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for tag in all_cus_tag %}
                   <tr>
-                      <th class="task">Tag Name</th>
-                      <th class="status">Priority</th>
-                      <th class="update">Edit</th>
-                      <th class="update">Del.</th>
+                  <td>
+                    <a class="btn btn-outline-secondary"
+                       style="text-align:left; line-height:1.2">
+                      <span class="drag drag-handle">{{ tag.name }}</span>
+                    </a>
+                  </td>
+                  <td style="text-align:center">{{ tag.priority }}</td>
+                  <td>
+                    <button type="button" class="btn btn-outline-info btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#task-modal"
+                            data-source="{{ tag.name }}" data-priority="{{ tag.priority }}">
+                      <i class="fa fa-pen fa-1" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-outline-secondary btn-sm remove cus-tag-remove"
+                            data-source="{{ tag.name }}" type="button">
+                      <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                    </button>
+                  </td>
                   </tr>
-                  </thead>
-
-                  <tbody>
-                  {% for tag in all_cus_tag %}
-                      <tr>
-                      <td>
-                        <a class="btn btn-outline-secondary"
-                           style="text-align:left; line-height:1.2">
-                          <span class="drag drag-handle">{{ tag.name }}</span>
-                        </a>
-                      </td>
-                      <td style="text-align:center">{{ tag.priority }}</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-info btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#task-modal"
-                                data-source="{{ tag.name }}" data-priority="{{ tag.priority }}">
-                          <i class="fa fa-pen fa-1" aria-hidden="true"></i>
-                        </button>
-                      </td>
-
-                      <td>
-                        <button class="btn btn-outline-secondary btn-sm remove cus-tag-remove"
-                                data-source="{{ tag.name }}" type="button">
-                          <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-                        </button>
-                      </td>
-                      </tr>
-                  {% endfor %}
-
-                  </tbody>
+                {% endfor %}
+                </tbody>
               </table>
-              </div>
-            </div>
-          </div> <!-- End of Self-define tag area -->
-
+              </div> <!-- End of table area-->
+              <small><i>Note: put higher priority for the tags you value more.</i></small>
+            </div> <!-- End of Self-define tag card body for table -->
+          </div> <!-- End of Self-define tag whole area -->
 
           <!-- ---------------- -->
           <!-- System tag panel -->
