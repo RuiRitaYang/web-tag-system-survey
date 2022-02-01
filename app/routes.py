@@ -6,7 +6,7 @@ from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, \
   get_all_customized_tag, get_email_and_itv, \
   get_scn_ids_by_uuid, \
-  get_rtn_ids_by_uuid, update_customized_tag, update_email_itv, update_itv, \
+  get_rtn_ids_by_uuid, record_finish_time, update_customized_tag, update_email_itv, update_itv, \
   record_multi_scn_stt_scores
 from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm
 from app.system import get_user_scn_outcome
@@ -28,7 +28,7 @@ def index():
     uuid = form.uuid.data
     user = Users.query.get(uuid)
     if user is None:
-      scn_ids = random.sample(range(1, 5), 2)
+      scn_ids = random.sample(range(1, 5), 4)
       rtn_ids = get_rtn_ids_by_scn_ids(scn_ids)
       user = Users(uuid=uuid,
                    scn_ids=','.join([str(v) for v in scn_ids]),
@@ -276,6 +276,7 @@ def ease_of_use():
     for i in range(num_q):
       exec('responses[{0}] = form.q{0}.data'.format(i))
     # commit to database
+    responses['open'] = form.open_ended.data
     commit_eou_record(session['uuid'], responses)
     return redirect(url_for('finish', status=1))
 
@@ -303,6 +304,7 @@ def finish(status):
       update_email_itv(session['uuid'], email, itv_interest)
       form.email.data = None
       form.interview.data = None
+      record_finish_time(session['uuid'])
       return render_template('finish.html', finished=3, email=email)
     if not int(e_confirm) and not form.email.data:
       return render_template('finish.html', finished=2)

@@ -152,3 +152,7 @@ hr {
 .delay-loading{
     display: none;
 }
+
+.eou-question{
+  margin-bottom: 5px;
+}

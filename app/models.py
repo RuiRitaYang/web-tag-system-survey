@@ -3,7 +3,7 @@ from datetime import datetime
 import email_validator
 from flask_wtf import FlaskForm
 from wtforms import EmailField, IntegerField, StringField, SubmitField, RadioField
-from wtforms.validators import DataRequired, Email, Optional
+from wtforms.validators import DataRequired, Email, Optional, Length
 
 
 class Users(db.Model):
@@ -57,6 +57,10 @@ class ScenarioOutcomeRecord(db.Model):
   strategy = db.Column(db.String(10), primary_key=True)
   score = db.Column(db.Integer, nullable=True)
 
+class TextResponse(db.Model):
+  uuid = db.Column(db.Integer, primary_key=True)
+  eou_feedback = db.Column(db.String(500), nullable=True)
+
 class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
   submit = SubmitField('Submit')
@@ -78,6 +82,8 @@ class EaseOfUseForm(FlaskForm):
   q6 = RadioField('q6', choices=options)
   q7 = RadioField('q7', choices=options)
   q8 = RadioField('q8', choices=options)
+  open_ended = StringField('open_ended',
+                           validators=[Optional(), Length(max=500)])
   submit = SubmitField('Submit')
 
 

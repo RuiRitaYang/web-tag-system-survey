@@ -3,13 +3,14 @@
 
 {% block content %}
 <div class="container">
-  <h2>Use Experience</h2>
+  <h4>Ease of Use Survey</h4>
 
-  <br><br>
+  <br/>
   <form method="POST">
     {{ form.hidden_tag() }}
-    {{ descriptions[0] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[0] }}</big>
+    </div>
     <table>
       {% for subfield in form.q0 %}
       <tr>
@@ -20,8 +21,9 @@
     </table>
     <br/>
 
-    {{ descriptions[1] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[1] }} </big>
+    </div>
     <table>
       {% for subfield in form.q1 %}
       <tr>
@@ -32,8 +34,9 @@
     </table>
     <br/>
 
-    {{ descriptions[2] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[2] }}</big>
+    </div>
     <table>
       {% for subfield in form.q2 %}
       <tr>
@@ -44,8 +47,9 @@
     </table>
     <br/>
 
-    {{ descriptions[3] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[3] }}</big>
+    </div>
     <table>
       {% for subfield in form.q3 %}
       <tr>
@@ -56,8 +60,9 @@
     </table>
     <br/>
 
-    {{ descriptions[4] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[4] }}</big>
+    </div>
     <table>
       {% for subfield in form.q4 %}
       <tr>
@@ -68,8 +73,9 @@
     </table>
     <br/>
 
-    {{ descriptions[5] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[5] }}</big>
+    </div>
     <table>
       {% for subfield in form.q5 %}
       <tr>
@@ -80,8 +86,9 @@
     </table>
     <br/>
 
-    {{ descriptions[6] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[6] }}</big>
+    </div>
     <table>
       {% for subfield in form.q6 %}
       <tr>
@@ -92,8 +99,9 @@
     </table>
     <br/>
 
-    {{ descriptions[7] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[7] }}</big>
+    </div>
     <table>
       {% for subfield in form.q7 %}
       <tr>
@@ -104,8 +112,9 @@
     </table>
     <br/>
 
-    {{ descriptions[8] }}
-    <br/>
+    <div class="eou-question">
+      <big>{{ descriptions[8] }}</big>
+    </div>
     <table>
       {% for subfield in form.q8 %}
       <tr>
@@ -116,6 +125,11 @@
     </table>
     <br/>
 
+    <div class="eou-question">
+      <big>Is there any other feedback you would like to share? (max 500 characters)</big>
+    </div>
+    {{ form.open_ended(class="form-control") }}
+    <br/>
     {{ form.submit(class="btn btn-outline-primary") }}
   </form>
 </div>

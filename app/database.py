@@ -1,6 +1,10 @@
 from app import db
-from app.models import EaseOfUseRecord, Users, RoutineTag, CustomizedTag, ScenarioOutcomeRecord
+from app.models import EaseOfUseRecord, TextResponse, Users, RoutineTag, CustomizedTag, \
+  ScenarioOutcomeRecord
 from app.utils import *
+
+from datetime import datetime
+
 import random
 
 def get_name():
@@ -60,15 +64,25 @@ def get_tags_by_rtn_id(uuid, rtn_id):
 def commit_eou_record(uuid, responses):
   for qid in responses:
     modified = True
-    resp = EaseOfUseRecord.query.get((uuid, qid))
-    if not resp:
-      resp = EaseOfUseRecord(uuid=uuid, qid=qid, score=responses[qid])
-      db.session.add(resp)
-    else:
-      if resp.score == int(responses[qid]):
+    if qid == 'open':  # Record open-ended question
+      feedback = TextResponse.query.get(uuid)
+      if not feedback:
+        feedback = TextResponse(uuid=uuid, eou_feedback=responses[qid])
+        db.session.add(feedback)
+      elif feedback.eou_feedback == responses[qid]:
         modified = False
       else:
-        resp.score = responses[qid]
+        feedback.eou_feedback = responses[qid]
+    else:  # Record ease of use multiple choice results
+      resp = EaseOfUseRecord.query.get((uuid, qid))
+      if not resp:
+        resp = EaseOfUseRecord(uuid=uuid, qid=qid, score=responses[qid])
+        db.session.add(resp)
+      else:
+        if resp.score == int(responses[qid]):
+          modified = False
+        else:
+          resp.score = responses[qid]
     if modified:
       db_commit(success_msg='Update q{0} record successfully'.format(qid),
                 fail_msg='[ERROR] ease_of_use record udpate failed.')
@@ -181,3 +195,12 @@ def record_scn_stt_satisfaction(uuid, scn_id, stt, score):
     db_commit(success_msg='Update USER {0} scn {1} stt {2} score ' +
                           'to {3}'.format(uuid, scn_id, stt, score),
               fail_msg='[ERROR] Fail when updating scenario outcome score.')
+
+def record_finish_time(uuid):
+  user = Users.query.get(uuid)
+  if not user:
+    user = Users(uuid=uuid)
+    db.session.add(user)
+  user.date_finished = datetime.utcnow()
+  db_commit(success_msg="Update survey finish time for user " + str(uuid),
+            fail_msg="[ERROR] Failed to record finish time")
