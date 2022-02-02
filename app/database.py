@@ -114,9 +114,10 @@ def update_itv(uuid, itv):
   if not user:
     print('[ERROR] Invalid uuid that is acquiring email.')
     return
-  user.itv = int(itv)
+  user.interview = int(itv)
   db_commit(
-    success_msg='Update {} interview interest {}.'.format(uuid, int(itv)),
+    success_msg='Update {} interview interest {}.'.format(
+      uuid, user.interview),
     fail_msg='[ERROR] failed to update interview interest.'
   )
 
@@ -126,7 +127,7 @@ def update_email_itv(uuid, email, itv):
     print('[ERROR] Invalid uuid that is acquiring email.')
     return
   user.email = email
-  user.itv = int(itv)
+  user.interview = int(itv)
   db_commit(
     success_msg='Update {} email {} and interview state {}.'.format(
       uuid, email, int(itv)),

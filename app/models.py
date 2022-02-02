@@ -12,7 +12,7 @@ class Users(db.Model):
   rtn_ids = db.Column(db.String(90), nullable=True)
   consented = db.Column(db.Boolean, nullable=True)
   email = db.Column(db.String(50), nullable=True)
-  interview = db.Column(db.Boolean(), nullable=True)
+  interview = db.Column(db.Boolean, nullable=True)
   date_added = db.Column(db.DateTime, default=datetime.utcnow())
   date_finished = db.Column(db.DateTime, nullable=True)
 

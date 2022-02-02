@@ -35,7 +35,7 @@ def index():
                    rtn_ids=','.join([str(v) for v in rtn_ids]))
       db.session.add(user)
       db.session.commit()
-    flash("Welcome dear participants!")
+    flash("Welcome!")
     session['uuid'] = uuid
     form.uuid.data = ''
     return render_template('consent_form.html', uuid=uuid, consented=None)
@@ -288,6 +288,8 @@ def ease_of_use():
 def finish(status):
   form = FinishForm()
   email, itv = get_email_and_itv(session['uuid']) if status >= 1 else [None, None]
+  if status == 3:
+    record_finish_time(session['uuid'])
 
   if form.validate_on_submit():
     e_confirm = form.email_confirm.data if email is not None else 0
@@ -298,15 +300,14 @@ def finish(status):
     if int(e_confirm):
       update_itv(session['uuid'], itv_interest)
       form.interview.data = None
-      return render_template('finish.html', finished=3, email=email)
+      return redirect(url_for('finish', status=3))
     if not int(e_confirm) and form.email.data:
       email = form.email.data
       update_email_itv(session['uuid'], email, itv_interest)
       form.email.data = None
       form.interview.data = None
-      record_finish_time(session['uuid'])
-      return render_template('finish.html', finished=3, email=email)
+      return redirect(url_for('finish', status=3))
     if not int(e_confirm) and not form.email.data:
-      return render_template('finish.html', finished=2)
+      return redirect(url_for('finish', status=2))
   return render_template('finish.html', finished=status,
                          email=email, form=form)
