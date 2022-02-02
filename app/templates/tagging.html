@@ -3,22 +3,67 @@
 
 {% block content %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
-  <h3>Interface Overview</h3>
-  <p>The interface you see below is what you will be using in this study. On the left hand side of the interface, you see 
-    the routine listed, and its associated commands, aong with their respective boxes. In those boxes are where you can drag 
-    and drop tags from the menus on the right hand side of the screen. The top menu lists the two "System Tags" you can assign
-    a routine of command: Uninterruptible meaning that the system should not interrupt this routine or command under any circumstances, 
-    and Pausible meaning the system can interrupt the routine or command if necessary. Below that is the "Self-Defined Tag" menu,
-    where you can create your own tags and assign them to a routine. Self-Defined tags cannot be assigned to commands. Click the 
-    "Add new tag" button when you would like to add a new Self-Defined tag. 
-    </p>
-    <br>
-    <p>
-    The tags in both menus are draggable, meaning you can click and hold on them to drag into the boxes associated with
-    the routine or command. If you would like to remove a tag from a routine or command, simply click the "X" located
-    next to that tag when it is in the box. (TODO Include demo video?)
-     </p>
-<!--  TODO -->
+  <h4>Interface Overview</h4>
+  <p>The interface you see below is what you will be using in this study.
+    Here is a video tutorial about how to use it.
+  </p>
+  <p>TODO: add a video here.</p>
+  <details>
+    <summary>
+      Click for a text version tutorial.
+    </summary>
+    <div class="indented">
+      <p>
+        On the <i>left hand</i>, you will see a <strong>routine</strong>, its associated <strong>commands</strong>,
+        along with their respective <strong>boxes</strong>. The <strong>box</strong> is used to put
+        the <strong>tags</strong> that you can drag and drop from the <i>right hand panel</i>
+      </p>
+      <p>
+        The <i>right hand panel</i> contains two menus that include different tags. <br/>
+        Top menu includes two types of <strong>System Tags</strong>:
+        <ul>
+          <li>
+            <i><strong>No interruption</strong></i>:
+            routine/command with this tag will finish without interruption once it starts.
+          </li>
+          <li>
+            <i><strong>OK to pause</strong></i>:
+            system may pause the routine/command if needed, but will
+            continue to execute afterwards until reaching the specified time length.
+          </li>
+        </ul>
+      </p>
+      <p>
+        In Bottom <strong>Self-Defined Tags</strong> menu, you can
+        <ul>
+          <li>create your own tags to specify what you value about a routine
+            such as "energy-saving" and "safety".
+          </li>
+          <li>
+            specify the priority of the tag. A higher priority means you values more
+            about the routines with this tag.
+          </li>
+        </ul>
+        Self-Defined tags cannot be assigned to commands. You can add a new tag through
+        "Add New Tag", edit, and delete existing self-defined tags.
+      </p>
+      <p>
+        The tags in both menus are draggable, meaning you can click and hold on them to drag into the boxes associated with
+        the routine or command. If you would like to remove a tag from a routine or command, simply click the
+        <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+        located next to that tag when it is in the box.
+      </p>
+    </div>
+  </details>
+  <br>
+<!--    The interface you see below is what you will be using in this study.-->
+<!--    On the left hand side of the interface, you see-->
+<!--    the routine listed, and its associated commands, along with their respective boxes. In those boxes are where you can drag-->
+<!--    and drop tags from the menus on the right-hand side of the screen. The top menu lists the two "System Tags" you can assign-->
+<!--    a routine of command: Uninterruptible meaning that the system should not interrupt this routine or command under any circumstances,-->
+<!--    and Pausable meaning the system can interrupt the routine or command if necessary. Below that is the "Self-Defined Tag" menu,-->
+<!--    where you can create your own tags and assign them to a routine. Self-Defined tags cannot be assigned to commands. Click the-->
+<!--    "Add new tag" button when you would like to add a new Self-Defined tag.-->
 </div>
 <br/>
 {% for message in get_flashed_messages() %}
