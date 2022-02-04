@@ -313,6 +313,7 @@ def finish(status):
       form.interview.data = None
       return redirect(url_for('finish', status=3))
     if not int(e_confirm) and not form.email.data:
+      flash('Please input your email address.')
       return redirect(url_for('finish', status=2))
   return render_template('finish.html', finished=status,
                          email=email, form=form)

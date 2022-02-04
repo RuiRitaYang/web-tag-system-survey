@@ -2,9 +2,23 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
+
+{% for message in get_flashed_messages() %}
+  <div class="container">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+{% endfor %}
+
 <div class="container">
   You are done with the study. Thank you! <br>
-  You can now close the page.
+  {% if finished == 0 %}
+  <p>You can now close the page.</p>
+  {% endif %}
   {% if finished == 3 %}
   <p>
     We will send you the Amazon eGift card number to your email
@@ -17,7 +31,7 @@
     {{ form.hidden_tag() }}
     <p> Thanks for participating in the study! </p>
     <p>
-      would you be interested in attending a paid interview online for
+      Would you be interested in attending a paid interview online for
       more feedback? <br/>
       It will take around 20 minutes, and you will earn $10 Amazon gift card as compensation.
     </p>
