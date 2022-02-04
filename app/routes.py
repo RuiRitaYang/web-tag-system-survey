@@ -1,6 +1,5 @@
 import random
-from unicodedata import name
-import uuid
+from datetime import datetime
 
 from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, \
@@ -34,7 +33,9 @@ def index():
                    scn_ids=','.join([str(v) for v in scn_ids]),
                    rtn_ids=','.join([str(v) for v in rtn_ids]))
       db.session.add(user)
-      db.session.commit()
+    # Update survey start time
+    user.date_added = datetime.utcnow()
+    db.session.commit()
     flash("Welcome!")
     session['uuid'] = uuid
     form.uuid.data = ''
