@@ -228,13 +228,15 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="task-form-display">Tag</span>
                   <input type="text" class="form-control data-tag-name"
-                         placeholder="Tag name" aria-label="task-name"
+                         maxlength="20"
+                         placeholder="Tag name (max 20 characters)" aria-label="task-name"
                          aria-describedby="basic-addon1">
                 </div>
-                <small><i>Put a higher priority number (1-10) for tags you value more.</i></small>
+                <small><i>Put a higher priority number for tags you value more.</i></small>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="task-form-priority">Priority</span>
-                  <input type="text" class="form-control tag-priority"
+                  <input type="number" class="form-control tag-priority"
+                         min="1" max="10" value="5"
                          placeholder="priority (1-10), default 5" aria-label="task-name"
                          aria-describedby="basic-addon1">
                 </div>

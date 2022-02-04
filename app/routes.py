@@ -95,7 +95,9 @@ def tag(idx):
 def create_cus_tag():
   data = request.get_json()
   tag_name, priority = data['tag_name'], data['priority']
-  update_customized_tag(session['uuid'], tag_name, priority)
+  status = update_customized_tag(session['uuid'], tag_name, priority)
+  if status == 'empty name':
+    flash('Tag name cannot be empty.')
   result = {'success': True, 'response': 'Done'}
   return jsonify(result)
 

@@ -137,6 +137,10 @@ def update_email_itv(uuid, email, itv):
 def update_customized_tag(uuid, tag_name, priority=5):
   cus_tag = CustomizedTag.query.get((uuid, tag_name))
   print('try to udpate ============')
+  if not tag_name:
+    return 'empty name'
+  if not priority:
+    priority = 5
   modified = True
   if not cus_tag:
     cus_tag = CustomizedTag(uuid=uuid, name=tag_name, priority=priority)
@@ -152,6 +156,7 @@ def update_customized_tag(uuid, tag_name, priority=5):
                   'priority {}'.format(uuid, tag_name, priority),
       fail_msg='[ERROR] failed to update customized tag info!'
     )
+  return 'success'
 
 def delete_customized_tag(uuid, tag_name):
   cus_tag = CustomizedTag.query.get_or_404((uuid, tag_name))

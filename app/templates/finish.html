@@ -3,12 +3,14 @@
 
 {% block content %}
 <div class="container">
-  You are done with the study. Thank you!
+  You are done with the study. Thank you! <br>
+  You can now close the page.
   {% if finished == 3 %}
   <p>
     We will send you the Amazon eGift card number to your email
     <strong>{{ email }}</strong>.
   </p>
+  <p> You can now close the page. </p>
   {% endif %}
   {% if finished < 3 and finished > 0 %}
   <form method="POST">
