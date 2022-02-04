@@ -5,7 +5,8 @@ from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, \
   get_all_customized_tag, get_email_and_itv, \
   get_eou_record, get_scn_ids_by_uuid, \
-  get_rtn_ids_by_uuid, record_finish_time, update_customized_tag, update_email_itv, update_itv, \
+  get_rtn_ids_by_uuid, record_consented, record_finish_time, update_customized_tag, \
+  update_email_itv, update_itv, \
   record_multi_scn_stt_scores
 from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm
 from app.system import get_user_scn_outcome
@@ -45,6 +46,7 @@ def index():
 @app.route('/consented', methods=['GET', 'POST'])
 def consented():
   consent = request.form.get('consent')
+  record_consented(session['uuid'], (consent == 'y'))
   if consent == 'y':
     return render_template('background.html')
   else:
