@@ -1,8 +1,7 @@
 from app import db
 from datetime import datetime
-import email_validator
 from flask_wtf import FlaskForm
-from wtforms import EmailField, IntegerField, StringField, SubmitField, RadioField
+from wtforms import EmailField, StringField, SubmitField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, Email, Optional, Length
 
 
@@ -65,7 +64,6 @@ class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
   submit = SubmitField('Submit')
 
-
 class EaseOfUseForm(FlaskForm):
   options = [(1, 'Strongly disagree'),
              (2, 'Somewhat disagree'),
@@ -73,17 +71,17 @@ class EaseOfUseForm(FlaskForm):
              (4, 'Somewhat agree'),
              (5, 'Strongly agree')]
 
-  q0 = RadioField('q0', choices=options)
-  q1 = RadioField('q1', choices=options)
-  q2 = RadioField('q2', choices=options)
-  q3 = RadioField('q3', choices=options)
-  q4 = RadioField('q4', choices=options)
-  q5 = RadioField('q5', choices=options)
-  q6 = RadioField('q6', choices=options)
-  q7 = RadioField('q7', choices=options)
-  q8 = RadioField('q8', choices=options)
-  open_ended = StringField('open_ended',
-                           validators=[Optional(), Length(max=500)])
+  q0 = RadioField('q0', coerce=int, choices=options, validators=[DataRequired()])
+  q1 = RadioField('q1', coerce=int, choices=options, validators=[DataRequired()])
+  q2 = RadioField('q2', coerce=int, choices=options, validators=[DataRequired()])
+  q3 = RadioField('q3', coerce=int, choices=options, validators=[DataRequired()])
+  q4 = RadioField('q4', coerce=int, choices=options, validators=[DataRequired()])
+  q5 = RadioField('q5', coerce=int, choices=options, validators=[DataRequired()])
+  q6 = RadioField('q6', coerce=int, choices=options, validators=[DataRequired()])
+  q7 = RadioField('q7', coerce=int, choices=options, validators=[DataRequired()])
+  q8 = RadioField('q8', coerce=int, choices=options, validators=[DataRequired()])
+  open_ended = TextAreaField('open_ended',
+                             validators=[Optional(), Length(max=500)])
   submit = SubmitField('Submit')
 
 

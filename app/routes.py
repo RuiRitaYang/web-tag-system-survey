@@ -5,7 +5,7 @@ import uuid
 from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, \
   get_all_customized_tag, get_email_and_itv, \
-  get_scn_ids_by_uuid, \
+  get_eou_record, get_scn_ids_by_uuid, \
   get_rtn_ids_by_uuid, record_finish_time, update_customized_tag, update_email_itv, update_itv, \
   record_multi_scn_stt_scores
 from app.models import FinishForm, Users, RoutineTag, UUIDForm, EaseOfUseForm
@@ -282,8 +282,11 @@ def ease_of_use():
     commit_eou_record(session['uuid'], responses)
     return redirect(url_for('finish', status=1))
 
+  eou_scores = get_eou_record(session['uuid'])
+  form = get_eou_form(eou_scores)
   return render_template('easy_of_use.html',
                          form=form,
+                         eou_scores=eou_scores,
                          descriptions=descriptions)
 
 @app.route('/finish/<int:status>', methods=['GET', 'POST'])

@@ -1,7 +1,7 @@
 import json
 import os
 
-from app.models import FstOutcomeForm, SndOutcomeForm
+from app.models import EaseOfUseForm, FstOutcomeForm, SndOutcomeForm
 
 
 def get_all_scenarios_routines():
@@ -94,3 +94,9 @@ def tag_display_name(name):
     return name
   return matches[name]
 
+def get_eou_form(scores):
+  form = EaseOfUseForm()
+  for qid in range(9):
+    if qid in scores:
+      exec('form.q{0}.data = scores[{0}]'.format(qid))
+  return form

@@ -61,32 +61,6 @@ def get_tags_by_rtn_id(uuid, rtn_id):
         final_priority = priority
   return [rtn_sys_tag, cmd1_tag, cmd2_tag, final_priority]
 
-def commit_eou_record(uuid, responses):
-  for qid in responses:
-    modified = True
-    if qid == 'open':  # Record open-ended question
-      feedback = TextResponse.query.get(uuid)
-      if not feedback:
-        feedback = TextResponse(uuid=uuid, eou_feedback=responses[qid])
-        db.session.add(feedback)
-      elif feedback.eou_feedback == responses[qid]:
-        modified = False
-      else:
-        feedback.eou_feedback = responses[qid]
-    else:  # Record ease of use multiple choice results
-      resp = EaseOfUseRecord.query.get((uuid, qid))
-      if not resp:
-        resp = EaseOfUseRecord(uuid=uuid, qid=qid, score=responses[qid])
-        db.session.add(resp)
-      else:
-        if resp.score == int(responses[qid]):
-          modified = False
-        else:
-          resp.score = responses[qid]
-    if modified:
-      db_commit(success_msg='Update q{0} record successfully'.format(qid),
-                fail_msg='[ERROR] ease_of_use record udpate failed.')
-
 def get_email(uuid):
   user = Users.query.get(uuid)
   if not user:
@@ -201,6 +175,43 @@ def record_scn_stt_satisfaction(uuid, scn_id, stt, score):
     db_commit(success_msg='Update USER {0} scn {1} stt {2} score ' +
                           'to {3}'.format(uuid, scn_id, stt, score),
               fail_msg='[ERROR] Fail when updating scenario outcome score.')
+
+################################
+## Ease of Use & Finish utils ##
+################################
+def get_eou_record(uuid):
+  eou_scores = {}
+  for qid in range(9):
+    q_score = EaseOfUseRecord.query.get((uuid, qid))
+    if q_score:
+      eou_scores[qid] = q_score.score
+  return eou_scores
+
+def commit_eou_record(uuid, responses):
+  for qid in responses:
+    modified = True
+    if qid == 'open':  # Record open-ended question
+      feedback = TextResponse.query.get(uuid)
+      if not feedback:
+        feedback = TextResponse(uuid=uuid, eou_feedback=responses[qid])
+        db.session.add(feedback)
+      elif feedback.eou_feedback == responses[qid]:
+        modified = False
+      else:
+        feedback.eou_feedback = responses[qid]
+    else:  # Record ease of use multiple choice results
+      resp = EaseOfUseRecord.query.get((uuid, qid))
+      if not resp:
+        resp = EaseOfUseRecord(uuid=uuid, qid=qid, score=responses[qid])
+        db.session.add(resp)
+      else:
+        if resp.score == int(responses[qid]):
+          modified = False
+        else:
+          resp.score = responses[qid]
+    if modified:
+      db_commit(success_msg='Update q{0} record successfully'.format(qid),
+                fail_msg='[ERROR] ease_of_use record udpate failed.')
 
 def record_finish_time(uuid):
   user = Users.query.get(uuid)
