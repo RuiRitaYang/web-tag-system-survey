@@ -4,10 +4,11 @@
 {% block content %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
   <h4>Interface Overview</h4>
-  <p>The interface you see below is what you will be using in this study.
-    Here is a video tutorial about how to use it.
-  </p>
-  <p>TODO: add a video here.</p>
+  <p>The interface you see below is what you will be using in this study. Here is a video tutorial about how to use it.</p>
+  <video width="320" height="240" controls>
+    <source src="{{ url_for('static', filename='video/tag-tutorial.mov') }}" type="video/mp4">
+  </video>
+
   <details>
     <summary>
       Click for a text version tutorial.
@@ -257,12 +258,12 @@
             <div class="card-body">
               <h5 class="card-title">
                 <span>Self-Defined Routine Tags</span>
-                <button type="button" class="btn btn-outline-info btn-sm float-right"
+              </h5>
+              <button type="button" class="btn btn-outline-info btn-sm"
                       data-bs-toggle="modal" data-bs-target="#task-modal"
                       data-source="New Tag">
                 Add New Tag
-                </button>
-              </h5>
+              </button>
               <div class="container table-responsive" style="margin-top:20px">
               <table class="table">
                 <thead>
@@ -279,7 +280,7 @@
                   <tr>
                   <td>
                     <a class="btn btn-outline-secondary"
-                       style="text-align:left; line-height:1.2">
+                       style="text-align:left; line-height:1.2; width:100%;">
                       <span class="drag drag-handle">{{ tag.name }}</span>
                     </a>
                   </td>
