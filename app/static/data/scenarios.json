@@ -35,7 +35,7 @@
   {
     "scn_id": 2,
     "scn_name": "Reading before bedtime",
-    "scn_description": ["Today at 11 pm, you start your \"bedside reading\" routine. This routine turns off the roof light and turns on the bedside light for 1 hour, until 12 am.\n", "\nHowever, at 11:30 pm, your nightly \"bedtime\" routine starts. This routine turns off all the lights except for the night light in your room and starts playing deep-sleep-helping music on the speaker for 20 minutes, until 11:50 pm.\n", "Now at 11:30 pm, imagine your satisfaction for each outcome."],
+    "scn_description": ["Today at 11 pm, you start your \"bedside reading\" routine. This routine turns off the roof light and turns on the bedside light for 1 hour, until 12 am.\n", "\nHowever, at 11:30 pm, your nightly \"bedtime\" routine starts. This routine turns off all the lights in your room and starts playing deep-sleep-helping music on the speaker for 20 minutes, until 11:50 pm.\n", "Now at 11:30 pm, imagine your satisfaction for each outcome."],
     "rtn_ids": [3, 4],
     "system_outcomes": [
       {

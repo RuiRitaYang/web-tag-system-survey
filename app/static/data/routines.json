@@ -18,6 +18,7 @@
   {
     "rtn_id": 3,
     "rtn_name": "Bedside Reading",
+    "type": "long",
     "rtn_description": "routine for reading book in bed at night.",
     "cmd1": "Turn OFF roof light.",
     "cmd2": "Turn ON bedside light for 1 hour,"
@@ -25,6 +26,7 @@
   {
     "rtn_id": 4,
     "rtn_name": "Bedtime",
+    "type": "long",
     "rtn_description": "routine for going to bed.",
     "cmd1": "Turn OFF all the lights except for the night light",
     "cmd2": "PLAY deep-sleep-helping music on the speaker for 20 minutes"
@@ -32,6 +34,7 @@
   {
     "rtn_id": 5,
     "rtn_name": "Meeting Time",
+    "type": "long",
     "rtn_description": "routine to set up environment for an 1-hour meeting.",
     "cmd1": "Turn ON lights for 1 hour.",
     "cmd2": "MUTE the speaker for 1 hour."
@@ -39,6 +42,7 @@
   {
     "rtn_id": 6,
     "rtn_name": "Morning News",
+    "type": "long",
     "rtn_description": "routine to play some morning news daily at 10am.",
     "cmd1": "PLAY news for 5 minutes on the speaker.",
     "cmd2": ""
@@ -46,6 +50,7 @@
   {
     "rtn_id": 7,
     "rtn_name": "Automated Garage Door",
+    "type": "long",
     "rtn_description": "routine that opens the garage door for car arrival/departure.",
     "cmd1": "OPEN garage door; wait 10 mins; CLOSE garage door.",
     "cmd2": ""
@@ -53,6 +58,7 @@
   {
     "rtn_id": 8,
     "rtn_name": "Trash Out",
+    "type": "long",
     "rtn_description": "routine that weekly moves smart trash can out for garbage collection.",
     "cmd1": "OPEN garage door and wait 5 mins and CLOSE garage door.",
     "cmd2": "Move trash can OUTSIDE."

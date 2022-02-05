@@ -56,7 +56,7 @@ def consented():
 def tag(idx):
   # Get all long routines for the specific user.
   rtn_ids = get_rtn_ids_by_uuid(session['uuid'])
-  rtn_ids, rtn_info = get_long_rtn_info(rtn_ids)
+  rtn_ids, rtn_info = get_all_rtn_info(rtn_ids)
   total_rtn = len(rtn_ids)
   print("Current idx: " + str(idx) + " Total rtn: ", total_rtn)
   if idx < 1 or idx > total_rtn:
@@ -186,6 +186,8 @@ def update_cmd2_tag():
 def remove_rtn_sys_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.rtn_sys_tag = ''
+  rtn_tags.cmd1_tag = ''
+  rtn_tags.cmd2_tag = ''
   db_commit(success_msg="RTN {0} system tag removed".format(rid),
             fail_msg="[ERROR] RTN sys tag remove failed")
   return redirect(url_for('tag', idx=idx))
@@ -204,6 +206,7 @@ def remove_cus_tag(rid, idx, tag_name):
 def remove_cmd1_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.cmd1_tag = ''
+  rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="RTN {0} (rid {1}) CMD1 tag removed".format(idx, rid),
             fail_msg="[ERROR] RTN {0} CMD1 tag remove failed".format(rid))
   return redirect(url_for('tag', idx=idx))
@@ -212,6 +215,7 @@ def remove_cmd1_tag(rid, idx):
 def remove_cmd2_tag(rid, idx):
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   rtn_tags.cmd2_tag = ''
+  rtn_tags.rtn_sys_tag = ''
   db_commit(success_msg="RTN {0} (rid {1}) CMD2 tag removed".format(idx, rid),
             fail_msg="[ERROR] RTN {0} CMD2 tag remove failed".format(rid))
   return redirect(url_for('tag', idx=idx))
@@ -250,6 +254,8 @@ def scenario(idx):
       return redirect(url_for('ease_of_use'))
 
   fst_oc_form, snd_oc_form = get_outcome_forms(scores)
+  print("Scenario internal id:", scn_info['scn_id'],
+        "strategies: ", strategies)
   return render_template('scenario.html',
                          idx=idx,
                          sid=sid,

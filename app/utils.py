@@ -34,6 +34,14 @@ def get_long_rtn_info(rtn_ids):
       long_rtns[rtn['rtn_id']] = rtn
   return long_ids, long_rtns
 
+def get_all_rtn_info(rtn_ids):
+  routines = get_all_routines()
+  rtn_info = {}
+  for rtn in routines:
+    if rtn['rtn_id'] in rtn_ids:
+      rtn_info[rtn['rtn_id']] = rtn
+  return rtn_ids, rtn_info
+
 def get_scenario_by_id(sid):
   site_root = os.path.realpath(os.path.dirname(__file__))
   scn_url = os.path.join(site_root, "static/data", "scenarios.json")

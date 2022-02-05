@@ -4,8 +4,9 @@
 {% block content %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
   <h4>Interface Overview</h4>
-  <p>The interface you see below is what you will be using in this study. Here is a video tutorial about how to use it.</p>
-  <video width="320" height="240" controls>
+  The interface you see below is what you will be using in this study. Here is a video tutorial about how to use it.
+  <br/>
+  <video width="280" height="210" controls>
     <source src="{{ url_for('static', filename='video/tag-tutorial.mov') }}" type="video/mp4">
   </video>
 
@@ -57,15 +58,7 @@
     </div>
   </details>
   <br>
-<!--    The interface you see below is what you will be using in this study.-->
-<!--    On the left hand side of the interface, you see-->
-<!--    the routine listed, and its associated commands, along with their respective boxes. In those boxes are where you can drag-->
-<!--    and drop tags from the menus on the right-hand side of the screen. The top menu lists the two "System Tags" you can assign-->
-<!--    a routine of command: Uninterruptible meaning that the system should not interrupt this routine or command under any circumstances,-->
-<!--    and Pausable meaning the system can interrupt the routine or command if necessary. Below that is the "Self-Defined Tag" menu,-->
-<!--    where you can create your own tags and assign them to a routine. Self-Defined tags cannot be assigned to commands. Click the-->
-<!--    "Add new tag" button when you would like to add a new Self-Defined tag.-->
-</div>
+</div> <!-- End for interface tutorial -->
 <br/>
 {% for message in get_flashed_messages() %}
   <div class="container">
@@ -86,6 +79,7 @@
     </div>
     <div class="card-body">
       <div class="row">
+        <!-- Left panel -->
         <div class="col">
           <!-- ---------------------------  -->
           <!--   Tagging at routine level   -->
@@ -196,6 +190,7 @@
           </form>
         </div>
 
+        <!-- right panel -->
         <div class="col-md-5">
         <div class="right-panel">
           <!-- ---------------- -->
@@ -203,13 +198,23 @@
           <!-- ---------------- -->
           <div class="card" style="margin-bottom:5px">
             <div class="card-body">
-              <h5 class="card-title">System tags</h5>
+              <h5 class="card-title">System Tags</h5>
+              {% if rtn_info["type"] == "long" %}
                 <a class="btn btn-outline-secondary">
                   <span class="drag drag-handle">No Interruption</span>
                 </a>
                 <a class="btn btn-outline-secondary">
                   <span class="drag drag-handle">OK to Pause</span>
                 </a>
+              {% else %}
+              <i>System tags are disabled for short routines</i>
+              <a class="btn btn-secondary">
+                  <span class="drag-handle"> No Interruption </span>
+              </a>
+              <a class="btn btn-secondary">
+                  <span class="drag-handle">OK to Pause</span>
+                </a>
+              {% endif %}
             </div>
           </div>
           <!-- ---------------- -->
