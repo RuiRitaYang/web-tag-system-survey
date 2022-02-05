@@ -100,7 +100,8 @@ class FinishForm(FlaskForm):
     'email',
     validators=[Optional(), Email(granular_message=True)])
   interview = RadioField('interview',
-                         choices=[(1, 'Yes'), (0, 'No')],
+                         choices=[(1, 'Yes, I\'m interested.'),
+                                  (0, 'No, I\'m not interested')],
                          validators=[DataRequired()])
   submit = SubmitField('Submit')
 
