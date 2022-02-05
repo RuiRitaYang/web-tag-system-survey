@@ -1,8 +1,14 @@
 import json
 import os
+import random
 
 from app.models import EaseOfUseForm, FstOutcomeForm, SndOutcomeForm
 
+
+def get_random_scn_rtn_ids():
+  scn_ids = random.sample(range(1, 5), 4)
+  rtn_ids = get_rtn_ids_by_scn_ids(scn_ids)
+  return scn_ids, rtn_ids
 
 def get_all_scenarios_routines():
   site_root = os.path.realpath(os.path.dirname(__file__))
@@ -66,9 +72,11 @@ def get_rtn_ids_by_scn_ids(scn_ids):
   rtn_ids = set()
   for scn_info in scn_info_all:
     rtn_ids.update(scn_info['rtn_ids'])
-  return list(rtn_ids)
+  id_list = list(rtn_ids)
+  random.shuffle(id_list)
+  return id_list
 
-def remove_cus_tag_in_string(all_tags:str, d_tag):
+def remove_cus_tag_in_string(all_tags: str, d_tag):
   all_tags = all_tags.split(',')
   all_tags.remove(d_tag)
   return ','.join(all_tags)

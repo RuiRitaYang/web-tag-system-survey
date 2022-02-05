@@ -28,12 +28,15 @@ def index():
     uuid = form.uuid.data
     user = Users.query.get(uuid)
     if user is None:
-      scn_ids = random.sample(range(1, 5), 4)
-      rtn_ids = get_rtn_ids_by_scn_ids(scn_ids)
+      scn_ids, rtn_ids = get_random_scn_rtn_ids()
       user = Users(uuid=uuid,
                    scn_ids=','.join([str(v) for v in scn_ids]),
                    rtn_ids=','.join([str(v) for v in rtn_ids]))
       db.session.add(user)
+    elif not user.scn_ids:
+      scn_ids, rtn_ids = get_random_scn_rtn_ids()
+      user.scn_ids = ','.join([str(v) for v in scn_ids])
+      user.rtn_ids = ','.join([str(v) for v in rtn_ids])
     # Update survey start time
     user.date_added = datetime.utcnow()
     db.session.commit()
