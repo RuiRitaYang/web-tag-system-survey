@@ -15,5 +15,5 @@ Pausable,,,,,,r1,IN
 ,,,Uninterruptible,,,r1,DL
 ,,,Pausable,,,r2,TC
 ,,,Pausable,,,r1,DL
-,,,,,,r2,TC
+,,,,,,r2,OW
 ,,,,,,r1,IN

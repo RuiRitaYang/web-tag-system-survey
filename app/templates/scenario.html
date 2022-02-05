@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
-  <h2>System Outcome Satisfaction Level Rating</h2>
+  <h4>System Outcome Satisfaction Level Rating</h4>
   <p>
     In this section, we will provide you four different scenarios,
     each with their own set of outcomes. Each scenario contains
@@ -11,15 +11,12 @@
     over some period of time. Please rate your satisfaction with each
     outcome.
   </p>
-
-  <br><br>
-  <h4> Scenario {{ idx }} </h4>
+  <h5> Scenario {{ idx }} </h5>
   <form action="{{ url_for('scenario', idx=idx )}}" method="POST">
     <div class="indented">
       {% for sub_description in scn_description %}
-      <p> {{ sub_description }} </p>
+      <p><i> {{ sub_description }}</i></p>
       {% endfor %}
-      <br/>
       <br/>
       <!--------------------->
       <!--  First outcome  -->
@@ -45,6 +42,7 @@
         <p> {{ outcome[1]['description'] }} </p>
         <img src="{{ url_for('static', filename=outcome[1]['photo']) }}"
           width="750px"/>
+        <p> How satisfied are you with the above outcome? </p>
         <table>
           {% for subfield in snd_oc_form.oc2 %}
           <tr>
@@ -53,9 +51,12 @@
           </tr>
           {% endfor %}
         </table>
-        <br/><br/>
+        <br/>
       {% endif %}
-
+      {{ reason_form.hidden_tag() }}
+      {{ reason_form.reason.label(class="form-label") }}
+      {{ reason_form.reason(class="form-control") }}
+      <br/>
     </div>
 
   <!--   Browsing among different routines   -->

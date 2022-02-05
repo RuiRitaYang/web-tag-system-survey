@@ -118,10 +118,20 @@ def get_scn_stt_score_from_db(uuid, scn_id, stt):
     uuid, scn_id, stt))
   return sat_score.score if sat_score else None
 
-def record_multi_scn_stt_scores(
-    uuid, scn_id, all_stt: list, scores: list):
+def record_multi_scn_stt_scores_w_reason(
+    uuid, scn_id, all_stt: list, scores: list, reason):
   for i, stt in enumerate(all_stt):
     record_scn_stt_satisfaction(uuid, scn_id, stt, scores[i])
+  if reason:
+    text_resp = TextResponse.query.get(uuid)
+    if not text_resp:
+      text_resp = TextResponse(uuid=uuid)
+      db.session.add(text_resp)
+    exec('text_resp.s{}_reason = reason'.format(scn_id))
+    db_commit(
+      success_msg='Update text response for scn {} for '
+                  'user {}'.format(scn_id, uuid),
+      fail_msg='[ERROR] #SCNTR Text response failed to record')
 
 def record_scn_stt_satisfaction(uuid, scn_id, stt, score):
   modified = True

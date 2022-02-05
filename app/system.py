@@ -42,13 +42,19 @@ def get_cmd_level_stt(rtn_sys_tag1, cmd1_tag1, cmd2_tag1,
                       rtn_sys_tag2, cmd1_tag2, cmd2_tag2,
                       rtn_higher_pri, scn_id):
   df = get_cmd_level_stt_table()
+  if rtn_sys_tag1:
+    rtn1_tag_match = (df['r1_sys'] == rtn_sys_tag1)
+  else:
+    rtn1_tag_match = ((df['c11_sys'] == cmd1_tag1) &
+                      (df['c12_sys'] == cmd2_tag1))
+
+  if rtn_sys_tag2:
+    rtn2_tag_match = (df['r2_sys'] == rtn_sys_tag2)
+  else:
+    rtn2_tag_match = ((df['c21_sys'] == cmd1_tag2) &
+                      (df['c22_sys'] == cmd2_tag2))
   stt = df[(df['sid'] == scn_id) &
-           (df['r1_sys'] == rtn_sys_tag1) &
-           (df['r2_sys'] == rtn_sys_tag2) &
-           (df['c11_sys'] == cmd1_tag1) &
-           (df['c12_sys'] == cmd2_tag1) &
-           (df['c21_sys'] == cmd1_tag2) &
-           (df['c22_sys'] == cmd2_tag2) &
+           rtn1_tag_match & rtn2_tag_match &
            (df['cus_pri'] == rtn_higher_pri)]['strategy']
   print('Getting CMD raw strategy list: ' + str(stt.to_list()))
   if stt.empty:
@@ -110,7 +116,6 @@ def get_tag_outcome_by_scn_info(scn_info, uuid):
   return get_outcome_info_by_stt(scn_info, stt), stt
 
 def get_user_scn_outcome(uuid, scn_id: int, scn_info):
-  # TODO: add randomization for outcome
   outcome, stt = get_tag_outcome_by_scn_info(scn_info, uuid)
   outcomes = [outcome]
   scores = [get_scn_stt_score_from_db(uuid, scn_id, stt)]

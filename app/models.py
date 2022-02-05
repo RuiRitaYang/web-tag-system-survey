@@ -59,6 +59,10 @@ class ScenarioOutcomeRecord(db.Model):
 class TextResponse(db.Model):
   uuid = db.Column(db.Integer, primary_key=True)
   eou_feedback = db.Column(db.String(500), nullable=True)
+  s1_reason = db.Column(db.String(500), nullable=True)
+  s2_reason = db.Column(db.String(500), nullable=True)
+  s3_reason = db.Column(db.String(500), nullable=True)
+  s4_reason = db.Column(db.String(500), nullable=True)
 
 class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
@@ -116,3 +120,7 @@ class SndOutcomeForm(FlaskForm):
              (5, 'Satisfied')],
     validators=[DataRequired()], coerce=int
   )
+
+class ReasoningForm(FlaskForm):
+  reason = TextAreaField('Please explain your reasoning for your preference.',
+                         validators=[Optional(), Length(max=500)])
