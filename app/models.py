@@ -26,6 +26,7 @@ class RoutineTag(db.Model):
   rtn_cus_tags = db.Column(db.String(300), nullable=True)
   cmd1_tag = db.Column(db.String(20), nullable=True)
   cmd2_tag = db.Column(db.String(20), nullable=True)
+  tag_reason = db.Column(db.String(500), nullable=True)
 
   def __ref__(self):
     return "Tagging record for user {0} routine {1} with cus_tags {2}".format(
@@ -122,5 +123,5 @@ class SndOutcomeForm(FlaskForm):
   )
 
 class ReasoningForm(FlaskForm):
-  reason = TextAreaField('Please explain your reasoning for your preference.',
+  reason = TextAreaField('reason',
                          validators=[Optional(), Length(max=500)])

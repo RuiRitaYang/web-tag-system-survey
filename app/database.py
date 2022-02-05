@@ -110,6 +110,20 @@ def get_all_customized_tag(uuid):
   all_tags = CustomizedTag.query.filter_by(uuid=uuid).all()
   return all_tags
 
+def record_tag_reason(uuid, rid, reason):
+  rtn_tag = RoutineTag.query.get((uuid, rid))
+  modified = True
+  if not rtn_tag:
+    rtn_tag = RoutineTag(uuid=uuid, rtn_id=rid, tag_reason=reason)
+    db.session.add(rtn_tag)
+  elif reason and rtn_tag.tag_reason != reason:
+    rtn_tag.tag_reason = reason
+  else:
+    modified = False
+  if modified:
+    db_commit(success_msg="Update user {} rtn {} reason".format(uuid, rid),
+              fail_msg="[ERROR] Failed to update tag reasoning.")
+
 ############################
 ## Scenario Outcome Utils ##
 ############################

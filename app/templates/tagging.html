@@ -166,12 +166,16 @@
           {% endif %}
           <!--   Browsing among different routines   -->
           <form action="{{ url_for('tag', idx=idx )}}" method="POST">
+            {{ reason_form.hidden_tag() }}
+            Please explain your reasoning for tagging (optional, max 500 characters) <br/>
+            {{ reason_form.reason(class="form-control") }}
+            <br/>
             {% if idx > 1 %}
               <input class="btn btn-outline-secondary"
                      type="submit" name="tag-page-action" value="Previous">
             {% endif %}
             {% if idx < total_rtn %}
-              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag %}
+              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag or reason_form.reason.data %}
                 <input class="btn btn-outline-secondary"
                        type="submit" name="tag-page-action" value="Next">
               {% else %}
@@ -179,7 +183,7 @@
                        type="submit" name="tag-page-action" value="Next">
               {% endif %}
             {% else %}
-              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag %}
+              {% if rtn_sys_tag or rtn_cus_tags or cmd1_tag or cmd2_tag or reason_form.reason.data%}
                 <input class="btn btn-outline-primary"
                        type="submit" name="tag-page-action" value="Finish">
               {% else %}

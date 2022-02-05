@@ -5,10 +5,11 @@ from app import app, db
 from app.database import commit_eou_record, db_commit, delete_customized_tag, \
   get_all_customized_tag, get_email_and_itv, \
   get_eou_record, get_scn_ids_by_uuid, \
-  get_rtn_ids_by_uuid, record_consented, record_finish_time, update_customized_tag, \
+  get_rtn_ids_by_uuid, record_consented, record_finish_time, record_tag_reason, \
+  update_customized_tag, \
   update_email_itv, update_itv, \
   record_multi_scn_stt_scores_w_reason
-from app.models import FinishForm, ReasoningForm, Users, RoutineTag, UUIDForm, EaseOfUseForm
+from app.models import FinishForm, ReasoningForm, Users, RoutineTag, UUIDForm
 from app.system import get_user_scn_outcome
 from app.utils import *
 
@@ -61,10 +62,16 @@ def tag(idx):
   rtn_ids = get_rtn_ids_by_uuid(session['uuid'])
   rtn_ids, rtn_info = get_all_rtn_info(rtn_ids)
   total_rtn = len(rtn_ids)
-  print("Current idx: " + str(idx) + " Total rtn: ", total_rtn)
   if idx < 1 or idx > total_rtn:
     return redirect(url_for('tag', idx=1))
+
+  rid = rtn_ids[idx - 1]
+  reason_form = ReasoningForm()
+  print("Current idx: " + str(idx) + " Total rtn: ", total_rtn)
   if request.method == 'POST' and 'tag-page-action' in request.form:
+    reason = reason_form.reason.data
+    record_tag_reason(session['uuid'], rid, reason)
+
     action = request.form['tag-page-action']
     if action == 'Previous':
       return redirect(url_for('tag', idx=idx-1))
@@ -74,7 +81,6 @@ def tag(idx):
       return redirect(url_for('scenario', idx=0))
 
   # Start to show the page.
-  rid = rtn_ids[idx - 1]
   rtn_tags = RoutineTag.query.get((session['uuid'], rid))
   if rtn_tags is None:
     rtn_tags = RoutineTag(uuid=session['uuid'], rtn_id=rid)
@@ -86,6 +92,7 @@ def tag(idx):
   rtn_sys_tag = tag_display_name(rtn_tags.rtn_sys_tag)
   cmd1_tag = tag_display_name(rtn_tags.cmd1_tag)
   cmd2_tag = tag_display_name(rtn_tags.cmd2_tag)
+  reason_form.reason.data = rtn_tags.tag_reason
   return render_template('tagging.html',
                          rtn_info=rtn_info[rid],
                          idx=idx,
@@ -95,7 +102,8 @@ def tag(idx):
                          rtn_cus_tags=rtn_cus_tags,
                          cmd1_tag=cmd1_tag,
                          cmd2_tag=cmd2_tag,
-                         total_rtn=total_rtn)
+                         total_rtn=total_rtn,
+                         reason_form=reason_form)
 
 @app.route('/create-tag', methods=['GET', 'POST'])
 def create_cus_tag():
