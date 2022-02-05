@@ -64,6 +64,7 @@ class TextResponse(db.Model):
   s2_reason = db.Column(db.String(500), nullable=True)
   s3_reason = db.Column(db.String(500), nullable=True)
   s4_reason = db.Column(db.String(500), nullable=True)
+  tag_potential = db.Column(db.String(500), nullable=True)
 
 class UUIDForm(FlaskForm):
   uuid = StringField("What's the UUID (sent through email)?", validators=[DataRequired()])
@@ -87,6 +88,9 @@ class EaseOfUseForm(FlaskForm):
   q8 = RadioField('q8', coerce=int, choices=options, validators=[DataRequired()])
   open_ended = TextAreaField('open_ended',
                              validators=[Optional(), Length(max=500)])
+  tag_potential = TextAreaField(
+    'tag_potential',
+    validators=[Optional(), Length(max=500)])
   submit = SubmitField('Submit')
 
 

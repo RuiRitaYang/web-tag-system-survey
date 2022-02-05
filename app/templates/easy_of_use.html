@@ -7,6 +7,16 @@
 
   <br/>
   <form method="POST">
+    <div class="eou-question">
+      <big>What was your experience like using the tagging interface?
+        Would you like to use such a system in the future?<br/>
+        If not, what features would make you more interested in using it?
+        (max 500 characters)
+      </big>
+    </div>
+    {{ form.tag_potential(class="form-control") }}
+    <br/>
+
     {{ form.hidden_tag() }}
     <div class="eou-question">
       <big>{{ descriptions[0] }}</big>

@@ -302,6 +302,7 @@ def ease_of_use():
       exec('responses[{0}] = form.q{0}.data'.format(i))
     # commit to database
     responses['open'] = form.open_ended.data
+    responses['tag'] = form.tag_potential.data
     commit_eou_record(session['uuid'], responses)
     return redirect(url_for('finish', status=1))
 

@@ -188,6 +188,15 @@ def commit_eou_record(uuid, responses):
         modified = False
       else:
         feedback.eou_feedback = responses[qid]
+    elif qid == 'tag':  # record tag potential to database
+      feedback = TextResponse.query.get(uuid)
+      if not feedback:
+        feedback = TextResponse(uuid=uuid, tag_potential=responses[qid])
+        db.session.add(feedback)
+      elif feedback.tag_potential == responses[qid]:
+        modified = False
+      else:
+        feedback.tag_potential = responses[qid]
     else:  # Record ease of use multiple choice results
       resp = EaseOfUseRecord.query.get((uuid, qid))
       if not resp:
