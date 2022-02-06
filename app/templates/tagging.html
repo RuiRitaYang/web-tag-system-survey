@@ -169,7 +169,7 @@
           <!--   Browsing among different routines   -->
           <form action="{{ url_for('tag', idx=idx )}}" method="POST">
             {{ reason_form.hidden_tag() }}
-            Please explain your tagging decisions (max 200 characters) <br/>
+            Please explain your tagging decisions. <br/>
             {{ reason_form.reason(class="form-control") }}
             <br/>
             {% if idx > 1 %}
