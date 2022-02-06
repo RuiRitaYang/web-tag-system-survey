@@ -167,7 +167,7 @@ def update_cmd1_tag():
     else:
       rtn_tags.rtn_sys_tag = ''
   else:
-    flash("Self-defined tag can only be put for routine!")
+    flash("Self-defined tag can only be assigned to routines, not commands.")
   db_commit(success_msg="Update CMD1 system tag successfully",
             fail_msg="[ERROR] CMD1 sys tag update failed")
   result = {'success': True, 'response': 'Done'}

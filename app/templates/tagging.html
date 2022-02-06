@@ -4,7 +4,9 @@
 {% block content %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
   <h4>Interface Overview</h4>
-  The interface you see below is what you will be using in this study. Here is a video tutorial about how to use it.
+  The interface you see below is what you will be using in this study.
+  You'll need to use for eight smart home routines. <br/>
+  Here is a video tutorial about how to use it.
   <br/>
   <video width="280" height="210" controls>
     <source src="{{ url_for('static', filename='video/tag-tutorial.mov') }}" type="video/mp4">
@@ -167,7 +169,7 @@
           <!--   Browsing among different routines   -->
           <form action="{{ url_for('tag', idx=idx )}}" method="POST">
             {{ reason_form.hidden_tag() }}
-            Please explain your reasoning for tagging (optional, max 500 characters) <br/>
+            Please explain your reasoning for tagging (optional, max 200 characters) <br/>
             {{ reason_form.reason(class="form-control") }}
             <br/>
             {% if idx > 1 %}
@@ -273,6 +275,7 @@
                       data-source="New Tag">
                 Add New Tag
               </button>
+              <span> e.g. convenience, work, daily, etc</span>
               <div class="container table-responsive" style="margin-top:20px">
               <table class="table">
                 <thead>
