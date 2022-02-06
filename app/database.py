@@ -67,10 +67,13 @@ def get_tags_by_rtn_id(uuid, rtn_id):
   # Get the highest priority of customized tags.
   if rtn_cus_tags:
     for tag_name in rtn_cus_tags:
-      cus_tag = CustomizedTag.query.get_or_404((uuid, tag_name))
-      priority = cus_tag.priority
-      if priority > final_priority:
-        final_priority = priority
+      cus_tag = CustomizedTag.query.get((uuid, tag_name))
+      if cus_tag:
+        priority = cus_tag.priority
+        if priority > final_priority:
+          final_priority = priority
+  if final_priority == 0:
+    final_priority = 5
   return [rtn_sys_tag, cmd1_tag, cmd2_tag, final_priority]
 
 def update_customized_tag(uuid, tag_name, priority=5):
