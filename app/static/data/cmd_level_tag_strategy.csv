@@ -115,7 +115,7 @@ sid,r1_sys,c11_sys,c12_sys,r2_sys,c21_sys,c22_sys,cus_pri,strategy
 3,,,,Uninterruptible,,,r1,OW
 3,,,,Pausable,,,r2,OW
 3,,,,Pausable,,,r1,OW
-4,Uninterruptible,,,,Uninterruptible,,r2,DL
+4,Uninterruptible,,,,Uninterruptible,,r2,PZ
 4,Uninterruptible,,,,Uninterruptible,,r1,DL
 4,Uninterruptible,,,,Pausable,,r2,DL
 4,Uninterruptible,,,,Pausable,,r1,DL
@@ -123,9 +123,9 @@ sid,r1_sys,c11_sys,c12_sys,r2_sys,c21_sys,c22_sys,cus_pri,strategy
 4,Pausable,,,,Uninterruptible,,r1,PZ
 4,Pausable,,,,Pausable,,r2,PZ
 4,Pausable,,,,Pausable,,r1,RZ
-4,,Uninterruptible,,,Uninterruptible,,r2,DL
+4,,Uninterruptible,,,Uninterruptible,,r2,PZ
 4,,Uninterruptible,,,Uninterruptible,,r1,DL
-4,,Uninterruptible,,,Pausable,,r2,DL
+4,,Uninterruptible,,,Pausable,,r2,PZ
 4,,Uninterruptible,,,Pausable,,r1,DL
 4,,Pausable,,,Uninterruptible,,r2,PZ
 4,,Pausable,,,Uninterruptible,,r1,PZ
@@ -139,9 +139,9 @@ sid,r1_sys,c11_sys,c12_sys,r2_sys,c21_sys,c22_sys,cus_pri,strategy
 4,,Uninterruptible,,,,,r1,IN
 4,,Pausable,,,,,r2,PZ
 4,,Pausable,,,,,r1,IN
-4,,Uninterruptible,,Uninterruptible,,,r2,DL
+4,,Uninterruptible,,Uninterruptible,,,r2,PZ
 4,,Uninterruptible,,Uninterruptible,,,r1,DL
-4,,Uninterruptible,,Pausable,,,r2,DL
+4,,Uninterruptible,,Pausable,,,r2,PZ
 4,,Uninterruptible,,Pausable,,,r1,DL
 4,,Pausable,,Uninterruptible,,,r2,PZ
 4,,Pausable,,Uninterruptible,,,r1,PZ
