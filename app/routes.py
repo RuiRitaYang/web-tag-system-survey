@@ -22,6 +22,7 @@ def before_request_func():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+  return render_template('survey_end.html')
   uuid = None
   form = UUIDForm()
   if form.validate_on_submit():
