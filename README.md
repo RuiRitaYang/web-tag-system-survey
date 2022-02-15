@@ -48,5 +48,11 @@ python3 -m flask run
 
 **If using mySQL database locally**
 - Start database server in the backend
-- Update password and uri information in the `__init__.py`
+- Update uri information in the `__init__.py`
+- Follow the same steps for using SQLite.
+
+**If using Postgres database locally**
+- Start database server in the backend
+- Update uri information in the `__init__.py`. Note that the uri needs to
+  start with `postgresql://`.
 - Follow the same steps for using SQLite.
